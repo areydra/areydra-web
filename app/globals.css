@@ -1,11 +1,5 @@
 @import "tailwindcss";
 
-@theme {
-  --font-anton: var(--font-anton);
-  --font-archivo: var(--font-archivo);
-  --font-space-mono: var(--font-space-mono);
-}
-
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -19,6 +13,7 @@ body {
   margin: 0;
   overflow-x: hidden;
   background: #ebe7d9;
+  font-family: var(--font-archivo), system-ui, sans-serif;
 }
 
 @keyframes bmarquee {
