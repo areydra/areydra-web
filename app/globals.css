@@ -1,42 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
-  --background-image-gradient-conic: conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops));
-  --color-primary: #FFFFFF;
-  --color-secondary: #EBEBF5;
-  --leading-64: 4rem;
-  --width-464: 29rem;
-  --breakpoint-xs: 320px;
+  --font-anton: var(--font-anton);
+  --font-archivo: var(--font-archivo);
+  --font-space-mono: var(--font-space-mono);
 }
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+::selection {
+  background: #1410ff;
+  color: #fff;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  margin: 0;
+  overflow-x: hidden;
+  background: #ebe7d9;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+@keyframes bmarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes bblink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
 }
