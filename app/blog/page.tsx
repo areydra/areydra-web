@@ -6,15 +6,9 @@ import { StatusStrip } from "@/components/StatusStrip";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { mono, anton, archivo } from "@/components/fonts";
+import { posts } from "./posts";
 
-const allPosts = [
-  { num: "01", bg: "#1410ff", fg: "#c8ff00", title: "Building a Concurrent NFT Minting Pipeline with BullMQ + Redis", excerpt: "Queueing strategy, retry logic, and idempotency for high-throughput NFT minting.", tags: ["Backend", "Redis"], date: "Mar 2026", read: "9 min" },
-  { num: "02", bg: "#c8ff00", fg: "#111",    title: "A Block-Based Rich-Text Editor in React Native",                 excerpt: "How Binder handles live markdown, block structure, and draft auto-save.",             tags: ["React Native", "Editor"], date: "Sep 2025", read: "11 min" },
-  { num: "03", bg: "#1410ff", fg: "#c8ff00", title: "Performance Patterns for Large FlatLists in React Native",       excerpt: "Virtualization, memoization, and windowing techniques that actually move the needle.", tags: ["React Native", "Performance"], date: "Jun 2025", read: "8 min" },
-  { num: "04", bg: "#c8ff00", fg: "#111",    title: "Expo Router in Production: File-Based Routing at Scale",         excerpt: "Lessons from migrating a large fintech app to file-based navigation.",                tags: ["React Native", "Expo"], date: "Feb 2025", read: "7 min" },
-  { num: "05", bg: "#1410ff", fg: "#c8ff00", title: "Zustand vs Redux: What I Learned Shipping Both",                 excerpt: "State management tradeoffs from real mobile codebases.",                             tags: ["React Native", "State"], date: "Nov 2024", read: "6 min" },
-  { num: "06", bg: "#c8ff00", fg: "#111",    title: "Designing a Test Automation Strategy with Appium",               excerpt: "How the TE team and I built mobile test coverage that actually caught regressions.", tags: ["Testing", "Mobile"], date: "Aug 2024", read: "10 min" },
-].map((p, i) => ({ ...p, href: `/blog/${i}` }));
+const allPosts = posts.map((p, i) => ({ ...p, href: `/blog/${i}` }));
 
 const activeTagStyle = { ...mono, fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: 1, color: "#fff", background: "#1410ff", border: "2px solid #111", padding: "8px 16px", cursor: "pointer" };
 const inactiveTagStyle = { ...mono, fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: 1, color: "#111", background: "#ebe7d9", border: "2px solid #111", padding: "8px 16px", cursor: "pointer" };
