@@ -1,17 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-
-function useWindowWidth() {
-  const [width, setWidth] = useState(1200);
-  useEffect(() => {
-    const update = () => setWidth(window.innerWidth);
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-  return width;
-}
+import { useState, useEffect } from "react";
+import { useWindowWidth } from "@/components/useWindowWidth";
+import { StatusStrip } from "@/components/StatusStrip";
+import { Nav } from "@/components/Nav";
+import { Footer } from "@/components/Footer";
+import { mono, anton, archivo } from "@/components/fonts";
 
 const skillGroups = [
   { title: "Languages",      items: ["JavaScript", "TypeScript", "Swift", "Kotlin", "Java"] },
@@ -41,15 +35,9 @@ const posts = [
   { num: "03", title: "Performance Patterns for Large FlatLists in React Native",        tags: ["React Native", "Performance"], date: "Jun 2025", read: "8 min" },
 ];
 
-const mono = { fontFamily: "var(--font-space-mono), monospace" };
-const anton = { fontFamily: "var(--font-anton), sans-serif" };
-const archivo = { fontFamily: "var(--font-archivo), sans-serif" };
-
 export default function Home() {
   const [invert, setInvert]     = useState(false);
   const [clock, setClock]       = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navRef = useRef<HTMLElement>(null);
   const width  = useWindowWidth();
 
   const isMobile  = width < 640;
@@ -67,13 +55,6 @@ export default function Home() {
     return () => clearInterval(t);
   }, []);
 
-  // Close mobile menu when resizing to tablet/desktop
-  useEffect(() => {
-    if (!isMobile) setMenuOpen(false);
-  }, [isMobile]);
-
-  const navHeight = navRef.current?.offsetHeight ?? 58;
-
   const heroGridCols    = isMobile ? "1fr" : isTablet ? "1fr 1fr" : "1.5fr 1fr";
   const skillGridCols   = isDesktop ? "repeat(3,1fr)" : isTablet ? "repeat(2,1fr)" : "repeat(1,1fr)";
   const projectGridCols = isDesktop ? "repeat(3,1fr)" : isTablet ? "repeat(2,1fr)" : "repeat(1,1fr)";
@@ -87,213 +68,9 @@ export default function Home() {
         transition: "filter 0.15s",
       }}
     >
-      {/* STATUS STRIP */}
-      <div
-        style={{
-          background: "#111",
-          color: "#ebe7d9",
-          ...mono,
-          fontSize: "clamp(10px, 1.2vw, 12px)",
-          fontWeight: 700,
-          letterSpacing: 1,
-          textTransform: "uppercase",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "8px clamp(14px, 4vw, 40px)",
-          borderBottom: "3px solid #111",
-          gap: 8,
-          flexWrap: "wrap",
-        }}
-      >
-        <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span
-            style={{
-              width: 8,
-              height: 8,
-              background: "#c8ff00",
-              display: "inline-block",
-              animation: "bblink 1.4s steps(1) infinite",
-            }}
-          />
-          AVAILABLE FOR WORK
-        </span>
-        <span style={{ opacity: 0.7 }}>{clock}</span>
-      </div>
+      <StatusStrip right={clock} />
 
-      {/* NAV */}
-      <nav
-        ref={navRef}
-        style={{
-          position: "sticky",
-          top: 0,
-          zIndex: 500,
-          display: "flex",
-          alignItems: "stretch",
-          justifyContent: "space-between",
-          background: "#ebe7d9",
-          borderBottom: "4px solid #111",
-        }}
-      >
-        <a
-          href="#"
-          style={{ display: "flex", alignItems: "center", textDecoration: "none", borderRight: "4px solid #111", flexShrink: 0 }}
-        >
-          <span
-            style={{
-              ...anton,
-              background: "#1410ff",
-              color: "#fff",
-              fontSize: "clamp(22px, 3.5vw, 30px)",
-              lineHeight: "1",
-              padding: "clamp(10px,1.5vw,14px) clamp(12px,2vw,18px) clamp(8px,1.2vw,10px)",
-              letterSpacing: 1,
-            }}
-          >
-            AR
-          </span>
-          <span
-            style={{
-              ...anton,
-              fontSize: "clamp(16px, 2.5vw, 24px)",
-              color: "#111",
-              padding: "0 clamp(10px, 2vw, 18px)",
-              letterSpacing: 1,
-              whiteSpace: "nowrap",
-            }}
-          >
-            AREYDRA
-          </span>
-        </a>
-
-        {/* Desktop + tablet nav links */}
-        {!isMobile && (
-          <div style={{ display: "flex", alignItems: "stretch", overflowX: "auto" }}>
-            {["About", "Skills", "Work", "Projects", "Contact"].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "0 clamp(10px, 1.5vw, 20px)",
-                  ...mono,
-                  fontSize: "clamp(10px, 1.2vw, 13px)",
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  letterSpacing: 1,
-                  color: "#111",
-                  textDecoration: "none",
-                  borderLeft: "2px solid #111",
-                  whiteSpace: "nowrap",
-                }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "#c8ff00")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
-              >
-                {item}
-              </a>
-            ))}
-            <button
-              onClick={() => setInvert((v) => !v)}
-              style={{
-                cursor: "pointer",
-                padding: "0 clamp(10px, 1.5vw, 20px)",
-                ...mono,
-                fontSize: "clamp(10px, 1.2vw, 13px)",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: 1,
-                color: "#ebe7d9",
-                background: "#111",
-                border: "none",
-                borderLeft: "4px solid #111",
-                whiteSpace: "nowrap",
-              }}
-            >
-              [ {invert ? "LIGHT" : "INVERT"} ]
-            </button>
-          </div>
-        )}
-
-        {/* Mobile hamburger */}
-        {isMobile && (
-          <div style={{ display: "flex", alignItems: "stretch" }}>
-            <button
-              onClick={() => setInvert((v) => !v)}
-              style={{
-                cursor: "pointer",
-                padding: "0 14px",
-                ...mono,
-                fontSize: 11,
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: 1,
-                color: "#ebe7d9",
-                background: "#111",
-                border: "none",
-                borderLeft: "4px solid #111",
-              }}
-            >
-              INV
-            </button>
-            <button
-              onClick={() => setMenuOpen((v) => !v)}
-              style={{
-                cursor: "pointer",
-                padding: "0 18px",
-                ...anton,
-                fontSize: 26,
-                color: "#111",
-                background: "#ebe7d9",
-                border: "none",
-                borderLeft: "4px solid #111",
-                lineHeight: "1",
-              }}
-            >
-              {menuOpen ? "✕" : "☰"}
-            </button>
-          </div>
-        )}
-      </nav>
-
-      {/* MOBILE MENU OVERLAY */}
-      {menuOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: navHeight,
-            left: 0,
-            right: 0,
-            zIndex: 499,
-            background: "#ebe7d9",
-            borderBottom: "4px solid #111",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {["About", "Skills", "Work", "Projects", "Contact"].map((item, i, arr) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                display: "block",
-                padding: "18px 24px",
-                ...anton,
-                fontSize: 28,
-                textTransform: "uppercase",
-                color: "#111",
-                textDecoration: "none",
-                borderBottom: i < arr.length - 1 ? "3px solid #111" : undefined,
-              }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "#c8ff00")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
-            >
-              {item}
-            </a>
-          ))}
-        </div>
-      )}
+      <Nav variant="home" isMobile={isMobile} showInvertToggle invert={invert} onToggleInvert={() => setInvert((v) => !v)} />
 
       {/* HERO */}
       <section
@@ -861,51 +638,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer
-        style={{
-          background: "#111",
-          color: "#ebe7d9",
-          padding: "clamp(24px,4vw,48px) clamp(24px,5vw,64px)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 16,
-        }}
-      >
-        <span style={{ ...anton, fontSize: "clamp(24px,4vw,38px)", textTransform: "uppercase", color: "#ebe7d9", letterSpacing: 1 }}>
-          AREYDRA<span style={{ color: "#c8ff00" }}>.</span>
-        </span>
-        <div style={{ display: "flex", gap: 0, border: "2px solid #ebe7d9", flexWrap: "wrap" }}>
-          {[
-            { label: "GitHub",   href: "https://github.com/areydra" },
-            { label: "LinkedIn", href: "https://linkedin.com/in/areydra" },
-            { label: "Email",    href: "mailto:areydra@gmail.com" },
-          ].map((link, i) => (
-            <a
-              key={link.label}
-              href={link.href}
-              style={{
-                ...mono,
-                fontSize: "clamp(10px,1.1vw,12px)",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: 1,
-                color: "#ebe7d9",
-                padding: "clamp(8px,1vw,10px) clamp(12px,1.5vw,18px)",
-                textDecoration: "none",
-                borderLeft: i > 0 ? "2px solid #ebe7d9" : undefined,
-              }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "#1410ff")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-        <span style={{ ...mono, fontSize: "clamp(9px,1vw,12px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, opacity: 0.6 }}>Bogor, ID — © 2026</span>
-      </footer>
+      <Footer />
     </div>
   );
 }
