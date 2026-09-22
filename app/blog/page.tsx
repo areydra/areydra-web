@@ -29,7 +29,7 @@ export default function Blog() {
     <div style={{ background: "#ebe7d9", minHeight: "100vh" }}>
       <StatusStrip />
 
-      <Nav variant="subpage" isMobile={isMobile} activeItem="Blog" />
+      <Nav variant="subpage" isMobile={isMobile} />
 
       {/* PAGE HEADER */}
       <section style={{ padding: "clamp(28px,5vw,56px) clamp(24px,5vw,64px)", borderBottom: "4px solid #111" }}>

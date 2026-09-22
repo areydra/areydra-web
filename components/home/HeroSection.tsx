@@ -83,26 +83,37 @@ export function HeroSection({ profile }: HeroSectionProps) {
 
       <div className="home-hero__side" aria-hidden="true">
         <div className="home-hero__mark">
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: "repeating-linear-gradient(45deg,transparent,transparent 14px,rgba(255,255,255,0.08) 14px,rgba(255,255,255,0.08) 28px)",
-            }}
-          />
-          <span
-            style={{
-              ...anton,
-              fontSize: "clamp(80px, 15vw, 220px)",
-              color: "#c8ff00",
-              lineHeight: "1",
-              position: "relative",
-              WebkitTextStroke: "clamp(2px, 0.4vw, 4px) #111",
-              userSelect: "none",
-            }}
-          >
-            {firstName[0]?.toUpperCase() || "A"}
-          </span>
+          {profile?.avatarUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element -- avatarUrl is an arbitrary uploaded/remote image, not a local asset
+            <img
+              src={profile.avatarUrl}
+              alt=""
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
+            <>
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  backgroundImage: "repeating-linear-gradient(45deg,transparent,transparent 14px,rgba(255,255,255,0.08) 14px,rgba(255,255,255,0.08) 28px)",
+                }}
+              />
+              <span
+                style={{
+                  ...anton,
+                  fontSize: "clamp(80px, 15vw, 220px)",
+                  color: "#c8ff00",
+                  lineHeight: "1",
+                  position: "relative",
+                  WebkitTextStroke: "clamp(2px, 0.4vw, 4px) #111",
+                  userSelect: "none",
+                }}
+              >
+                {firstName[0]?.toUpperCase() || "A"}
+              </span>
+            </>
+          )}
         </div>
         <div className="home-hero__mini-stats">
           <MiniStat value={years} label="Years Exp." />

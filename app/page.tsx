@@ -19,15 +19,15 @@ export default async function Home() {
   const posts = homeConfig.data?.posts ?? null;
 
   return (
-    <HomeShell>
+    <HomeShell hasProjects={!!projects?.length} hasBlog={!!posts?.length}>
       <HeroSection profile={profileData} />
       <MarqueeSection skillGroups={skillGroups} />
       <StatsSection profile={profileData} skillGroups={skillGroups} workHistory={jobs} />
       <AboutSection profile={profileData} error={profile.error} />
       <SkillsSection skillGroups={skillGroups} error={skills.error} />
       <WorkHistorySection jobs={jobs} error={workHistory.error} />
-      <ProjectsSection projects={projects} error={homeConfig.error} />
-      <BlogPreviewSection posts={posts} error={homeConfig.error} />
+      {!!projects?.length && <ProjectsSection projects={projects} error={homeConfig.error} />}
+      {!!posts?.length && <BlogPreviewSection posts={posts} error={homeConfig.error} />}
       <ContactSection profile={profileData} />
     </HomeShell>
   );

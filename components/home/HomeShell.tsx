@@ -9,9 +9,11 @@ import { useClock } from "./useClock";
 
 type HomeShellProps = {
   children: ReactNode;
+  hasProjects?: boolean;
+  hasBlog?: boolean;
 };
 
-export const HomeShell = memo(function HomeShell({ children }: HomeShellProps) {
+export const HomeShell = memo(function HomeShell({ children, hasProjects = true, hasBlog = true }: HomeShellProps) {
   const [invert, setInvert] = useState(false);
   const width = useWindowWidth();
   const clock = useClock();
@@ -28,7 +30,7 @@ export const HomeShell = memo(function HomeShell({ children }: HomeShellProps) {
       }}
     >
       <StatusStrip right={clock} />
-      <Nav variant="home" isMobile={isMobile} showInvertToggle invert={invert} onToggleInvert={toggleInvert} />
+      <Nav variant="home" isMobile={isMobile} showInvertToggle invert={invert} onToggleInvert={toggleInvert} hasProjects={hasProjects} hasBlog={hasBlog} />
       {children}
       <Footer />
     </div>

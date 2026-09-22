@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { anton, mono } from "./fonts";
 
-const NAV_ITEMS = ["About", "Skills", "Work", "Projects", "Contact"];
+const NAV_ITEMS = ["About", "Skills", "Work", "Projects", "Blog", "Contact"];
 
 type NavProps = {
   variant: "home" | "subpage" | "detail";
@@ -11,14 +11,18 @@ type NavProps = {
   showInvertToggle?: boolean;
   invert?: boolean;
   onToggleInvert?: () => void;
-  activeItem?: string;
   backHref?: string;
   backLabel?: string;
+  /** Hide the "Projects" nav link when there's no project data to show/link to. */
+  hasProjects?: boolean;
+  /** Hide the "Blog" nav link when there's no blog post data to show/link to. */
+  hasBlog?: boolean;
 };
 
-export function Nav({ variant, isMobile = false, showInvertToggle = false, invert = false, onToggleInvert, activeItem, backHref = "/blog", backLabel = "← All Posts" }: NavProps) {
+export function Nav({ variant, isMobile = false, showInvertToggle = false, invert = false, onToggleInvert, backHref = "/blog", backLabel = "← All Posts", hasProjects = true, hasBlog = true }: NavProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const navItems = NAV_ITEMS.filter((item) => (item !== "Projects" || hasProjects) && (item !== "Blog" || hasBlog));
 
   useEffect(() => {
     if (!isMobile) setMenuOpen(false);
@@ -139,7 +143,7 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
         {/* Desktop + tablet nav links */}
         {!isMobile && (
         <div style={{ display: "flex", alignItems: "stretch", overflowX: "auto" }}>
-          {NAV_ITEMS.map((item) => (
+          {navItems.map((item) => (
             <a
               key={item}
               href={anchorHref(item)}
@@ -163,28 +167,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
               {item}
             </a>
           ))}
-          {activeItem === "Blog" && (
-            <a
-              href="/blog"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: "0 clamp(10px, 1.5vw, 20px)",
-                ...mono,
-                fontSize: "clamp(10px, 1.2vw, 13px)",
-                fontWeight: 700,
-                textTransform: "uppercase",
-                letterSpacing: 1,
-                color: "#fff",
-                background: "#1410ff",
-                textDecoration: "none",
-                borderLeft: "2px solid #111",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Blog
-            </a>
-          )}
           {showInvertToggle && (
             <button
               onClick={onToggleInvert}
@@ -267,7 +249,7 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
             flexDirection: "column",
           }}
         >
-          {NAV_ITEMS.map((item, i, arr) => (
+          {navItems.map((item, i, arr) => (
             <a
               key={item}
               href={anchorHref(item)}
