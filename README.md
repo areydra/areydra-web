@@ -17,7 +17,7 @@ bun dev
 Create a local env file for the backend API:
 
 ```bash
-API_BASE_URL=http://localhost:3001
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

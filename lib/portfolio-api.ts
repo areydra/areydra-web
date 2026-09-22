@@ -29,12 +29,15 @@ export type {
 } from "./api-types";
 
 async function fetchJson<T>(path: string): Promise<ApiResult<T>> {
-  const baseUrl = process.env.API_BASE_URL;
+  // NEXT_PUBLIC_ because the same value is also read client-side by the
+  // majourney admin panel (lib/majourney/api-client.ts) — no secret lives
+  // here, just the backend's base URL, so one var covers both runtimes.
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!baseUrl) {
     return {
       data: null,
-      error: "Missing API_BASE_URL environment variable.",
+      error: "Missing NEXT_PUBLIC_API_BASE_URL environment variable.",
     };
   }
 
