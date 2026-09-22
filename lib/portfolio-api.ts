@@ -65,10 +65,10 @@ async function fetchJson<T>(path: string): Promise<ApiResult<T>> {
 
 export async function getHomeData(): Promise<HomeData> {
   const [profile, skills, workHistory, homeConfig] = await Promise.all([
-    fetchJson<Profile>("/api/profile"),
-    fetchJson<ListResponse<SkillGroup>>("/api/skills"),
-    fetchJson<ListResponse<WorkHistory>>("/api/work-history"),
-    fetchJson<HomeConfig>("/api/home-config"),
+    fetchJson<Profile>("/profile"),
+    fetchJson<ListResponse<SkillGroup>>("/skills"),
+    fetchJson<ListResponse<WorkHistory>>("/work-history"),
+    fetchJson<HomeConfig>("/home-config"),
   ]);
 
   return { profile, skills, workHistory, homeConfig };

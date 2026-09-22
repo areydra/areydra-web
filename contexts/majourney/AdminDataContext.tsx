@@ -109,12 +109,12 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
 
     const [profileResult, skillsResult, workResult, projectsResult, homeResult, blogResult] =
       await Promise.allSettled([
-        publicRequest<Profile>("/api/profile"),
-        publicRequest<ListResponse<SkillGroup>>("/api/skills"),
-        publicRequest<ListResponse<WorkHistory>>("/api/work-history"),
-        publicRequest<ListResponse<Project>>("/api/projects?limit=100&offset=0"),
-        publicRequest<HomeConfig>("/api/home-config"),
-        adminRequest<ListResponse<BlogPost>>("/api/admin/blog?limit=100&offset=0", token),
+        publicRequest<Profile>("/profile"),
+        publicRequest<ListResponse<SkillGroup>>("/skills"),
+        publicRequest<ListResponse<WorkHistory>>("/work-history"),
+        publicRequest<ListResponse<Project>>("/projects?limit=100&offset=0"),
+        publicRequest<HomeConfig>("/home-config"),
+        adminRequest<ListResponse<BlogPost>>("/admin/blog?limit=100&offset=0", token),
       ]);
 
     const nextErrors: SectionErrors = {};
@@ -182,7 +182,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const updateProfile = useCallback(
     async (payload: ProfileInput) => {
       const updated = await withAuthHandling(() =>
-        adminRequest<Profile>("/api/admin/profile", token, { method: "PUT", body: payload })
+        adminRequest<Profile>("/admin/profile", token, { method: "PUT", body: payload })
       );
       setProfile(updated);
     },
@@ -192,7 +192,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const createCategory = useCallback(
     async (name: string) => {
       const category = await withAuthHandling(() =>
-        adminRequest<{ id: string; name: string }>("/api/admin/skill-categories", token, {
+        adminRequest<{ id: string; name: string }>("/admin/skill-categories", token, {
           method: "POST",
           body: { name },
         })
@@ -205,7 +205,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const deleteCategory = useCallback(
     async (id: string) => {
       await withAuthHandling(() =>
-        adminRequest<void>(`/api/admin/skill-categories/${id}`, token, { method: "DELETE" })
+        adminRequest<void>(`/admin/skill-categories/${id}`, token, { method: "DELETE" })
       );
       setSkillGroups((prev) => prev.filter((c) => c.id !== id));
     },
@@ -215,7 +215,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const createSkill = useCallback(
     async (categoryId: string, name: string) => {
       const skill = await withAuthHandling(() =>
-        adminRequest<{ id: string; name: string; categoryId: string }>("/api/admin/skills", token, {
+        adminRequest<{ id: string; name: string; categoryId: string }>("/admin/skills", token, {
           method: "POST",
           body: { categoryId, name },
         })
@@ -230,7 +230,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const deleteSkill = useCallback(
     async (categoryId: string, skillId: string) => {
       await withAuthHandling(() =>
-        adminRequest<void>(`/api/admin/skills/${skillId}`, token, { method: "DELETE" })
+        adminRequest<void>(`/admin/skills/${skillId}`, token, { method: "DELETE" })
       );
       setSkillGroups((prev) =>
         prev.map((c) => (c.id === categoryId ? { ...c, skills: c.skills.filter((s) => s.id !== skillId) } : c))
@@ -242,7 +242,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const createWork = useCallback(
     async (payload: WorkHistoryInput) => {
       const created = await withAuthHandling(() =>
-        adminRequest<WorkHistory>("/api/admin/work-history", token, { method: "POST", body: payload })
+        adminRequest<WorkHistory>("/admin/work-history", token, { method: "POST", body: payload })
       );
       setWorkHistory((prev) => [...prev, created]);
     },
@@ -252,7 +252,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const updateWork = useCallback(
     async (id: string, payload: WorkHistoryInput) => {
       const updated = await withAuthHandling(() =>
-        adminRequest<WorkHistory>(`/api/admin/work-history/${id}`, token, { method: "PUT", body: payload })
+        adminRequest<WorkHistory>(`/admin/work-history/${id}`, token, { method: "PUT", body: payload })
       );
       setWorkHistory((prev) => prev.map((w) => (w.id === id ? updated : w)));
     },
@@ -262,7 +262,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const deleteWork = useCallback(
     async (id: string) => {
       await withAuthHandling(() =>
-        adminRequest<void>(`/api/admin/work-history/${id}`, token, { method: "DELETE" })
+        adminRequest<void>(`/admin/work-history/${id}`, token, { method: "DELETE" })
       );
       setWorkHistory((prev) => prev.filter((w) => w.id !== id));
     },
@@ -272,7 +272,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const createProject = useCallback(
     async (payload: ProjectInput) => {
       const created = await withAuthHandling(() =>
-        adminRequest<Project>("/api/admin/projects", token, { method: "POST", body: payload })
+        adminRequest<Project>("/admin/projects", token, { method: "POST", body: payload })
       );
       setProjects((prev) => [...prev, created]);
     },
@@ -282,7 +282,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const updateProject = useCallback(
     async (id: string, payload: ProjectInput) => {
       const updated = await withAuthHandling(() =>
-        adminRequest<Project>(`/api/admin/projects/${id}`, token, { method: "PUT", body: payload })
+        adminRequest<Project>(`/admin/projects/${id}`, token, { method: "PUT", body: payload })
       );
       setProjects((prev) => prev.map((p) => (p.id === id ? updated : p)));
     },
@@ -291,7 +291,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
 
   const deleteProject = useCallback(
     async (id: string) => {
-      await withAuthHandling(() => adminRequest<void>(`/api/admin/projects/${id}`, token, { method: "DELETE" }));
+      await withAuthHandling(() => adminRequest<void>(`/admin/projects/${id}`, token, { method: "DELETE" }));
       setProjects((prev) => prev.filter((p) => p.id !== id));
     },
     [token, withAuthHandling]
@@ -302,7 +302,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
       // Create defaults to draft server-side — status isn't accepted until update.
       const { status: _status, ...createPayload } = payload;
       const created = await withAuthHandling(() =>
-        adminRequest<BlogPost>("/api/admin/blog", token, { method: "POST", body: createPayload })
+        adminRequest<BlogPost>("/admin/blog", token, { method: "POST", body: createPayload })
       );
       setBlogPosts((prev) => [...prev, created]);
     },
@@ -312,7 +312,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const updateBlogPost = useCallback(
     async (id: string, payload: BlogPostInput) => {
       const updated = await withAuthHandling(() =>
-        adminRequest<BlogPost>(`/api/admin/blog/${id}`, token, { method: "PUT", body: payload })
+        adminRequest<BlogPost>(`/admin/blog/${id}`, token, { method: "PUT", body: payload })
       );
       setBlogPosts((prev) => prev.map((b) => (b.id === id ? updated : b)));
     },
@@ -321,7 +321,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
 
   const deleteBlogPost = useCallback(
     async (id: string) => {
-      await withAuthHandling(() => adminRequest<void>(`/api/admin/blog/${id}`, token, { method: "DELETE" }));
+      await withAuthHandling(() => adminRequest<void>(`/admin/blog/${id}`, token, { method: "DELETE" }));
       setBlogPosts((prev) => prev.filter((b) => b.id !== id));
     },
     [token, withAuthHandling]
@@ -330,7 +330,7 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
   const updateHomeConfig = useCallback(
     async (payload: HomeConfigInput) => {
       const updated = await withAuthHandling(() =>
-        adminRequest<HomeConfigSettings>("/api/admin/home-config", token, { method: "PUT", body: payload })
+        adminRequest<HomeConfigSettings>("/admin/home-config", token, { method: "PUT", body: payload })
       );
       setHomeConfig(updated);
     },

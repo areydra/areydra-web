@@ -17,7 +17,7 @@ export async function uploadImage(
   folder: string,
   token: string | null
 ): Promise<string> {
-  const presign = await adminRequest<PresignResponse>("/api/admin/uploads/presign", token, {
+  const presign = await adminRequest<PresignResponse>("/admin/uploads/presign", token, {
     method: "POST",
     body: {
       folder,

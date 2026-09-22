@@ -42,7 +42,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (email: string, password: string) => {
     // The backend issues a stateless ~7-day JWT — no refresh flow, no
     // /logout endpoint (see the backend's technical design doc, §4).
-    const response = await publicRequest<LoginResponse>("/api/admin/login", {
+    const response = await publicRequest<LoginResponse>("/admin/login", {
       method: "POST",
       body: { email, password },
     });
