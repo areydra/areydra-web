@@ -25,3 +25,216 @@ body {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.15; }
 }
+
+.home-hero {
+  border-bottom: 4px solid #111;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+}
+
+.home-hero__content {
+  padding: clamp(24px, 5vw, 64px);
+  border-right: 4px solid #111;
+}
+
+.home-hero__side {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-hero__mark {
+  flex: 1;
+  background: #1410ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 4px solid #111;
+  min-height: clamp(160px, 22vw, 320px);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero__mini-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.home-action-row,
+.home-contact-actions {
+  display: flex;
+  gap: 0;
+  margin-top: clamp(24px, 4vw, 36px);
+  border: 3px solid #111;
+  width: fit-content;
+  box-shadow: 8px 8px 0 #111;
+}
+
+.home-action-row__primary,
+.home-action-row__secondary,
+.home-contact-actions__primary,
+.home-contact-actions__secondary {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-space-mono), monospace;
+  font-size: clamp(12px, 1.3vw, 15px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: clamp(12px, 1.5vw, 16px) clamp(18px, 2.5vw, 30px);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.home-contact-actions__primary,
+.home-contact-actions__secondary {
+  font-size: clamp(12px, 1.4vw, 15px);
+  padding: clamp(14px, 1.8vw, 18px) clamp(16px, 2.5vw, 32px);
+}
+
+.home-action-row__primary,
+.home-contact-actions__primary {
+  color: #fff;
+  background: #1410ff;
+}
+
+.home-action-row__secondary,
+.home-contact-actions__secondary {
+  color: #111;
+  background: #ebe7d9;
+  border-left: 3px solid #111;
+}
+
+.home-about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 4px solid #111;
+}
+
+.home-about__copy {
+  padding: clamp(24px, 5vw, 64px);
+  border-right: 4px solid #111;
+}
+
+.home-about__cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #111;
+  gap: 3px;
+}
+
+.home-skill-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  background: #111;
+  border: 3px solid #111;
+  box-shadow: 8px 8px 0 #111;
+}
+
+.home-project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 2vw, 22px);
+}
+
+.home-work-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.home-work-period {
+  font-family: var(--font-space-mono), monospace;
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #111;
+  background: #c8ff00;
+  border: 3px solid #111;
+  padding: 6px 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.home-outline-link {
+  font-family: var(--font-space-mono), monospace;
+  font-size: clamp(12px, 1.3vw, 14px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #111;
+  border: 3px solid #111;
+  padding: clamp(10px, 1.2vw, 12px) clamp(16px, 2vw, 22px);
+  text-decoration: none;
+}
+
+.home-outline-link:hover {
+  background: #c8ff00;
+}
+
+.home-blog-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: clamp(18px, 2.5vw, 24px) clamp(18px, 3vw, 32px);
+  text-decoration: none;
+}
+
+.home-blog-row:hover {
+  background: #f5f2e8;
+}
+
+@media (max-width: 1023px) {
+  .home-hero {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .home-skill-grid,
+  .home-project-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 639px) {
+  .home-hero,
+  .home-about {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero__content,
+  .home-about__copy {
+    border-right: none;
+  }
+
+  .home-about__copy {
+    border-bottom: 4px solid #111;
+  }
+
+  .home-hero__side {
+    display: none;
+  }
+
+  .home-action-row,
+  .home-contact-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .home-action-row__secondary,
+  .home-contact-actions__secondary {
+    border-left: none;
+    border-top: 3px solid #111;
+  }
+
+  .home-skill-grid,
+  .home-project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-work-heading {
+    flex-direction: column;
+  }
+}
