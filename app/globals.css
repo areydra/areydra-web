@@ -198,6 +198,44 @@ body {
   }
 }
 
+/* Shared styling for rich-text description content — used both by the
+   Tiptap editor's contentEditable area and by the sanitized HTML rendered
+   on the public homepage, so editing and the published result match. */
+.rich-text-content p {
+  margin: 0 0 0.75em;
+}
+
+.rich-text-content p:last-child {
+  margin-bottom: 0;
+}
+
+.rich-text-content ul,
+.rich-text-content ol {
+  margin: 0 0 0.75em;
+  padding-left: 1.4em;
+}
+
+.rich-text-content li {
+  margin-bottom: 0.25em;
+}
+
+.rich-text-content h3 {
+  margin: 0.75em 0 0.4em;
+  font-weight: 800;
+}
+
+.rich-text-content blockquote {
+  margin: 0 0 0.75em;
+  padding-left: 1em;
+  border-left: 3px solid #111;
+  font-style: italic;
+}
+
+.rich-text-content a {
+  color: #1410ff;
+  text-decoration: underline;
+}
+
 @media (max-width: 639px) {
   .home-hero,
   .home-about {
