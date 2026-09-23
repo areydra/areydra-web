@@ -5,8 +5,8 @@ import DOMPurify from "isomorphic-dompurify";
 // every render site (not just at save time), since description is rendered
 // to anonymous public visitors and the API could be written to directly,
 // bypassing the editor's own constraints.
-const ALLOWED_TAGS = ["p", "br", "strong", "em", "s", "ul", "ol", "li", "h3", "blockquote", "a"];
-const ALLOWED_ATTR = ["href"];
+const ALLOWED_TAGS = ["p", "br", "strong", "em", "s", "ul", "ol", "li", "h3", "blockquote", "a", "img"];
+const ALLOWED_ATTR = ["href", "src", "alt"];
 
 /** Sanitizes rich-text HTML before rendering it with dangerouslySetInnerHTML. */
 export function sanitizeHtml(html: string): string {
