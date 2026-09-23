@@ -6,6 +6,7 @@ import type {
   HomeData,
   ListResponse,
   Profile,
+  Project,
   SkillGroup,
   WorkHistory,
 } from "./api-types";
@@ -85,4 +86,8 @@ export async function getBlogPosts(): Promise<ApiResult<ListResponse<BlogPost>>>
 
 export async function getBlogPostBySlug(slug: string): Promise<ApiResult<BlogPost>> {
   return fetchJson<BlogPost>(`/blog/${encodeURIComponent(slug)}`);
+}
+
+export async function getProjectBySlug(slug: string): Promise<ApiResult<Project>> {
+  return fetchJson<Project>(`/projects/${encodeURIComponent(slug)}`);
 }
