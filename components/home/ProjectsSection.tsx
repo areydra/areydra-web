@@ -43,12 +43,11 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
                 {initials(project.title)}
               </div>
               <div style={{ padding: "clamp(16px,2vw,22px)", display: "flex", flexDirection: "column", flex: 1 }}>
-                <a
-                  href={`/projects/${project.slug}`}
-                  style={{ ...archivo, fontSize: "clamp(16px,1.8vw,21px)", fontWeight: 900, textTransform: "uppercase", color: "#111", margin: "0 0 8px", display: "block", textDecoration: "none" }}
-                >
-                  {project.title}
-                </a>
+                <h3 style={{ ...archivo, fontSize: "clamp(16px,1.8vw,21px)", fontWeight: 900, textTransform: "uppercase", color: "#111", margin: "0 0 8px" }}>
+                  <a href={`/projects/${project.slug}`} style={{ color: "inherit", textDecoration: "none", display: "block" }}>
+                    {project.title}
+                  </a>
+                </h3>
                 <p
                   style={{
                     ...archivo,
