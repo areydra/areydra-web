@@ -23,6 +23,7 @@ const toolbarButtonActiveClass = "bg-[#c8ff00]";
 export default function RichTextEditor({ value, onChange, folder }: RichTextEditorProps) {
   const { token } = useAdminAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageMenuRef = useRef<HTMLDivElement>(null);
   const [imageMenuOpen, setImageMenuOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
@@ -66,6 +67,28 @@ export default function RichTextEditor({ value, onChange, folder }: RichTextEdit
     }
   }, [value, editor]);
 
+  // Dismiss the image popover on an outside click or Escape, so it doesn't
+  // float indefinitely once opened.
+  useEffect(() => {
+    if (!imageMenuOpen) return;
+
+    const handlePointerDown = (e: MouseEvent) => {
+      if (imageMenuRef.current && !imageMenuRef.current.contains(e.target as Node)) {
+        setImageMenuOpen(false);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setImageMenuOpen(false);
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [imageMenuOpen]);
+
   const setLink = () => {
     if (!editor) return;
     const previousUrl = (editor.getAttributes("link").href as string | undefined) ?? "";
@@ -80,6 +103,7 @@ export default function RichTextEditor({ value, onChange, folder }: RichTextEdit
 
   const insertImageFromUrl = () => {
     setImageMenuOpen(false);
+    setUploadError("");
     if (!editor) return;
     const url = window.prompt("Image URL (http:// or https://)", "https://");
     if (!url || url.trim() === "") return;
@@ -182,7 +206,7 @@ export default function RichTextEditor({ value, onChange, folder }: RichTextEdit
           >
             Link
           </button>
-          <div className="relative">
+          <div ref={imageMenuRef} className="relative">
             <button
               type="button"
               disabled={!editor || uploading}
