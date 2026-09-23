@@ -1,6 +1,7 @@
 import "server-only";
 import type {
   ApiResult,
+  BlogPost,
   HomeConfig,
   HomeData,
   ListResponse,
@@ -72,4 +73,16 @@ export async function getHomeData(): Promise<HomeData> {
   ]);
 
   return { profile, skills, workHistory, homeConfig };
+}
+
+export async function getBlogPosts(): Promise<ApiResult<ListResponse<BlogPost>>> {
+  // Same limit the admin panel already uses for its own blog list
+  // (`AdminDataContext`'s `/admin/blog?limit=100&offset=0`) and the
+  // backend's max allowed `limit` — no pagination UI exists yet, so this
+  // fetches every published post in one call.
+  return fetchJson<ListResponse<BlogPost>>("/blog?limit=100&offset=0");
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<ApiResult<BlogPost>> {
+  return fetchJson<BlogPost>(`/blog/${encodeURIComponent(slug)}`);
 }
