@@ -1,79 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useAdminData } from "@/contexts/majourney/AdminDataContext";
-import AdminModal from "@/components/majourney/AdminModal";
-import { Field, Select, TextArea, TextInput } from "@/components/majourney/FormField";
-import ImageUploadField from "@/components/majourney/ImageUploadField";
 import { ApiError } from "@/lib/majourney/api-client";
-import type { BlogPostInput } from "@/lib/majourney/inputs";
-import type { BlogPost } from "@/lib/api-types";
-
-const EMPTY_FORM: BlogPostInput = {
-  title: "",
-  content: "",
-  category: null,
-  tagNames: [],
-  thumbnailUrl: null,
-  status: "draft",
-};
-
-function toForm(item: BlogPost): BlogPostInput {
-  return {
-    title: item.title,
-    content: item.content,
-    category: item.category,
-    tagNames: item.tags.map((t) => t.name),
-    thumbnailUrl: item.thumbnailUrl,
-    status: item.status,
-  };
-}
-
-function splitList(value: string) {
-  return value
-    .split(",")
-    .map((v) => v.trim())
-    .filter(Boolean);
-}
-
-type ModalState = { open: boolean; mode: "add" | "edit"; id?: string; form: BlogPostInput; tagsText: string };
-const EMPTY_MODAL: ModalState = { open: false, mode: "add", form: EMPTY_FORM, tagsText: "" };
 
 export default function AdminBlogPage() {
-  const { blogPosts, createBlogPost, updateBlogPost, deleteBlogPost, errors } = useAdminData();
-  const [modal, setModal] = useState<ModalState>(EMPTY_MODAL);
-  const [saving, setSaving] = useState(false);
-  const [modalError, setModalError] = useState("");
+  const { blogPosts, deleteBlogPost, errors } = useAdminData();
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [actionError, setActionError] = useState("");
-
-  const openAdd = () => {
-    setModalError("");
-    setModal({ open: true, mode: "add", form: EMPTY_FORM, tagsText: "" });
-  };
-  const openEdit = (item: BlogPost) => {
-    setModalError("");
-    setModal({ open: true, mode: "edit", id: item.id, form: toForm(item), tagsText: item.tags.map((t) => t.name).join(", ") });
-  };
-  const close = () => setModal(EMPTY_MODAL);
-
-  const setField = <K extends keyof BlogPostInput>(key: K, value: BlogPostInput[K]) =>
-    setModal((prev) => ({ ...prev, form: { ...prev.form, [key]: value } }));
-
-  const save = async () => {
-    setSaving(true);
-    setModalError("");
-    const payload: BlogPostInput = { ...modal.form, tagNames: splitList(modal.tagsText) };
-    try {
-      if (modal.mode === "add") await createBlogPost(payload);
-      else await updateBlogPost(modal.id!, payload);
-      close();
-    } catch (err) {
-      setModalError(err instanceof ApiError ? err.message : "Could not save blog post.");
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm("Delete this item?")) return;
@@ -102,13 +37,12 @@ export default function AdminBlogPage() {
       )}
 
       <div className="mb-4 flex justify-end">
-        <button
-          type="button"
-          onClick={openAdd}
+        <Link
+          href="/majourney/blog/new"
           className="cursor-pointer border-[3px] border-[#111] bg-[#c8ff00] px-4 py-2.5 text-[13px] font-bold text-[#111] shadow-[4px_4px_0_#111]"
         >
           + Add blog post
-        </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4">
@@ -153,13 +87,12 @@ export default function AdminBlogPage() {
                   </span>
                 </div>
                 <div className="mt-auto flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => openEdit(b)}
-                    className="flex-1 cursor-pointer border-[3px] border-[#111] bg-white py-2 text-[13px] font-bold text-[#111]"
+                  <Link
+                    href={`/majourney/blog/${b.id}/edit`}
+                    className="flex-1 cursor-pointer border-[3px] border-[#111] bg-white py-2 text-center text-[13px] font-bold text-[#111]"
                   >
                     Edit
-                  </button>
+                  </Link>
                   <button
                     type="button"
                     onClick={() => handleDelete(b.id)}
@@ -174,54 +107,6 @@ export default function AdminBlogPage() {
           );
         })}
       </div>
-
-      <AdminModal
-        open={modal.open}
-        title={(modal.mode === "add" ? "Add " : "Edit ") + "Blog Post"}
-        saving={saving}
-        error={modalError}
-        onCancel={close}
-        onSave={save}
-      >
-        <Field label="Title">
-          <TextInput value={modal.form.title} onChange={(e) => setField("title", e.target.value)} />
-        </Field>
-        {modal.mode === "edit" && (
-          <Field label="Status">
-            <Select
-              value={modal.form.status}
-              onChange={(e) => setField("status", e.target.value as BlogPostInput["status"])}
-            >
-              <option value="draft">draft</option>
-              <option value="published">published</option>
-            </Select>
-          </Field>
-        )}
-        <Field label="Category">
-          <TextInput value={modal.form.category ?? ""} onChange={(e) => setField("category", e.target.value || null)} />
-        </Field>
-        <Field label="Tags (comma-separated)">
-          <TextInput
-            value={modal.tagsText}
-            onChange={(e) => setModal((prev) => ({ ...prev, tagsText: e.target.value }))}
-          />
-        </Field>
-        <div className="mb-3.5">
-          <ImageUploadField
-            label="Thumbnail"
-            value={modal.form.thumbnailUrl}
-            onChange={(url) => setField("thumbnailUrl", url)}
-            folder="blog"
-          />
-        </div>
-        <Field label="Content">
-          <TextArea
-            value={modal.form.content}
-            onChange={(e) => setField("content", e.target.value)}
-            className="min-h-[160px]"
-          />
-        </Field>
-      </AdminModal>
     </div>
   );
 }
