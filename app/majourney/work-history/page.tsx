@@ -6,68 +6,9 @@ import AdminModal from "@/components/majourney/AdminModal";
 import { Field, Select, TextArea, TextInput } from "@/components/majourney/FormField";
 import ImageUploadField from "@/components/majourney/ImageUploadField";
 import { ApiError } from "@/lib/majourney/api-client";
+import { EMPTY_FORM, MONTH_NAMES, STATUS_OPTIONS, monthYearLabel, statusLabel, toForm } from "@/lib/majourney/work-history";
 import type { WorkHistoryInput } from "@/lib/majourney/inputs";
 import type { WorkHistory, WorkStatus } from "@/lib/api-types";
-
-// The backend's schema enum for work_history.status (confirmed against the
-// live AJV validation error — this isn't documented in the Postman
-// collection or design doc, only these five values are accepted).
-const STATUS_OPTIONS: { value: WorkStatus; label: string }[] = [
-  { value: "full_time", label: "Full-time" },
-  { value: "part_time", label: "Part-time" },
-  { value: "contract", label: "Contract" },
-  { value: "freelance", label: "Freelance" },
-  { value: "internship", label: "Internship" },
-];
-
-const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-const EMPTY_FORM: WorkHistoryInput = {
-  company: "",
-  role: "",
-  status: "full_time",
-  description: "",
-  startMonth: 1,
-  startYear: new Date().getFullYear(),
-  endMonth: null,
-  endYear: null,
-  companyLogoUrl: null,
-};
-
-function toForm(item: WorkHistory): WorkHistoryInput {
-  return {
-    company: item.company,
-    role: item.role,
-    status: item.status,
-    description: item.description,
-    startMonth: item.startMonth,
-    startYear: item.startYear,
-    endMonth: item.endMonth,
-    endYear: item.endYear,
-    companyLogoUrl: item.companyLogoUrl,
-  };
-}
-
-function statusLabel(status: WorkStatus) {
-  return STATUS_OPTIONS.find((opt) => opt.value === status)?.label ?? status;
-}
-
-function monthYearLabel(month: number, year: number) {
-  return `${MONTH_NAMES[month - 1] ?? month} ${year}`;
-}
 
 type ModalState = { open: boolean; mode: "add" | "edit"; id?: string; form: WorkHistoryInput };
 const EMPTY_MODAL: ModalState = { open: false, mode: "add", form: EMPTY_FORM };
