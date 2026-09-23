@@ -1,52 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useAdminData } from "@/contexts/majourney/AdminDataContext";
-import AdminModal from "@/components/majourney/AdminModal";
-import { Field, Select, TextArea, TextInput } from "@/components/majourney/FormField";
-import ImageUploadField from "@/components/majourney/ImageUploadField";
 import { ApiError } from "@/lib/majourney/api-client";
-import { EMPTY_FORM, MONTH_NAMES, STATUS_OPTIONS, monthYearLabel, statusLabel, toForm } from "@/lib/majourney/work-history";
-import type { WorkHistoryInput } from "@/lib/majourney/inputs";
-import type { WorkHistory, WorkStatus } from "@/lib/api-types";
-
-type ModalState = { open: boolean; mode: "add" | "edit"; id?: string; form: WorkHistoryInput };
-const EMPTY_MODAL: ModalState = { open: false, mode: "add", form: EMPTY_FORM };
+import { stripHtmlToText } from "@/lib/majourney/html";
+import { monthYearLabel, statusLabel } from "@/lib/majourney/work-history";
 
 export default function AdminWorkHistoryPage() {
-  const { workHistory, createWork, updateWork, deleteWork, errors } = useAdminData();
-  const [modal, setModal] = useState<ModalState>(EMPTY_MODAL);
-  const [saving, setSaving] = useState(false);
-  const [modalError, setModalError] = useState("");
+  const { workHistory, deleteWork, errors } = useAdminData();
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [actionError, setActionError] = useState("");
-
-  const openAdd = () => {
-    setModalError("");
-    setModal({ open: true, mode: "add", form: EMPTY_FORM });
-  };
-  const openEdit = (item: WorkHistory) => {
-    setModalError("");
-    setModal({ open: true, mode: "edit", id: item.id, form: toForm(item) });
-  };
-  const close = () => setModal(EMPTY_MODAL);
-
-  const setField = <K extends keyof WorkHistoryInput>(key: K, value: WorkHistoryInput[K]) =>
-    setModal((prev) => ({ ...prev, form: { ...prev.form, [key]: value } }));
-
-  const save = async () => {
-    setSaving(true);
-    setModalError("");
-    try {
-      if (modal.mode === "add") await createWork(modal.form);
-      else await updateWork(modal.id!, modal.form);
-      close();
-    } catch (err) {
-      setModalError(err instanceof ApiError ? err.message : "Could not save work history entry.");
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm("Delete this item?")) return;
@@ -75,13 +39,12 @@ export default function AdminWorkHistoryPage() {
       )}
 
       <div className="mb-4 flex justify-end">
-        <button
-          type="button"
-          onClick={openAdd}
+        <Link
+          href="/majourney/work-history/new"
           className="cursor-pointer border-[3px] border-[#111] bg-[#c8ff00] px-4 py-2.5 text-[13px] font-bold text-[#111] shadow-[4px_4px_0_#111]"
         >
           + Add work history
-        </button>
+        </Link>
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4">
@@ -104,15 +67,14 @@ export default function AdminWorkHistoryPage() {
                 {w.company} · {statusLabel(w.status)} · {monthYearLabel(w.startMonth, w.startYear)} –{" "}
                 {w.endYear ? monthYearLabel(w.endMonth ?? 12, w.endYear) : "Present"}
               </p>
-              <p className="m-0 mb-3.5 line-clamp-3 text-sm text-[#111]">{w.description}</p>
+              <p className="m-0 mb-3.5 line-clamp-3 text-sm text-[#111]">{stripHtmlToText(w.description)}</p>
               <div className="mt-auto flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => openEdit(w)}
-                  className="flex-1 cursor-pointer border-[3px] border-[#111] bg-white py-2 text-[13px] font-bold text-[#111]"
+                <Link
+                  href={`/majourney/work-history/${w.id}/edit`}
+                  className="flex-1 cursor-pointer border-[3px] border-[#111] bg-white py-2 text-center text-[13px] font-bold text-[#111]"
                 >
                   Edit
-                </button>
+                </Link>
                 <button
                   type="button"
                   onClick={() => handleDelete(w.id)}
@@ -126,86 +88,6 @@ export default function AdminWorkHistoryPage() {
           </div>
         ))}
       </div>
-
-      <AdminModal
-        open={modal.open}
-        title={(modal.mode === "add" ? "Add " : "Edit ") + "Work History"}
-        saving={saving}
-        error={modalError}
-        onCancel={close}
-        onSave={save}
-      >
-        <Field label="Company">
-          <TextInput value={modal.form.company} onChange={(e) => setField("company", e.target.value)} />
-        </Field>
-        <Field label="Role">
-          <TextInput value={modal.form.role} onChange={(e) => setField("role", e.target.value)} />
-        </Field>
-        <Field label="Status">
-          <Select value={modal.form.status} onChange={(e) => setField("status", e.target.value as WorkStatus)}>
-            {STATUS_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </Select>
-        </Field>
-        <div className="mb-3.5 grid grid-cols-2 gap-2">
-          <Field label="Start Month">
-            <Select
-              value={modal.form.startMonth}
-              onChange={(e) => setField("startMonth", Number(e.target.value))}
-            >
-              {MONTH_NAMES.map((name, idx) => (
-                <option key={name} value={idx + 1}>
-                  {name}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="Start Year">
-            <TextInput
-              type="number"
-              value={modal.form.startYear}
-              onChange={(e) => setField("startYear", Number(e.target.value))}
-            />
-          </Field>
-        </div>
-        <div className="mb-3.5 grid grid-cols-2 gap-2">
-          <Field label="End Month">
-            <Select
-              value={modal.form.endMonth ?? ""}
-              onChange={(e) => setField("endMonth", e.target.value ? Number(e.target.value) : null)}
-            >
-              <option value="">Present</option>
-              {MONTH_NAMES.map((name, idx) => (
-                <option key={name} value={idx + 1}>
-                  {name}
-                </option>
-              ))}
-            </Select>
-          </Field>
-          <Field label="End Year">
-            <TextInput
-              type="number"
-              value={modal.form.endYear ?? ""}
-              onChange={(e) => setField("endYear", e.target.value ? Number(e.target.value) : null)}
-              placeholder="blank = present"
-            />
-          </Field>
-        </div>
-        <div className="mb-3.5">
-          <ImageUploadField
-            label="Company Logo"
-            value={modal.form.companyLogoUrl}
-            onChange={(url) => setField("companyLogoUrl", url)}
-            folder="work-history"
-          />
-        </div>
-        <Field label="Description">
-          <TextArea value={modal.form.description} onChange={(e) => setField("description", e.target.value)} />
-        </Field>
-      </AdminModal>
     </div>
   );
 }
