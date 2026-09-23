@@ -80,7 +80,7 @@ export default function WorkHistoryForm({ form, setField }: WorkHistoryFormProps
         />
       </div>
       <Field label="Description">
-        <RichTextEditor value={form.description} onChange={(html) => setField("description", html)} />
+        <RichTextEditor value={form.description} onChange={(html) => setField("description", html)} folder="work-history" />
       </Field>
     </>
   );
