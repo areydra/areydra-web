@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 type AdminFormPageProps = {
   title: string;
   backHref: string;
+  backLabel: string;
   onSave: () => void;
   saveLabel?: string;
   saving?: boolean;
@@ -16,6 +17,7 @@ type AdminFormPageProps = {
 export default function AdminFormPage({
   title,
   backHref,
+  backLabel,
   onSave,
   saveLabel = "Save",
   saving = false,
@@ -25,7 +27,7 @@ export default function AdminFormPage({
   return (
     <div>
       <Link href={backHref} className="mb-4 inline-block text-[13px] font-bold text-[#111] underline">
-        ← Back to Work History
+        ← Back to {backLabel}
       </Link>
       <h1 className="m-0 mb-5 text-[19px] font-extrabold text-[#111]">{title}</h1>
 

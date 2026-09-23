@@ -48,7 +48,7 @@ export default function EditWorkHistoryPage() {
   };
 
   return (
-    <AdminFormPage title="Edit Work History" backHref="/majourney/work-history" saving={saving} error={error} onSave={save}>
+    <AdminFormPage title="Edit Work History" backHref="/majourney/work-history" backLabel="Work History" saving={saving} error={error} onSave={save}>
       <WorkHistoryForm form={form} setField={setField} />
     </AdminFormPage>
   );

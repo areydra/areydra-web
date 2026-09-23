@@ -33,7 +33,7 @@ export default function NewWorkHistoryPage() {
   };
 
   return (
-    <AdminFormPage title="Add Work History" backHref="/majourney/work-history" saving={saving} error={error} onSave={save}>
+    <AdminFormPage title="Add Work History" backHref="/majourney/work-history" backLabel="Work History" saving={saving} error={error} onSave={save}>
       <WorkHistoryForm form={form} setField={setField} />
     </AdminFormPage>
   );
