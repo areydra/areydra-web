@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import TiptapLink from "@tiptap/extension-link";
 
 const EMPTY_HTML = "<p></p>";
 
@@ -24,10 +23,10 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         codeBlock: false,
         code: false,
         horizontalRule: false,
-      }),
-      TiptapLink.configure({
-        openOnClick: false,
-        protocols: ["http", "https"],
+        link: {
+          openOnClick: false,
+          protocols: ["http", "https"],
+        },
       }),
     ],
     content: value || EMPTY_HTML,
@@ -73,6 +72,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           disabled={!editor}
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => editor?.chain().focus().toggleBold().run()}
           className={`${toolbarButtonClass} ${editor?.isActive("bold") ? toolbarButtonActiveClass : ""}`}
         >
@@ -81,6 +81,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           disabled={!editor}
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => editor?.chain().focus().toggleItalic().run()}
           className={`${toolbarButtonClass} ${editor?.isActive("italic") ? toolbarButtonActiveClass : ""}`}
         >
@@ -89,6 +90,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           disabled={!editor}
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => editor?.chain().focus().toggleStrike().run()}
           className={`${toolbarButtonClass} ${editor?.isActive("strike") ? toolbarButtonActiveClass : ""}`}
         >
@@ -97,6 +99,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           disabled={!editor}
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
           className={`${toolbarButtonClass} ${editor?.isActive("heading", { level: 3 }) ? toolbarButtonActiveClass : ""}`}
         >
@@ -105,6 +108,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           disabled={!editor}
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => editor?.chain().focus().toggleBulletList().run()}
           className={`${toolbarButtonClass} ${editor?.isActive("bulletList") ? toolbarButtonActiveClass : ""}`}
         >
@@ -113,6 +117,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           disabled={!editor}
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => editor?.chain().focus().toggleOrderedList().run()}
           className={`${toolbarButtonClass} ${editor?.isActive("orderedList") ? toolbarButtonActiveClass : ""}`}
         >
@@ -121,6 +126,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           disabled={!editor}
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => editor?.chain().focus().toggleBlockquote().run()}
           className={`${toolbarButtonClass} ${editor?.isActive("blockquote") ? toolbarButtonActiveClass : ""}`}
         >
@@ -129,6 +135,7 @@ export default function RichTextEditor({ value, onChange }: RichTextEditorProps)
         <button
           type="button"
           disabled={!editor}
+          onMouseDown={(e) => e.preventDefault()}
           onClick={setLink}
           className={`${toolbarButtonClass} ${editor?.isActive("link") ? toolbarButtonActiveClass : ""}`}
         >

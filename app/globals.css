@@ -215,6 +215,14 @@ body {
   padding-left: 1.4em;
 }
 
+.rich-text-content ul {
+  list-style: disc;
+}
+
+.rich-text-content ol {
+  list-style: decimal;
+}
+
 .rich-text-content li {
   margin-bottom: 0.25em;
 }
