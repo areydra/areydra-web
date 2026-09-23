@@ -1,5 +1,6 @@
 import type { WorkHistory } from "@/lib/portfolio-api";
 import { anton, archivo, mono } from "@/components/fonts";
+import { sanitizeHtml } from "@/lib/majourney/html";
 import { formatWorkPeriod } from "./formatters";
 import { SectionState } from "./SectionState";
 
@@ -57,7 +58,11 @@ export function WorkHistorySection({ jobs, error }: WorkHistorySectionProps) {
                 {job.company}
                 {job.status ? ` - ${job.status.replace(/_/g, " ")}` : ""}
               </div>
-              <p style={{ ...archivo, fontSize: "clamp(13px,1.3vw,15px)", fontWeight: 500, lineHeight: 1.6, color: "#111", margin: "12px 0 0" }}>{job.description}</p>
+              <div
+                className="rich-text-content"
+                style={{ ...archivo, fontSize: "clamp(13px,1.3vw,15px)", fontWeight: 500, lineHeight: 1.6, color: "#111", margin: "12px 0 0" }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(job.description) }}
+              />
             </div>
           </div>
         ))
