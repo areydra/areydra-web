@@ -1,5 +1,6 @@
 import type { Project } from "@/lib/portfolio-api";
 import { anton, archivo, mono } from "@/components/fonts";
+import { stripHtmlToText } from "@/lib/majourney/html";
 import { initials } from "./formatters";
 import { SectionState } from "./SectionState";
 
@@ -42,8 +43,29 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
                 {initials(project.title)}
               </div>
               <div style={{ padding: "clamp(16px,2vw,22px)", display: "flex", flexDirection: "column", flex: 1 }}>
-                <h3 style={{ ...archivo, fontSize: "clamp(16px,1.8vw,21px)", fontWeight: 900, textTransform: "uppercase", color: "#111", margin: "0 0 8px" }}>{project.title}</h3>
-                <p style={{ ...archivo, fontSize: "clamp(12px,1.2vw,14px)", fontWeight: 500, lineHeight: 1.6, color: "#111", margin: "0 0 14px", flex: 1 }}>{project.description}</p>
+                <a
+                  href={`/projects/${project.slug}`}
+                  style={{ ...archivo, fontSize: "clamp(16px,1.8vw,21px)", fontWeight: 900, textTransform: "uppercase", color: "#111", margin: "0 0 8px", display: "block", textDecoration: "none" }}
+                >
+                  {project.title}
+                </a>
+                <p
+                  style={{
+                    ...archivo,
+                    fontSize: "clamp(12px,1.2vw,14px)",
+                    fontWeight: 500,
+                    lineHeight: 1.6,
+                    color: "#111",
+                    margin: "0 0 14px",
+                    flex: 1,
+                    display: "-webkit-box",
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
+                  {stripHtmlToText(project.description)}
+                </p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
                   {project.techStack.map((tech) => (
                     <span key={tech.id} style={{ ...mono, fontSize: "clamp(9px,1vw,11px)", fontWeight: 700, textTransform: "uppercase", color: "#111", border: "2px solid #111", padding: "3px 7px" }}>
