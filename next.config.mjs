@@ -1,4 +1,41 @@
+// next.config.mjs
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://va.vercel-scripts.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "img-src 'self' data: blob: https://assets.areydra.com",
+              "font-src 'self' https://fonts.gstatic.com",
+              "media-src 'self' https://assets.areydra.com",
+              "connect-src 'self' https://api.areydra.com",
+              "object-src 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "frame-ancestors 'none'",
+              "upgrade-insecure-requests"
+            ].join('; ')
+          }
+        ]
+      }
+    ]
+  },
+  // Kalau pakai next/image, tambahin ini juga biar gak error
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'assets.areydra.com',
+      },
+    ],
+  },
+};
 
 export default nextConfig;
