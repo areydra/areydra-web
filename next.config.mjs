@@ -1,6 +1,8 @@
 // next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverExternalPackages: ['jsdom', 'isomorphic-dompurify', '@exodus/bytes'],
+
   async headers() {
     return [
       {
@@ -27,13 +29,9 @@ const nextConfig = {
       }
     ]
   },
-  // Kalau pakai next/image, tambahin ini juga biar gak error
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'assets.areydra.com',
-      },
+      { protocol: 'https', hostname: 'assets.areydra.com' },
     ],
   },
 };

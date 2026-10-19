@@ -46,10 +46,7 @@ async function fetchJson<T>(path: string): Promise<ApiResult<T>> {
   try {
     const response = await fetch(new URL(path, baseUrl), {
       headers: { Accept: "application/json" },
-      cache: 'no-store',
-      next: {
-        revalidate: 0,
-      }
+      cache: 'no-store'
     });
 
     if (!response.ok) {
