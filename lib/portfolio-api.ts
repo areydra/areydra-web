@@ -29,10 +29,8 @@ export type {
   HomeConfig,
   HomeData,
 } from "./api-types";
-import { unstable_noStore as noStore } from 'next/cache';
 
 async function fetchJson<T>(path: string): Promise<ApiResult<T>> {
-  noStore();
   // NEXT_PUBLIC_ because the same value is also read client-side by the
   // majourney admin panel (lib/majourney/api-client.ts) — no secret lives
   // here, just the backend's base URL, so one var covers both runtimes.
@@ -48,7 +46,7 @@ async function fetchJson<T>(path: string): Promise<ApiResult<T>> {
   try {
     const response = await fetch(new URL(path, baseUrl), {
       headers: { Accept: "application/json" },
-      cache: 'no-store'
+      next: { revalidate: 300 },
     });
 
     if (!response.ok) {
