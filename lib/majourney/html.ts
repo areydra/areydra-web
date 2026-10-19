@@ -1,4 +1,3 @@
-'use client';
 import DOMPurify from "isomorphic-dompurify";
 
 // Matches the constrained Tiptap toolbar in RichTextEditor — the editor
