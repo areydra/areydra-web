@@ -10,6 +10,7 @@ import { mono, anton, archivo } from "@/components/fonts";
 import { formatPostDate, initials } from "@/components/home/formatters";
 import { pickBlogPalette } from "@/lib/blog-display";
 import type { BlogPost } from "@/lib/portfolio-api";
+import { sanitizeHtml } from "@/lib/majourney/html";
 
 const activeTagStyle = { ...mono, fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: 1, color: "#fff", background: "#1410ff", border: "2px solid #111", padding: "8px 16px", cursor: "pointer" };
 const inactiveTagStyle = { ...mono, fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: 1, color: "#111", background: "#ebe7d9", border: "2px solid #111", padding: "8px 16px", cursor: "pointer" };
@@ -44,9 +45,6 @@ export function BlogListClient({ posts, error }: BlogListClientProps) {
         </a>
         <div style={{ ...mono, fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#1410ff", marginBottom: 12 }}>[ WRITING ]</div>
         <h1 style={{ ...anton, fontSize: "clamp(44px,8vw,120px)", lineHeight: "0.85", textTransform: "uppercase", color: "#111", margin: "0 0 20px", letterSpacing: -1 }}>The Blog</h1>
-        <p style={{ ...archivo, fontSize: "clamp(14px,1.6vw,18px)", fontWeight: 500, lineHeight: 1.6, color: "#111", maxWidth: 560, margin: "0 0 28px" }}>
-          Notes on React Native, backend systems, and lessons from shipping mobile products at scale.
-        </p>
         {allTags.length > 1 && (
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             {allTags.map((tag) => (
@@ -106,7 +104,11 @@ export function BlogListClient({ posts, error }: BlogListClientProps) {
                       ))}
                     </div>
                     <h2 style={{ ...archivo, fontSize: "clamp(16px,1.8vw,20px)", fontWeight: 800, color: "#111", margin: "0 0 10px", lineHeight: 1.25 }}>{post.title}</h2>
-                    <p style={{ ...archivo, fontSize: "clamp(12px,1.2vw,14px)", fontWeight: 500, lineHeight: 1.6, color: "#111", margin: 0, flex: 1 }}>{post.excerpt}</p>
+                    <div
+                        className="rich-text-content"
+                        style={{ ...archivo, fontSize: "clamp(12px,1.2vw,14px)", fontWeight: 500, lineHeight: 1.6, color: "#111", margin: 0, flex: 1 }}
+                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.excerpt) }}
+                      />
                     <div style={{ ...mono, fontSize: "clamp(10px,1.1vw,12px)", fontWeight: 700, textTransform: "uppercase", color: "#111", borderTop: "2px solid #111", marginTop: 16, paddingTop: 10 }}>
                       {formatPostDate(post.publishedAt)} · {post.timeToReadMinutes} min
                     </div>

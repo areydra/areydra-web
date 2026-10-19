@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useAdminData } from "@/contexts/majourney/AdminDataContext";
 import { ApiError } from "@/lib/majourney/api-client";
+import { sanitizeHtml } from "@/lib/majourney/html";
 
 export default function AdminBlogPage() {
   const { blogPosts, deleteBlogPost, errors } = useAdminData();
@@ -72,7 +73,10 @@ export default function AdminBlogPage() {
                     {b.status}
                   </span>
                 </div>
-                <p className="m-0 mb-3 line-clamp-3 text-sm text-[#111]">{b.excerpt}</p>
+                <div
+                  className="m-0 mb-3 line-clamp-3 text-sm text-[#111]"
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(b.excerpt) }}
+                />
                 <div className="mb-3.5 flex flex-wrap items-center gap-1.5">
                   {b.tags.map((tag) => (
                     <span
