@@ -167,7 +167,7 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
               {item}
             </a>
           ))}
-          {showInvertToggle && (
+          {/* {showInvertToggle && (
             <button
               onClick={onToggleInvert}
               style={{
@@ -187,7 +187,7 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
             >
               [ {invert ? "LIGHT" : "INVERT"} ]
             </button>
-          )}
+          )} */}
         </div>
         )}
 
