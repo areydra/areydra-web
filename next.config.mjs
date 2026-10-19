@@ -1,7 +1,7 @@
 // next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  serverExternalPackages: ['jsdom', 'isomorphic-dompurify'],
+  serverExternalPackages: ['jsdom', 'isomorphic-dompurify', '@exodus/bytes'],
 
   async headers() {
     return [
