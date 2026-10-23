@@ -15,7 +15,7 @@ export function MarqueeSection({ skillGroups }: MarqueeSectionProps) {
         style={{
           display: "inline-flex",
           whiteSpace: "nowrap",
-          animation: "bmarquee 22s linear infinite",
+          animation: "bmarquee 60s linear infinite",
           fontSize: "clamp(18px, 3vw, 30px)",
           textTransform: "uppercase",
           color: "#111",
