@@ -19,9 +19,8 @@ export default function AdminBlogPage() {
       await deleteBlogPost(id);
     } catch (err) {
       setActionError(err instanceof ApiError ? err.message : "Could not delete blog post.");
-    } finally {
-      setDeletingId(null);
     }
+    setDeletingId(null);
   };
 
   return (
@@ -75,7 +74,7 @@ export default function AdminBlogPage() {
                   {b.tags.map((tag) => (
                     <span
                       key={tag.id}
-                      className="border-2 border-[#111] bg-white px-[9px] py-1 text-[11px] font-bold text-[#111]"
+                      className="border-2 border-[#111] bg-white px-2.25 py-1 text-[11px] font-bold text-[#111]"
                     >
                       {tag.name}
                     </span>

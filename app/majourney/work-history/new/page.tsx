@@ -27,14 +27,26 @@ export default function NewWorkHistoryPage() {
       router.push("/majourney/work-history");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not save work history entry.");
-    } finally {
-      setSaving(false);
     }
+    setSaving(false);
   };
 
   return (
-    <AdminFormPage title="Add Work History" backHref="/majourney/work-history" backLabel="Work History" saving={saving} error={error} onSave={save}>
-      <WorkHistoryForm form={form} setField={setField} />
+    <AdminFormPage
+      title="Add
+      Work
+      History"
+      backHref="/majourney/work-history"
+      backLabel="Work
+      History"
+      saving={saving}
+      error={error}
+      onSave={save}
+    >
+       <WorkHistoryForm
+        form={form}
+        setField={setField}
+      />
     </AdminFormPage>
   );
 }

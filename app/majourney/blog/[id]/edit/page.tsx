@@ -25,7 +25,10 @@ export default function EditBlogPostPage() {
     return (
       <div>
         <p className="mb-3 text-sm font-semibold text-[#111]">Blog post not found.</p>
-        <Link href="/majourney/blog" className="text-[13px] font-bold text-[#111] underline">
+        <Link
+          href="/majourney/blog"
+          className="text-[13px] font-bold text-[#111] underline"
+        >
           ← Back to Blog
         </Link>
       </div>
@@ -43,14 +46,27 @@ export default function EditBlogPostPage() {
       router.push("/majourney/blog");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not save blog post.");
-    } finally {
-      setSaving(false);
     }
+
+    setSaving(false);
   };
 
   return (
-    <AdminFormPage title="Edit Blog Post" backHref="/majourney/blog" backLabel="Blog" saving={saving} error={error} onSave={save}>
-      <BlogPostForm mode="edit" form={form} setField={setField} tagsText={tagsText} onTagsTextChange={setTagsText} />
+    <AdminFormPage
+      title="Edit Blog Post"
+      backHref="/majourney/blog"
+      backLabel="Blog"
+      saving={saving}
+      error={error}
+      onSave={save}
+    >
+      <BlogPostForm
+        mode="edit"
+        form={form}
+        setField={setField}
+        tagsText={tagsText}
+        onTagsTextChange={setTagsText}
+      />
     </AdminFormPage>
   );
 }

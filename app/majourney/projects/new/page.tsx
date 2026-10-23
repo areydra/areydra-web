@@ -38,14 +38,26 @@ export default function NewProjectPage() {
       router.push("/majourney/projects");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not save project.");
-    } finally {
-      setSaving(false);
     }
+    setSaving(false);
   };
 
   return (
-    <AdminFormPage title="Add Project" backHref="/majourney/projects" backLabel="Projects" saving={saving} error={error} onSave={save}>
-      <ProjectForm form={form} setField={setField} allSkills={allSkills} onToggleSkill={toggleSkill} />
+    <AdminFormPage
+      title="Add
+      Project"
+      backHref="/majourney/projects"
+      backLabel="Projects"
+      saving={saving}
+      error={error}
+      onSave={save}
+    >
+      <ProjectForm
+        form={form}
+        setField={setField}
+        allSkills={allSkills}
+        onToggleSkill={toggleSkill}
+      />
     </AdminFormPage>
   );
 }

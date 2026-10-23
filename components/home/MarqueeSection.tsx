@@ -10,21 +10,10 @@ export function MarqueeSection({ skillGroups }: MarqueeSectionProps) {
   const label = `${content} * `;
 
   return (
-    <div style={{ background: "#c8ff00", borderBottom: "4px solid #111", overflow: "hidden", padding: "clamp(10px,1.5vw,14px) 0" }}>
-      <div
-        style={{
-          display: "inline-flex",
-          whiteSpace: "nowrap",
-          animation: "bmarquee 60s linear infinite",
-          fontSize: "clamp(18px, 3vw, 30px)",
-          textTransform: "uppercase",
-          color: "#111",
-          letterSpacing: 1,
-        }}
-        className="font-anton"
-      >
-        <span style={{ padding: "0 20px" }}>{label}</span>
-        <span style={{ padding: "0 20px" }} aria-hidden="true">
+    <div className="bg-[#c8ff00] border-b-4 border-[#111] overflow-hidden py-[clamp(10px,1.5vw,14px)]">
+      <div className="font-anton inline-flex whitespace-nowrap animate-[bmarquee_60s_linear_infinite] text-[clamp(18px,3vw,30px)] uppercase text-[#111] tracking-[1px]">
+        <span className="px-5">{label}</span>
+        <span className="px-5" aria-hidden="true">
           {label}
         </span>
       </div>

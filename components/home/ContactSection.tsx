@@ -12,9 +12,9 @@ export function ContactSection({ profile }: ContactSectionProps) {
   const secondaryLabel = phone || (linkedin ? "LinkedIn" : "Contact unavailable");
 
   return (
-    <section id="contact" style={{ padding: "clamp(36px,7vw,96px) clamp(24px,5vw,64px)", background: "#c8ff00", borderBottom: "4px solid #111" }}>
-      <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#111", marginBottom: 16 }}>[ 06 ] Get In Touch</div>
-      <h2 className="font-anton" style={{ fontSize: "clamp(44px,9vw,150px)", lineHeight: "0.82", textTransform: "uppercase", color: "#111", margin: "0 0 clamp(24px,4vw,36px)", letterSpacing: -1 }}>
+    <section id="contact" className="px-[clamp(24px,5vw,64px)] py-[clamp(36px,7vw,96px)] bg-[#c8ff00] border-b-4 border-[#111]">
+      <div className="text-[clamp(10px,1.2vw,13px)] font-bold uppercase tracking-[1px] text-[#111] mb-4">[ 06 ] Get In Touch</div>
+      <h2 className="font-anton text-[clamp(44px,9vw,150px)] leading-[0.82] uppercase text-[#111] mb-[clamp(24px,4vw,36px)] tracking-[-1px]">
         Let&apos;s Build
         <br />
         Something.

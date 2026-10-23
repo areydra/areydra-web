@@ -19,9 +19,8 @@ export default function AdminProjectsPage() {
       await deleteProject(id);
     } catch (err) {
       setActionError(err instanceof ApiError ? err.message : "Could not delete project.");
-    } finally {
-      setDeletingId(null);
     }
+    setDeletingId(null);
   };
 
   return (
@@ -52,7 +51,7 @@ export default function AdminProjectsPage() {
             key={p.id}
             className="box-border overflow-hidden border-[3px] border-[#111] bg-white shadow-[6px_6px_0_#111]"
           >
-            <div className="flex h-[110px] items-center justify-center overflow-hidden bg-[#111] px-3 text-center text-xs font-bold text-white">
+            <div className="flex h-27.5 items-center justify-center overflow-hidden bg-[#111] px-3 text-center text-xs font-bold text-white">
               {p.thumbnailUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element -- previewing an arbitrary uploaded URL
                 <img src={p.thumbnailUrl} alt="" className="h-full w-full object-cover" />
@@ -68,7 +67,7 @@ export default function AdminProjectsPage() {
                 {p.techStack.map((tech) => (
                   <span
                     key={tech.id}
-                    className="border-2 border-[#111] bg-white px-[9px] py-1 text-[11px] font-bold text-[#111]"
+                    className="border-2 border-[#111] bg-white px-2.25 py-1 text-[11px] font-bold text-[#111]"
                   >
                     {tech.name}
                   </span>

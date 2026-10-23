@@ -2,36 +2,12 @@ import type { ReactNode } from "react";
 
 export function StatusStrip({ right = "BOGOR, ID" }: { right?: ReactNode }) {
   return (
-    <div
-      style={{
-        background: "#111",
-        color: "#ebe7d9",
-        fontSize: "clamp(10px, 1.2vw, 12px)",
-        fontWeight: 700,
-        letterSpacing: 1,
-        textTransform: "uppercase",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "8px clamp(14px, 4vw, 40px)",
-        borderBottom: "3px solid #111",
-        gap: 8,
-        flexWrap: "wrap",
-      }}
-    >
-      <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <span
-          style={{
-            width: 8,
-            height: 8,
-            background: "#c8ff00",
-            display: "inline-block",
-            animation: "bblink 1.4s steps(1) infinite",
-          }}
-        />
+    <div className="bg-[#111] text-[#ebe7d9] text-[clamp(10px,1.2vw,12px)] font-bold tracking-[1px] uppercase flex items-center justify-between px-[clamp(14px,4vw,40px)] py-2 border-b-[3px] border-[#111] gap-2 flex-wrap">
+      <span className="flex items-center gap-2">
+        <span className="w-2 h-2 bg-[#c8ff00] inline-block animate-[bblink_1.4s_steps(1)_infinite]" />
         AVAILABLE FOR WORK
       </span>
-      <span style={{ opacity: 0.7 }}>{right}</span>
+      <span className="opacity-70">{right}</span>
     </div>
   );
 }

@@ -10,29 +10,23 @@ export function SkillsSection({ skillGroups, error }: SkillsSectionProps) {
   const groups = skillGroups ?? [];
 
   return (
-    <section id="skills" style={{ padding: "clamp(24px, 5vw, 64px)", borderBottom: "4px solid #111" }}>
-      <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#1410ff", marginBottom: 12 }}>[ 02 ] Technical Skills</div>
-      <h2 className="font-anton" style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#111", margin: "0 0 clamp(24px,4vw,40px)", letterSpacing: -0.5 }}>The Stack</h2>
+    <section id="skills" className="p-[clamp(24px,5vw,64px)] border-b-4 border-[#111]">
+      <div className="text-[clamp(10px,1.2vw,13px)] font-bold uppercase tracking-[1px] text-[#1410ff] mb-3">[ 02 ] Technical Skills</div>
+      <h2 className="font-anton text-[clamp(28px,4.5vw,68px)] leading-[0.92] uppercase text-[#111] mb-[clamp(24px,4vw,40px)] tracking-[-0.5px]">
+        The Stack
+      </h2>
       {error ? (
         <SectionState title="Skills unavailable" message={error} />
       ) : groups.length > 0 ? (
         <div className="home-skill-grid">
           {groups.map((group) => (
-            <div key={group.id} style={{ background: "#ebe7d9", padding: "clamp(16px, 2.5vw, 28px)" }}>
-              <div style={{ fontSize: "clamp(10px,1vw,12px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1.5, color: "#1410ff", marginBottom: 14 }}>{group.name}</div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+            <div key={group.id} className="bg-[#ebe7d9] p-[clamp(16px,2.5vw,28px)]">
+              <div className="text-[clamp(10px,1vw,12px)] font-bold uppercase tracking-[1.5px] text-[#1410ff] mb-3.5">{group.name}</div>
+              <div className="flex flex-wrap gap-1.5">
                 {group.skills.map((skill) => (
                   <span
                     key={skill.id}
-                    style={{
-                      fontSize: "clamp(11px, 1.1vw, 13px)",
-                      fontWeight: 700,
-                      textTransform: "uppercase",
-                      color: "#111",
-                      background: "#ebe7d9",
-                      border: "2px solid #111",
-                      padding: "4px 10px",
-                    }}
+                    className="text-[clamp(11px,1.1vw,13px)] font-bold uppercase tracking-[1px] text-[#111] bg-[#ebe7d9] border-2 border-[#111] px-2.5 py-1"
                   >
                     {skill.name}
                   </span>

@@ -16,57 +16,17 @@ export function HeroSection({ profile }: HeroSectionProps) {
   return (
     <section className="home-hero">
       <div className="home-hero__content">
-        <div
-          style={{
-            display: "inline-block",
-            fontSize: "clamp(10px, 1.3vw, 13px)",
-            fontWeight: 700,
-            textTransform: "uppercase",
-            letterSpacing: 2,
-            color: "#111",
-            background: "#c8ff00",
-            border: "3px solid #111",
-            padding: "5px 12px",
-            marginBottom: "clamp(18px, 3vw, 26px)",
-          }}
-        >
+        <div className="inline-block text-[clamp(10px,1.3vw,13px)] font-bold uppercase tracking-[1px] text-[#111] bg-[#c8ff00] border-[3px] border-[#111] px-3 py-1.5 mb-[clamp(18px,3vw,26px)]">
           {role}
         </div>
-        <h1
-          className="font-anton"
-          style={{
-            fontSize: "clamp(52px, 11vw, 168px)",
-            lineHeight: "0.82",
-            letterSpacing: -1,
-            color: "#111",
-            margin: 0,
-            textTransform: "uppercase",
-          }}
-        >
+        <h1 className="font-anton text-[clamp(52px,11vw,168px)] leading-[0.82] tracking-[-1px] text-[#111] m-0 uppercase">
           Hi,
           <br />
           I&apos;m
           <br />
-          <span
-            style={{
-              color: "#1410ff",
-              WebkitTextStroke: "clamp(1.5px, 0.3vw, 3px) #111",
-            }}
-          >
-            {firstName}
-          </span>
+          <span className="text-[#1410ff] [webkit-text-stroke:clamp(1.5px,0.3vw,3px)_#111]">{firstName}</span>
         </h1>
-        <p
-          style={{
-            
-            fontSize: "clamp(14px, 1.6vw, 20px)",
-            fontWeight: 500,
-            lineHeight: 1.55,
-            color: "#111",
-            maxWidth: 520,
-            margin: "clamp(18px, 3vw, 30px) 0 0",
-          }}
-        >
+        <p className="text-[clamp(14px,1.6vw,20px)] font-medium leading-[1.55] text-[#111] max-w-[56ch] mt-[clamp(18px,3vw,30px)]">
           {tagline}
         </p>
         <div className="home-action-row">
@@ -83,31 +43,11 @@ export function HeroSection({ profile }: HeroSectionProps) {
         <div className="home-hero__mark">
           {profile?.avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element -- avatarUrl is an arbitrary uploaded/remote image, not a local asset
-            <img
-              src={profile.avatarUrl}
-              alt=""
-              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-            />
+            <img src={profile.avatarUrl} alt="" className="absolute inset-0 w-full h-full object-cover" />
           ) : (
             <>
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  backgroundImage: "repeating-linear-gradient(45deg,transparent,transparent 14px,rgba(255,255,255,0.08) 14px,rgba(255,255,255,0.08) 28px)",
-                }}
-              />
-              <span
-                className="font-anton"
-                style={{
-                  fontSize: "clamp(80px, 15vw, 220px)",
-                  color: "#c8ff00",
-                  lineHeight: "1",
-                  position: "relative",
-                  WebkitTextStroke: "clamp(2px, 0.4vw, 4px) #111",
-                  userSelect: "none",
-                }}
-              >
+              <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_14px,rgba(255,255,255,0.08)_14px,rgba(255,255,255,0.08)_28px)]" />
+              <span className="font-anton text-[clamp(80px,15vw,220px)] text-[#c8ff00] leading-none relative [webkit-text-stroke:clamp(2px,0.4vw,4px)_#111] select-none">
                 {firstName[0]?.toUpperCase() || "A"}
               </span>
             </>
@@ -124,9 +64,9 @@ export function HeroSection({ profile }: HeroSectionProps) {
 
 function MiniStat({ value, label, last = false }: { value: string; label: string; last?: boolean }) {
   return (
-    <div style={{ padding: "clamp(16px,2vw,22px)", borderRight: last ? undefined : "3px solid #111" }}>
-      <div className="font-anton" style={{ fontSize: "clamp(36px,4.5vw,54px)", color: "#111", lineHeight: "0.9" }}>{value}</div>
-      <div style={{ fontSize: "clamp(10px,1vw,12px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#111", marginTop: 4 }}>{label}</div>
+    <div className={`p-[clamp(16px,2vw,22px)] ${!last ? "border-r-[3px] border-[#111]" : ""}`}>
+      <div className="font-anton text-[clamp(36px,4.5vw,54px)] text-[#111] leading-[0.9]">{value}</div>
+      <div className="text-[clamp(10px,1vw,12px)] font-bold uppercase tracking-[1px] text-[#111] mt-1">{label}</div>
     </div>
   );
 }

@@ -26,49 +26,41 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
   const sortedImages = project.images.slice().sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (
-    <div style={{ background: "#ebe7d9", minHeight: "100vh" }}>
+    <div className="bg-[#ebe7d9] min-h-screen">
       <StatusStrip />
-
       <Nav variant="detail" />
 
-      {/* PROJECT HEADER */}
-      <section style={{ padding: "clamp(28px,5vw,56px) clamp(24px,5vw,64px)", borderBottom: "4px solid #111", background: "#1410ff" }}>
+      <section className="px-[clamp(24px,5vw,64px)] py-[clamp(28px,5vw,56px)] border-b-4 border-[#111] bg-[#1410ff]">
         {project.role && (
-          <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#c8ff00", marginBottom: 16 }}>
+          <div className="text-[clamp(10px,1.2vw,13px)] font-bold uppercase tracking-[1px] text-[#c8ff00] mb-4">
             {project.role}
           </div>
         )}
-        <h1 style={{ fontSize: "clamp(30px,6vw,80px)", lineHeight: "0.95", textTransform: "uppercase", color: "#c8ff00", margin: "0 0 22px", letterSpacing: -1 }}>
+        <h1 className="text-[clamp(30px,6vw,80px)] leading-[0.95] uppercase text-[#c8ff00] mb-6 tracking-[-1px] font-black">
           {project.title}
         </h1>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 18 }}>
+        <div className="flex flex-wrap gap-2 mb-4">
           {project.techStack.map((tech) => (
-            <span key={tech.id} style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#111", background: "#ebe7d9", border: "2px solid #111", padding: "4px 10px" }}>
+            <span
+              key={tech.id}
+              className="text-[11px] font-bold uppercase tracking-[1px] text-[#111] bg-[#ebe7d9] border-2 border-[#111] px-2.5 py-1"
+            >
               {tech.name}
             </span>
           ))}
         </div>
         {project.projectDate && (
-          <div style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", color: "#c8ff00" }}>
+          <div className="text-[13px] font-bold uppercase tracking-[1px] text-[#c8ff00]">
             {formatProjectDate(project.projectDate)}
           </div>
         )}
         {links.length > 0 && (
-          <div style={{ display: "flex", gap: 0, flexWrap: "wrap", border: "3px solid #111", width: "fit-content", marginTop: 22 }}>
+          <div className="flex flex-wrap border-[3px] border-[#111] w-fit mt-6">
             {links.map((link, index) => (
               <a
                 key={link.href}
                 href={link.href}
-                style={{
-                  fontSize: 13,
-                  fontWeight: 700,
-                  textTransform: "uppercase",
-                  color: link.primary ? "#fff" : "#111",
-                  background: link.primary ? "#111" : "#ebe7d9",
-                  padding: "12px 22px",
-                  textDecoration: "none",
-                  borderLeft: index > 0 ? "3px solid #111" : undefined,
-                }}
+                className={`text-[13px] font-bold uppercase tracking-[1px] px-5 py-3 no-underline ${link.primary ? "text-white bg-[#111]" : "text-[#111] bg-[#ebe7d9]"} ${index > 0 ? "border-l-[3px] border-[#111]" : ""}`}
               >
                 {link.label} -&gt;
               </a>
@@ -77,22 +69,20 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
         )}
       </section>
 
-      {/* PROJECT BODY */}
-      <section style={{ padding: "clamp(28px,5vw,64px)", maxWidth: 820, margin: "0 auto" }}>
+      <section className="p-[clamp(28px,5vw,64px)] max-w-4xl mx-auto">
         {sortedImages.length > 0 && (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))", gap: 14, marginBottom: 32 }}>
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-3.5 mb-8">
             {sortedImages.map((img) => (
-              <div key={img.id} style={{ border: "3px solid #111", boxShadow: "5px 5px 0 #0a0a0a", overflow: "hidden", aspectRatio: "4/3" }}>
+              <div key={img.id} className="border-[3px] border-[#111] shadow-[5px_5px_0_#0a0a0a] overflow-hidden aspect-[4/3]">
                 {/* eslint-disable-next-line @next/next/no-img-element -- rendering an arbitrary uploaded gallery image URL */}
-                <img src={img.imageUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <img src={img.imageUrl} alt="" className="w-full h-full object-cover block" />
               </div>
             ))}
           </div>
         )}
 
         <div
-          className="rich-text-content"
-          style={{ fontSize: "clamp(14px,1.5vw,17px)", fontWeight: 500, lineHeight: 1.8, color: "#111" }}
+          className="rich-text-content text-[clamp(14px,1.5vw,17px)] font-medium leading-[1.8] text-[#111]"
           dangerouslySetInnerHTML={{ __html: sanitizeHtml(project.description) }}
         />
       </section>

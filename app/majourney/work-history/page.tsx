@@ -20,9 +20,8 @@ export default function AdminWorkHistoryPage() {
       await deleteWork(id);
     } catch (err) {
       setActionError(err instanceof ApiError ? err.message : "Could not delete work history entry.");
-    } finally {
-      setDeletingId(null);
     }
+    setDeletingId(null);
   };
 
   return (

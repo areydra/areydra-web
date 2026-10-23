@@ -26,10 +26,9 @@ export default function ImageUploadField({ label, value, onChange, folder }: Ima
       onChange(publicUrl);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed.");
-    } finally {
-      setUploading(false);
-      if (inputRef.current) inputRef.current.value = "";
     }
+    setUploading(false);
+    if (inputRef.current) inputRef.current.value = "";
   };
 
   return (

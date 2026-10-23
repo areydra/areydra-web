@@ -9,15 +9,10 @@ export function SectionState({ tone = "light", title, message }: SectionStatePro
 
   return (
     <div
-      style={{
-        border: `3px solid ${isDark ? "#ebe7d9" : "#111"}`,
-        background: isDark ? "#0f0f0f" : "#f5f2e8",
-        color: isDark ? "#ebe7d9" : "#111",
-        padding: "clamp(18px,2.5vw,28px)",
-      }}
+      className={`p-[clamp(18px,2.5vw,28px)] border-[3px] ${isDark ? "border-[#ebe7d9] bg-[#0f0f0f] text-[#ebe7d9]" : "border-[#111] bg-[#f5f2e8] text-[#111]"}`}
     >
-      <div style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{title}</div>
-      <p style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.6, margin: 0 }}>{message}</p>
+      <div className="text-xs font-bold uppercase tracking-[1px] mb-2">{title}</div>
+      <p className="text-sm font-semibold leading-[1.6] m-0">{message}</p>
     </div>
   );
 }

@@ -45,9 +45,6 @@ function toInput(profile: Profile): ProfileInput {
 
 export default function AdminProfilePage() {
   const { profile, updateProfile, errors } = useAdminData();
-  // `profile` is null both while a real load error occurred (see `errors.profile`
-  // below) and, normally, when the singleton profile row simply hasn't been
-  // created yet — either way the form still opens, starting from a blank draft.
   const [draft, setDraft] = useState<ProfileInput>(() => (profile ? toInput(profile) : EMPTY_INPUT));
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -82,13 +79,12 @@ export default function AdminProfilePage() {
       setSaved(true);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not save profile.");
-    } finally {
-      setSaving(false);
     }
+    setSaving(false);
   };
 
   return (
-    <div className="grid max-w-[640px] gap-5">
+    <div className="grid max-w-160 gap-5">
       {errors.profile && (
         <p className="m-0 border-[3px] border-[#111] bg-white p-3 text-[13px] font-bold text-[#dc2626]">
           {errors.profile}

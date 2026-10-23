@@ -26,10 +26,9 @@ export default function MultiImageUploadField({ label, values, onChange, folder 
       onChange([...values, ...uploaded]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed.");
-    } finally {
-      setUploading(false);
-      if (inputRef.current) inputRef.current.value = "";
     }
+    setUploading(false);
+    if (inputRef.current) inputRef.current.value = "";
   };
 
   const removeAt = (idx: number) => onChange(values.filter((_, i) => i !== idx));

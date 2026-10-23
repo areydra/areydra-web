@@ -34,7 +34,7 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-[#ebe7d9] p-6">
       <form
         onSubmit={handleSubmit}
-        className="box-border w-full max-w-[380px] border-4 border-[#111] bg-white p-10 shadow-[10px_10px_0_#111]"
+        className="box-border w-full max-w-95 border-4 border-[#111] bg-white p-10 shadow-[10px_10px_0_#111]"
       >
         <div className="mb-5 h-10 w-10 border-[3px] border-[#111] bg-[#1410ff]" />
         <h1 className="m-0 mb-1 text-[22px] font-extrabold text-[#111]">Portfolio Admin</h1>
@@ -65,7 +65,7 @@ export default function AdminLoginPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="mt-3 w-full cursor-pointer border-[3px] border-[#111] bg-[#c8ff00] py-[11px] text-sm font-extrabold text-[#111] shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-3 w-full cursor-pointer border-[3px] border-[#111] bg-[#c8ff00] py-2.75 text-sm font-extrabold text-[#111] shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {submitting ? "Signing in…" : "Sign in"}
         </button>

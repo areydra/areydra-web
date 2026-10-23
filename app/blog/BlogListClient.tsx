@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useWindowWidth } from "@/components/useWindowWidth";
 import { StatusStrip } from "@/components/StatusStrip";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
@@ -11,43 +10,42 @@ import { pickBlogPalette } from "@/lib/blog-display";
 import type { BlogPost } from "@/lib/portfolio-api";
 import { MarkdownPreview } from "@/components/MarkdownPreview";
 
-const activeTagStyle = { fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: 1, color: "#fff", background: "#1410ff", border: "2px solid #111", padding: "8px 16px", cursor: "pointer" };
-const inactiveTagStyle = { fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: 1, color: "#111", background: "#ebe7d9", border: "2px solid #111", padding: "8px 16px", cursor: "pointer" };
-
 type BlogListClientProps = {
   posts: BlogPost[];
   error: string | null;
 };
 
+const baseTagClass = "text-xs font-bold uppercase tracking-[1px] border-2 border-[#111] px-4 py-2 cursor-pointer";
+
 export function BlogListClient({ posts, error }: BlogListClientProps) {
   const [activeTag, setActiveTag] = useState("all");
-  const width = useWindowWidth();
 
-  const isMobile = width < 640;
-  const isTablet = width >= 640 && width < 1024;
-  const isDesktop = width >= 1024;
-
-  const gridCols = isDesktop ? "repeat(3,1fr)" : isTablet ? "repeat(2,1fr)" : "repeat(1,1fr)";
-  const allTags = ["all", ...Array.from(new Set(posts.flatMap((p) => p.tags.map((t) => t.name))))];
+  const allTags = ["all", ...Array.from(new Set(posts.flatMap((p) => p.tags.map((t) => t.name))))] as string[];
   const filtered = activeTag === "all" ? posts : posts.filter((p) => p.tags.some((t) => t.name === activeTag));
 
   return (
-    <div style={{ background: "#ebe7d9", minHeight: "100vh" }}>
+    <div className="bg-[#ebe7d9] min-h-screen">
       <StatusStrip />
+      <Nav variant="subpage" />
 
-      <Nav variant="subpage" isMobile={isMobile} />
-
-      {/* PAGE HEADER */}
-      <section style={{ padding: "clamp(28px,5vw,56px) clamp(24px,5vw,64px)", borderBottom: "4px solid #111" }}>
-        <a href="/" style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#111", textDecoration: "none", display: "inline-block", marginBottom: 20 }}>
+      <section className="px-[clamp(24px,5vw,64px)] py-[clamp(28px,5vw,56px)] border-b-4 border-[#111]">
+        <a href="/" className="text-xs font-bold uppercase tracking-[1px] text-[#111] no-underline inline-block mb-5">
           ← Back Home
         </a>
-        <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#1410ff", marginBottom: 12 }}>[ WRITING ]</div>
-        <h1 style={{ fontSize: "clamp(44px,8vw,120px)", lineHeight: "0.85", textTransform: "uppercase", color: "#111", margin: "0 0 20px", letterSpacing: -1 }}>The Blog</h1>
+        <div className="text-[clamp(10px,1.2vw,13px)] font-bold uppercase tracking-[2px] text-[#1410ff] mb-3">
+          [ WRITING ]
+        </div>
+        <h1 className="text-[clamp(44px,8vw,120px)] leading-[0.85] uppercase text-[#111] mb-5 tracking-[-1px] font-black">
+          The Blog
+        </h1>
         {allTags.length > 1 && (
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <div className="flex gap-2 flex-wrap">
             {allTags.map((tag) => (
-              <button key={tag} onClick={() => setActiveTag(tag)} style={tag === activeTag ? activeTagStyle : inactiveTagStyle}>
+              <button
+                key={tag}
+                onClick={() => setActiveTag(tag)}
+                className={`${baseTagClass} ${tag === activeTag ? "text-white bg-[#1410ff]" : "text-[#111] bg-[#ebe7d9]"}`}
+              >
                 {tag === "all" ? "All" : tag}
               </button>
             ))}
@@ -55,52 +53,40 @@ export function BlogListClient({ posts, error }: BlogListClientProps) {
         )}
       </section>
 
-      {/* POSTS GRID */}
-      <section style={{ padding: "clamp(24px,5vw,64px)" }}>
+      <section className="p-[clamp(24px,5vw,64px)]">
         {error ? (
           <SectionState title="Blog unavailable" message={error} />
         ) : filtered.length > 0 ? (
-          <div style={{ display: "grid", gridTemplateColumns: gridCols, gap: "clamp(14px,2vw,22px)" }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[clamp(14px,2vw,22px)]">
             {filtered.map((post) => {
               const palette = pickBlogPalette(post.id);
               return (
                 <a
                   key={post.id}
                   href={`/blog/${post.slug}`}
-                  style={{ background: "#fff", border: "3px solid #111", boxShadow: "6px 6px 0 #0a0a0a", display: "flex", flexDirection: "column", textDecoration: "none" }}
+                  className="bg-white border-[3px] border-[#111] shadow-[6px_6px_0_#0a0a0a] flex flex-col no-underline"
                 >
                   {post.thumbnailUrl && (
-                    <div
-                      style={{
-                        height: "clamp(90px,10vw,130px)",
-                        background: post.thumbnailUrl ? undefined : palette.bg,
-                        borderBottom: "3px solid #111",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        overflow: "hidden",
-                        ...(!post.thumbnailUrl && {
-                          fontSize: "clamp(32px,5vw,52px)",
-                          color: palette.fg,
-                          letterSpacing: -2,
-                          WebkitTextStroke: "1.5px #111",
-                        }),
-                      }}
-                    >
-                      <img src={post.thumbnailUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    <div className="h-[clamp(90px,10vw,130px)] border-b-[3px] border-[#111] flex items-center justify-center overflow-hidden">
+                      <img src={post.thumbnailUrl} alt="" className="w-full h-full object-cover" />
                     </div>
                   )}
-                  <div style={{ padding: "clamp(16px,2vw,22px)", display: "flex", flexDirection: "column", flex: 1 }}>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
+                  <div className="p-[clamp(16px,2vw,22px)] flex flex-col flex-1">
+                    <div className="flex flex-wrap gap-1 mb-3.5">
                       {post.tags.map((t) => (
-                        <span key={t.id} style={{ fontSize: "clamp(9px,1vw,11px)", fontWeight: 700, textTransform: "uppercase", color: "#111", background: "#c8ff00", border: "2px solid #111", padding: "3px 7px" }}>
+                        <span
+                          key={t.id}
+                          className="text-[clamp(9px,1vw,11px)] font-bold uppercase tracking-[1px] text-[#111] bg-[#c8ff00] border-2 border-[#111] px-1.5 py-0.5"
+                        >
                           {t.name}
                         </span>
                       ))}
                     </div>
-                    <h2 style={{ fontSize: "clamp(16px,1.8vw,20px)", fontWeight: 800, color: "#111", margin: "0 0 10px", lineHeight: 1.25 }}>{post.title}</h2>
-                    <MarkdownPreview markdown={post.excerpt}/>
-                    <div style={{ fontSize: "clamp(10px,1.1vw,12px)", fontWeight: 700, textTransform: "uppercase", color: "#111", borderTop: "2px solid #111", marginTop: 16, paddingTop: 10 }}>
+                    <h2 className="text-[clamp(16px,1.8vw,20px)] font-extrabold text-[#111] mb-2.5 leading-[1.25]">
+                      {post.title}
+                    </h2>
+                    <MarkdownPreview markdown={post.excerpt} />
+                    <div className="text-[clamp(10px,1.1vw,12px)] font-bold uppercase tracking-[1px] text-[#111] border-t-2 border-[#111] mt-4 pt-2.5">
                       {formatPostDate(post.publishedAt)} · {post.timeToReadMinutes} min
                     </div>
                   </div>
@@ -109,15 +95,15 @@ export function BlogListClient({ posts, error }: BlogListClientProps) {
             })}
           </div>
         ) : (
-          <div style={{ textAlign: "center", padding: "80px 24px", border: "3px solid #111", background: "#fff" }}>
-            <h3 style={{ fontSize: 32, textTransform: "uppercase", color: "#111", margin: "0 0 12px" }}>No posts found</h3>
-            <p style={{ fontSize: 15, color: "#111", margin: "0 0 24px" }}>
+          <div className="text-center py-20 px-6 border-[3px] border-[#111] bg-white">
+            <h3 className="text-xl uppercase tracking-[-0.5px] text-[#111] mb-3 font-black">No posts found</h3>
+            <p className="text-sm tracking-[0px] text-[#111] mb-6">
               {posts.length === 0 ? "No posts have been published yet." : "Try a different tag."}
             </p>
             {posts.length > 0 && (
               <button
                 onClick={() => setActiveTag("all")}
-                style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase", color: "#fff", background: "#1410ff", border: "3px solid #111", padding: "12px 24px", cursor: "pointer" }}
+                className="text-xs font-bold uppercase tracking-[1px] text-white bg-[#1410ff] border-[3px] border-[#111] px-6 py-3 cursor-pointer"
               >
                 Clear Filter
               </button>

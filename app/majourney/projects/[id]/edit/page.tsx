@@ -24,7 +24,10 @@ export default function EditProjectPage() {
     return (
       <div>
         <p className="mb-3 text-sm font-semibold text-[#111]">Project not found.</p>
-        <Link href="/majourney/projects" className="text-[13px] font-bold text-[#111] underline">
+        <Link
+          href="/majourney/projects"
+          className="text-[13px] font-bold text-[#111] underline"
+        >
           ← Back to Projects
         </Link>
       </div>
@@ -54,14 +57,26 @@ export default function EditProjectPage() {
       router.push("/majourney/projects");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not save project.");
-    } finally {
-      setSaving(false);
     }
+    setSaving(false);
   };
 
   return (
-    <AdminFormPage title="Edit Project" backHref="/majourney/projects" backLabel="Projects" saving={saving} error={error} onSave={save}>
-      <ProjectForm form={form} setField={setField} allSkills={allSkills} onToggleSkill={toggleSkill} />
+    <AdminFormPage
+      title="Edit
+      Project"
+      backHref="/majourney/projects"
+      backLabel="Projects"
+      saving={saving}
+      error={error}
+      onSave={save}
+    >
+      <ProjectForm
+        form={form}
+        setField={setField}
+        allSkills={allSkills}
+        onToggleSkill={toggleSkill}
+      />
     </AdminFormPage>
   );
 }

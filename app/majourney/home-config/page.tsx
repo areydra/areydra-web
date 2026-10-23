@@ -22,13 +22,12 @@ export default function AdminHomeConfigPage() {
       setSaved(true);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not save home config.");
-    } finally {
-      setSaving(false);
     }
+    setSaving(false);
   };
 
   return (
-    <div className="grid max-w-[640px] gap-5">
+    <div className="grid max-w-160 gap-5">
       {errors.homeConfig && (
         <p className="m-0 border-[3px] border-[#111] bg-white p-3 text-[13px] font-bold text-[#dc2626]">
           {errors.homeConfig}

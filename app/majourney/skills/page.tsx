@@ -32,9 +32,8 @@ export default function AdminSkillsPage() {
       setModalOpen(false);
     } catch (err) {
       setModalError(err instanceof ApiError ? err.message : "Could not create category.");
-    } finally {
-      setModalSaving(false);
     }
+    setModalSaving(false);
   };
 
   const handleRemoveCategory = async (id: string) => {
@@ -57,9 +56,8 @@ export default function AdminSkillsPage() {
       setNewSkillInputs((prev) => ({ ...prev, [categoryId]: "" }));
     } catch (err) {
       setActionError(err instanceof ApiError ? err.message : "Could not add skill.");
-    } finally {
-      setAddingSkillFor(null);
     }
+    setAddingSkillFor(null);
   };
 
   const handleRemoveSkill = async (categoryId: string, skillId: string) => {
@@ -135,7 +133,7 @@ export default function AdminSkillsPage() {
               {cat.skills.map((skill) => (
                 <span
                   key={skill.id}
-                  className="inline-flex items-center gap-1.5 border-2 border-[#111] bg-white py-[5px] pr-1.5 pl-2.5 text-[13px] font-bold text-[#111]"
+                  className="inline-flex items-center gap-1.5 border-2 border-[#111] bg-white py-1.25 pr-1.5 pl-2.5 text-[13px] font-bold text-[#111]"
                 >
                   {skill.name}
                   <button

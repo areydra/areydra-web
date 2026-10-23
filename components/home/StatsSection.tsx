@@ -17,19 +17,13 @@ export function StatsSection({ profile, skillGroups, workHistory }: StatsSection
   ];
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-        background: "#111",
-        gap: 3,
-        borderBottom: "4px solid #111",
-      }}
-    >
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] bg-[#111] gap-[1px] border-b-4 border-[#111]">
       {stats.map((stat) => (
-        <div key={stat.label} style={{ background: "#ebe7d9", padding: "clamp(20px,3vw,34px) clamp(14px,3vw,40px)" }}>
-          <div className="font-anton" style={{ fontSize: "clamp(36px,5vw,72px)", color: "#1410ff", lineHeight: "0.9", WebkitTextStroke: "clamp(1px,0.2vw,2px) #111" }}>{stat.val}</div>
-          <div style={{ fontSize: "clamp(10px,1vw,12px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#111", marginTop: 8 }}>{stat.label}</div>
+        <div key={stat.label} className="bg-[#ebe7d9] px-[clamp(14px,3vw,40px)] py-[clamp(20px,3vw,34px)]">
+          <div className="font-anton text-[clamp(36px,5vw,72px)] text-[#1410ff] leading-[0.9] [webkit-text-stroke:clamp(1px,0.2vw,2px)_#111]">
+            {stat.val}
+          </div>
+          <div className="text-[clamp(10px,1vw,12px)] font-bold uppercase tracking-[1px] text-[#111] mt-2">{stat.label}</div>
         </div>
       ))}
     </div>

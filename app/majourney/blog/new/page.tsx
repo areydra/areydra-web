@@ -28,14 +28,28 @@ export default function NewBlogPostPage() {
       router.push("/majourney/blog");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not save blog post.");
-    } finally {
-      setSaving(false);
     }
+    setSaving(false);
   };
 
   return (
-    <AdminFormPage title="Add Blog Post" backHref="/majourney/blog" backLabel="Blog" saving={saving} error={error} onSave={save}>
-      <BlogPostForm mode="add" form={form} setField={setField} tagsText={tagsText} onTagsTextChange={setTagsText} />
+    <AdminFormPage
+      title="Add
+      Blog
+      Post"
+      backHref="/majourney/blog"
+      backLabel="Blog"
+      saving={saving}
+      error={error}
+      onSave={save}
+    >
+      <BlogPostForm
+        mode="add"
+        form={form}
+        setField={setField}
+        tagsText={tagsText}
+        onTagsTextChange={setTagsText}
+      />
     </AdminFormPage>
   );
 }

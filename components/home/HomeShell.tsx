@@ -22,12 +22,7 @@ export const HomeShell = memo(function HomeShell({ children, hasProjects = true,
 
   return (
     <div
-      style={{
-        background: "#ebe7d9",
-        minHeight: "100vh",
-        filter: invert ? "invert(1) hue-rotate(180deg)" : "none",
-        transition: "filter 0.15s",
-      }}
+      className={`bg-[#ebe7d9] min-h-screen transition-[filter] duration-150 ${invert ? "[filter:invert(1)_hue-rotate(180deg)]" : "[filter:none]"}`}
     >
       <StatusStrip right={clock} />
       <Nav variant="home" isMobile={isMobile} showInvertToggle invert={invert} onToggleInvert={toggleInvert} hasProjects={hasProjects} hasBlog={hasBlog} />

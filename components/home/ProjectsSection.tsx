@@ -12,11 +12,13 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
   const items = projects ?? [];
 
   return (
-    <section id="projects" style={{ padding: "clamp(24px,5vw,64px)", borderBottom: "4px solid #111", background: "#1410ff" }}>
-      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: "clamp(24px,4vw,40px)" }}>
+    <section id="projects" className="p-[clamp(24px,5vw,64px)] border-b-4 border-[#111] bg-[#1410ff]">
+      <div className="flex items-end justify-between flex-wrap gap-4 mb-[clamp(24px,4vw,40px)]">
         <div>
-          <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#c8ff00", marginBottom: 12 }}>[ 04 ] Portfolio</div>
-          <h2 className="font-anton" style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#ebe7d9", margin: 0, letterSpacing: -0.5 }}>Featured Projects</h2>
+          <div className="text-[clamp(10px,1.2vw,13px)] font-bold uppercase tracking-[1px] text-[#c8ff00] mb-3">[ 04 ] Portfolio</div>
+          <h2 className="font-anton text-[clamp(28px,4.5vw,68px)] leading-[0.92] uppercase text-[#ebe7d9] m-0 tracking-[-0.5px]">
+            Featured Projects
+          </h2>
         </div>
       </div>
       {error ? (
@@ -24,48 +26,25 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
       ) : items.length > 0 ? (
         <div className="home-project-grid">
           {items.map((project) => (
-            <div key={project.id} style={{ background: "#ebe7d9", border: "3px solid #111", boxShadow: "6px 6px 0 #0a0a0a", display: "flex", flexDirection: "column" }}>
-              <div
-                style={{
-                  height: "clamp(100px, 12vw, 150px)",
-                  background: "#c8ff00",
-                  borderBottom: "3px solid #111",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "clamp(36px, 6vw, 60px)",
-                  color: "#111",
-                  letterSpacing: -2,
-                }}
-                className="font-anton"
-              >
+            <div key={project.id} className="bg-[#ebe7d9] border-[3px] border-[#111] shadow-[6px_6px_0_#0a0a0a] flex flex-col">
+              <div className="font-anton h-[clamp(100px,12vw,150px)] bg-[#c8ff00] border-b-[3px] border-[#111] flex items-center justify-center text-[clamp(36px,6vw,60px)] text-[#111] tracking-[-2px]">
                 {initials(project.title)}
               </div>
-              <div style={{ padding: "clamp(16px,2vw,22px)", display: "flex", flexDirection: "column", flex: 1 }}>
-                <h3 style={{ fontSize: "clamp(16px,1.8vw,21px)", fontWeight: 900, textTransform: "uppercase", color: "#111", margin: "0 0 8px" }}>
-                  <a href={`/projects/${project.slug}`} style={{ color: "inherit", textDecoration: "none", display: "block" }}>
+              <div className="p-[clamp(16px,2vw,22px)] flex flex-col flex-1">
+                <h3 className="text-[clamp(16px,1.8vw,21px)] font-black uppercase text-[#111] mb-2">
+                  <a href={`/projects/${project.slug}`} className="text-inherit no-underline block">
                     {project.title}
                   </a>
                 </h3>
-                <p
-                  style={{
-                                        fontSize: "clamp(12px,1.2vw,14px)",
-                    fontWeight: 500,
-                    lineHeight: 1.6,
-                    color: "#111",
-                    margin: "0 0 14px",
-                    flex: 1,
-                    display: "-webkit-box",
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                  }}
-                >
+                <p className="text-[clamp(12px,1.2vw,14px)] font-medium leading-[1.6] text-[#111] mb-3.5 flex-1 line-clamp-3">
                   {stripHtmlToText(project.description)}
                 </p>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
+                <div className="flex flex-wrap gap-2 mb-3.5">
                   {project.techStack.map((tech) => (
-                    <span key={tech.id} style={{ fontSize: "clamp(9px,1vw,11px)", fontWeight: 700, textTransform: "uppercase", color: "#111", border: "2px solid #111", padding: "3px 7px" }}>
+                    <span
+                      key={tech.id}
+                      className="text-[clamp(9px,1vw,11px)] font-bold uppercase tracking-[1px] text-[#111] border-2 border-[#111] px-1.5 py-0.5"
+                    >
                       {tech.name}
                     </span>
                   ))}
@@ -93,23 +72,12 @@ function ProjectLinks({ project }: { project: Project }) {
   if (links.length === 0) return null;
 
   return (
-    <div style={{ display: "flex", gap: 0, border: "3px solid #111" }}>
+    <div className="flex border-[3px] border-[#111]">
       {links.slice(0, 2).map((link, index) => (
         <a
           key={link.href}
           href={link.href}
-          style={{
-            flex: 1,
-            textAlign: "center",
-                        fontSize: "clamp(10px,1.1vw,12px)",
-            fontWeight: 700,
-            textTransform: "uppercase",
-            color: link.primary ? "#fff" : "#111",
-            background: link.primary ? "#1410ff" : "#ebe7d9",
-            padding: "clamp(8px,1vw,10px)",
-            textDecoration: "none",
-            borderLeft: index > 0 ? "3px solid #111" : undefined,
-          }}
+          className={`flex-1 text-center text-[clamp(10px,1.1vw,12px)] font-bold uppercase tracking-[1px] p-[clamp(8px,1vw,10px)] no-underline ${link.primary ? "text-white bg-[#1410ff]" : "text-[#111] bg-[#ebe7d9]"} ${index > 0 ? "border-l-[3px] border-[#111]" : ""}`}
         >
           {link.label} -&gt;
         </a>
