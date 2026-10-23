@@ -31,6 +31,10 @@ body {
   50% { opacity: 0.15; }
 }
 
+.prose {
+  font-family: var(--font-space-grotesk);
+}
+
 .home-hero {
   border-bottom: 4px solid #111;
   display: grid;
