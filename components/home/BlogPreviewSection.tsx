@@ -29,7 +29,7 @@ export function BlogPreviewSection({ posts, error }: BlogPreviewSectionProps) {
             <a
               className="home-blog-row"
               key={post.id}
-              href="/blog"
+              href={`/blog/${post.slug}`}
               style={{
                 borderBottom: index < items.length - 1 ? "3px solid #111" : undefined,
               }}
