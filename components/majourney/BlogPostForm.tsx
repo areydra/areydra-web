@@ -2,8 +2,10 @@
 
 import { Field, Select, TextInput } from "@/components/majourney/FormField";
 import ImageUploadField from "@/components/majourney/ImageUploadField";
-import RichTextEditor from "@/components/majourney/RichTextEditor";
 import type { BlogPostInput } from "@/lib/majourney/inputs";
+import { MDXEditorMethods } from "@mdxeditor/editor";
+import { useEffect, useRef } from "react";
+import { MarkdownEditor } from "../MarkdownEditor";
 
 type BlogPostFormProps = {
   mode: "add" | "edit";
@@ -14,6 +16,12 @@ type BlogPostFormProps = {
 };
 
 export default function BlogPostForm({ mode, form, setField, tagsText, onTagsTextChange }: BlogPostFormProps) {
+  const ref = useRef<MDXEditorMethods>(null)
+
+  useEffect(function initMarkdownEditor() {
+    ref.current?.getMarkdown()
+  }, []);
+
   return (
     <>
       <Field label="Title">
@@ -42,7 +50,11 @@ export default function BlogPostForm({ mode, form, setField, tagsText, onTagsTex
         />
       </div>
       <Field label="Content">
-        <RichTextEditor value={form.content} onChange={(html) => setField("content", html)} folder="blog" />
+        <MarkdownEditor
+          markdown={form.content}
+          className="border-[3px] border-[#111]"
+          onChange={(html) => setField("content", html)}
+        />
       </Field>
     </>
   );

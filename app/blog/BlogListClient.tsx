@@ -6,10 +6,10 @@ import { StatusStrip } from "@/components/StatusStrip";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { SectionState } from "@/components/home/SectionState";
-import { formatPostDate, initials } from "@/components/home/formatters";
+import { formatPostDate } from "@/components/home/formatters";
 import { pickBlogPalette } from "@/lib/blog-display";
 import type { BlogPost } from "@/lib/portfolio-api";
-import { sanitizeHtml } from "@/lib/majourney/html";
+import { MarkdownPreview } from "@/components/MarkdownPreview";
 
 const activeTagStyle = { fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: 1, color: "#fff", background: "#1410ff", border: "2px solid #111", padding: "8px 16px", cursor: "pointer" };
 const inactiveTagStyle = { fontSize: 12, fontWeight: 700, textTransform: "uppercase" as const, letterSpacing: 1, color: "#111", background: "#ebe7d9", border: "2px solid #111", padding: "8px 16px", cursor: "pointer" };
@@ -69,30 +69,27 @@ export function BlogListClient({ posts, error }: BlogListClientProps) {
                   href={`/blog/${post.slug}`}
                   style={{ background: "#fff", border: "3px solid #111", boxShadow: "6px 6px 0 #0a0a0a", display: "flex", flexDirection: "column", textDecoration: "none" }}
                 >
-                  <div
-                    style={{
-                      height: "clamp(90px,10vw,130px)",
-                      background: post.thumbnailUrl ? undefined : palette.bg,
-                      borderBottom: "3px solid #111",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      overflow: "hidden",
-                      ...(!post.thumbnailUrl && {
-                        fontSize: "clamp(32px,5vw,52px)",
-                        color: palette.fg,
-                        letterSpacing: -2,
-                        WebkitTextStroke: "1.5px #111",
-                      }),
-                    }}
-                  >
-                    {post.thumbnailUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element -- rendering an arbitrary uploaded/attached URL
+                  {post.thumbnailUrl && (
+                    <div
+                      style={{
+                        height: "clamp(90px,10vw,130px)",
+                        background: post.thumbnailUrl ? undefined : palette.bg,
+                        borderBottom: "3px solid #111",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        overflow: "hidden",
+                        ...(!post.thumbnailUrl && {
+                          fontSize: "clamp(32px,5vw,52px)",
+                          color: palette.fg,
+                          letterSpacing: -2,
+                          WebkitTextStroke: "1.5px #111",
+                        }),
+                      }}
+                    >
                       <img src={post.thumbnailUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    ) : (
-                      initials(post.title)
-                    )}
-                  </div>
+                    </div>
+                  )}
                   <div style={{ padding: "clamp(16px,2vw,22px)", display: "flex", flexDirection: "column", flex: 1 }}>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
                       {post.tags.map((t) => (
@@ -102,11 +99,7 @@ export function BlogListClient({ posts, error }: BlogListClientProps) {
                       ))}
                     </div>
                     <h2 style={{ fontSize: "clamp(16px,1.8vw,20px)", fontWeight: 800, color: "#111", margin: "0 0 10px", lineHeight: 1.25 }}>{post.title}</h2>
-                    <div
-                        className="rich-text-content"
-                        style={{ fontSize: "clamp(12px,1.2vw,14px)", fontWeight: 500, lineHeight: 1.6, color: "#111", margin: 0, flex: 1 }}
-                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.excerpt) }}
-                      />
+                    <MarkdownPreview markdown={post.excerpt}/>
                     <div style={{ fontSize: "clamp(10px,1.1vw,12px)", fontWeight: 700, textTransform: "uppercase", color: "#111", borderTop: "2px solid #111", marginTop: 16, paddingTop: 10 }}>
                       {formatPostDate(post.publishedAt)} · {post.timeToReadMinutes} min
                     </div>

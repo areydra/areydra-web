@@ -3,8 +3,8 @@ import { StatusStrip } from "@/components/StatusStrip";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { formatPostDate } from "@/components/home/formatters";
-import { sanitizeHtml } from "@/lib/majourney/html";
 import { getBlogPostBySlug } from "@/lib/portfolio-api";
+import { MarkdownPreview } from "@/components/MarkdownPreview";
 
 export default async function BlogDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -45,11 +45,7 @@ export default async function BlogDetail({ params }: { params: Promise<{ slug: s
             <img src={post.thumbnailUrl} alt="" style={{ width: "100%", display: "block" }} />
           </div>
         )}
-        <div
-          className="rich-text-content"
-          style={{ fontSize: "clamp(14px,1.5vw,17px)", fontWeight: 500, lineHeight: 1.8, color: "#111" }}
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
-        />
+        <MarkdownPreview markdown={post.content}/>
 
         <div style={{ border: "3px solid #111", background: "#c8ff00", boxShadow: "8px 8px 0 #111", padding: "clamp(20px,3vw,32px)", marginTop: 40 }}>
           <div style={{ fontSize: 24, textTransform: "uppercase", color: "#111", marginBottom: 10 }}>Enjoyed this?</div>

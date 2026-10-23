@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useAdminData } from "@/contexts/majourney/AdminDataContext";
 import { ApiError } from "@/lib/majourney/api-client";
-import { sanitizeHtml } from "@/lib/majourney/html";
+import { MarkdownPreview } from "@/components/MarkdownPreview";
 
 export default function AdminBlogPage() {
   const { blogPosts, deleteBlogPost, errors } = useAdminData();
@@ -54,14 +54,11 @@ export default function AdminBlogPage() {
               key={b.id}
               className="box-border flex h-full flex-col overflow-hidden border-[3px] border-[#111] bg-white shadow-[6px_6px_0_#111]"
             >
-              <div className="flex h-20 shrink-0 items-center justify-center overflow-hidden bg-[#111] px-3 text-center text-xs font-bold text-white">
-                {b.thumbnailUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- previewing an arbitrary uploaded URL
+              {b.thumbnailUrl && (
+                <div className="flex h-20 shrink-0 items-center justify-center overflow-hidden bg-[#111] px-3 text-center text-xs font-bold text-white">
                   <img src={b.thumbnailUrl} alt="" className="h-full w-full object-cover" />
-                ) : (
-                  "No thumbnail set"
-                )}
-              </div>
+                </div>
+              )}
               <div className="flex flex-1 flex-col p-4">
                 <div className="mb-1.5 flex flex-wrap items-center gap-2">
                   <h3 className="m-0 text-[15px] font-extrabold text-[#111]">{b.title}</h3>
@@ -73,10 +70,7 @@ export default function AdminBlogPage() {
                     {b.status}
                   </span>
                 </div>
-                <div
-                  className="m-0 mb-3 line-clamp-3 text-sm text-[#111]"
-                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(b.excerpt) }}
-                />
+                <MarkdownPreview markdown={b.excerpt}/>
                 <div className="mb-3.5 flex flex-wrap items-center gap-1.5">
                   {b.tags.map((tag) => (
                     <span
