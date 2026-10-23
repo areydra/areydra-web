@@ -35,6 +35,14 @@ body {
   font-family: var(--font-space-grotesk);
 }
 
+.mdx-preview-clean-view div[class*="codeBlockToolbar"] {
+  display: none !important;
+}
+
+.mdx-preview-clean-view div[class*="codeMirrorToolbar"] {
+  display: none !important;
+}
+
 .home-hero {
   border-bottom: 4px solid #111;
   display: grid;
