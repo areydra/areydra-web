@@ -1,5 +1,4 @@
 import type { SkillGroup } from "@/lib/portfolio-api";
-import { anton } from "@/components/fonts";
 
 type MarqueeSectionProps = {
   skillGroups: SkillGroup[] | null;
@@ -17,7 +16,6 @@ export function MarqueeSection({ skillGroups }: MarqueeSectionProps) {
           display: "inline-flex",
           whiteSpace: "nowrap",
           animation: "bmarquee 22s linear infinite",
-          ...anton,
           fontSize: "clamp(18px, 3vw, 30px)",
           textTransform: "uppercase",
           color: "#111",

@@ -1,22 +1,11 @@
 import type { Metadata } from "next";
-import { Anton, Archivo, Space_Mono } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const anton = Anton({
-  weight: "400",
+const spaceGrotesk = Space_Grotesk({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-anton",
-});
-
-const archivo = Archivo({
-  subsets: ["latin"],
-  variable: "--font-archivo",
-});
-
-const spaceMono = Space_Mono({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-space-mono",
+  variable: "--font-space-grotesk",
 });
 
 export const metadata: Metadata = {
@@ -31,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${anton.variable} ${archivo.variable} ${spaceMono.variable}`}>{children}</body>
+      <body className={`${spaceGrotesk.variable}`}>{children}</body>
     </html>
   );
 }

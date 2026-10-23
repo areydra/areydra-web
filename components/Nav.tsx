@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { anton, mono } from "./fonts";
 
 const NAV_ITEMS = ["About", "Skills", "Work", "Projects", "Blog", "Contact"];
 
@@ -49,7 +48,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
         <a href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", borderRight: "4px solid #111", flexShrink: 0 }}>
           <span
             style={{
-              ...anton,
               background: "#1410ff",
               color: "#fff",
               fontSize: "clamp(22px, 3.5vw, 30px)",
@@ -62,7 +60,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
           </span>
           <span
             style={{
-              ...anton,
               fontSize: "clamp(16px, 2.5vw, 24px)",
               color: "#111",
               padding: "0 clamp(10px, 2vw, 18px)",
@@ -79,7 +76,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
             display: "flex",
             alignItems: "center",
             padding: "0 clamp(14px, 2vw, 24px)",
-            ...mono,
             fontSize: "clamp(11px, 1.2vw, 13px)",
             fontWeight: 700,
             textTransform: "uppercase",
@@ -115,7 +111,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
         <a href={logoHref} style={{ display: "flex", alignItems: "center", textDecoration: "none", borderRight: "4px solid #111", flexShrink: 0 }}>
           <span
             style={{
-              ...anton,
               background: "#1410ff",
               color: "#fff",
               fontSize: "clamp(22px, 3.5vw, 30px)",
@@ -128,7 +123,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
           </span>
           <span
             style={{
-              ...anton,
               fontSize: "clamp(16px, 2.5vw, 24px)",
               color: "#111",
               padding: "0 clamp(10px, 2vw, 18px)",
@@ -151,7 +145,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
                 display: "flex",
                 alignItems: "center",
                 padding: "0 clamp(10px, 1.5vw, 20px)",
-                ...mono,
                 fontSize: "clamp(10px, 1.2vw, 13px)",
                 fontWeight: 700,
                 textTransform: "uppercase",
@@ -173,7 +166,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
               style={{
                 cursor: "pointer",
                 padding: "0 clamp(10px, 1.5vw, 20px)",
-                ...mono,
                 fontSize: "clamp(10px, 1.2vw, 13px)",
                 fontWeight: 700,
                 textTransform: "uppercase",
@@ -200,7 +192,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
               style={{
                 cursor: "pointer",
                 padding: "0 14px",
-                ...mono,
                 fontSize: 11,
                 fontWeight: 700,
                 textTransform: "uppercase",
@@ -219,7 +210,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
             style={{
               cursor: "pointer",
               padding: "0 18px",
-              ...anton,
               fontSize: 26,
               color: "#111",
               background: "#ebe7d9",
@@ -257,7 +247,6 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
               style={{
                 display: "block",
                 padding: "18px 24px",
-                ...anton,
                 fontSize: 28,
                 textTransform: "uppercase",
                 color: "#111",

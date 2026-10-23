@@ -1,5 +1,4 @@
 import type { WorkHistory } from "@/lib/portfolio-api";
-import { anton, archivo, mono } from "@/components/fonts";
 import { sanitizeHtml } from "@/lib/majourney/html";
 import { formatWorkPeriod } from "./formatters";
 import { SectionState } from "./SectionState";
@@ -15,8 +14,8 @@ export function WorkHistorySection({ jobs, error }: WorkHistorySectionProps) {
   return (
     <section id="work" style={{ borderBottom: "4px solid #111" }}>
       <div style={{ padding: "clamp(24px,5vw,64px) clamp(24px,5vw,64px) 0" }}>
-        <div style={{ ...mono, fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#1410ff", marginBottom: 12 }}>[ 03 ] Work History</div>
-        <h2 style={{ ...anton, fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#111", margin: "0 0 clamp(24px,4vw,40px)", letterSpacing: -0.5 }}>
+        <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#1410ff", marginBottom: 12 }}>[ 03 ] Work History</div>
+        <h2 style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#111", margin: "0 0 clamp(24px,4vw,40px)", letterSpacing: -0.5 }}>
           Where I&apos;ve Worked
         </h2>
       </div>
@@ -38,8 +37,7 @@ export function WorkHistorySection({ jobs, error }: WorkHistorySectionProps) {
           >
             <div
               style={{
-                ...anton,
-                fontSize: "clamp(32px, 5vw, 80px)",
+                                fontSize: "clamp(32px, 5vw, 80px)",
                 color: "#1410ff",
                 lineHeight: "0.8",
                 WebkitTextStroke: "clamp(1px,0.3vw,2px) #111",
@@ -51,16 +49,16 @@ export function WorkHistorySection({ jobs, error }: WorkHistorySectionProps) {
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div className="home-work-heading">
-                <h3 style={{ ...archivo, fontSize: "clamp(17px,2.2vw,30px)", fontWeight: 900, textTransform: "uppercase", color: "#111", margin: 0 }}>{job.role}</h3>
+                <h3 style={{ fontSize: "clamp(17px,2.2vw,30px)", fontWeight: 900, textTransform: "uppercase", color: "#111", margin: 0 }}>{job.role}</h3>
                 <div className="home-work-period">{formatWorkPeriod(job.startMonth, job.startYear, job.endMonth, job.endYear)}</div>
               </div>
-              <div style={{ ...mono, fontSize: "clamp(13px,1.4vw,15px)", fontWeight: 700, color: "#1410ff" }}>
+              <div style={{ fontSize: "clamp(13px,1.4vw,15px)", fontWeight: 700, color: "#1410ff" }}>
                 {job.company}
                 {job.status ? ` - ${job.status.replace(/_/g, " ")}` : ""}
               </div>
               <div
                 className="rich-text-content"
-                style={{ ...archivo, fontSize: "clamp(13px,1.3vw,15px)", fontWeight: 500, lineHeight: 1.6, color: "#111", margin: "12px 0 0" }}
+                style={{ fontSize: "clamp(13px,1.3vw,15px)", fontWeight: 500, lineHeight: 1.6, color: "#111", margin: "12px 0 0" }}
                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(job.description) }}
               />
             </div>

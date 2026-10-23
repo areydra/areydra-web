@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { mono } from "./fonts";
 
 export function StatusStrip({ right = "BOGOR, ID" }: { right?: ReactNode }) {
   return (
@@ -7,7 +6,6 @@ export function StatusStrip({ right = "BOGOR, ID" }: { right?: ReactNode }) {
       style={{
         background: "#111",
         color: "#ebe7d9",
-        ...mono,
         fontSize: "clamp(10px, 1.2vw, 12px)",
         fontWeight: 700,
         letterSpacing: 1,

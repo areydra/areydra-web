@@ -1,5 +1,3 @@
-import { anton, mono } from "./fonts";
-
 const socialLinks = [
   { label: "GitHub", href: "https://github.com/areydra" },
   { label: "LinkedIn", href: "https://linkedin.com/in/areydra" },
@@ -21,7 +19,7 @@ export function Footer({ subpage = false }: { subpage?: boolean }) {
         borderTop: subpage ? "4px solid #111" : undefined,
       }}
     >
-      <span style={{ ...anton, fontSize: "clamp(24px,4vw,38px)", textTransform: "uppercase", color: "#ebe7d9", letterSpacing: 1 }}>
+      <span style={{ fontSize: "clamp(24px,4vw,38px)", textTransform: "uppercase", color: "#ebe7d9", letterSpacing: 1 }}>
         AREYDRA<span style={{ color: "#c8ff00" }}>.</span>
       </span>
       {!subpage && (
@@ -31,7 +29,6 @@ export function Footer({ subpage = false }: { subpage?: boolean }) {
               key={link.label}
               href={link.href}
               style={{
-                ...mono,
                 fontSize: "clamp(10px,1.1vw,12px)",
                 fontWeight: 700,
                 textTransform: "uppercase",
@@ -49,7 +46,7 @@ export function Footer({ subpage = false }: { subpage?: boolean }) {
           ))}
         </div>
       )}
-      <span style={{ ...mono, fontSize: "clamp(9px,1vw,12px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, opacity: 0.6 }}>Bogor, ID — © 2026</span>
+      <span style={{ fontSize: "clamp(9px,1vw,12px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, opacity: 0.6 }}>Bogor, ID — © 2026</span>
     </footer>
   );
 }

@@ -1,5 +1,4 @@
 import type { Project } from "@/lib/portfolio-api";
-import { anton, archivo, mono } from "@/components/fonts";
 import { stripHtmlToText } from "@/lib/majourney/html";
 import { initials } from "./formatters";
 import { SectionState } from "./SectionState";
@@ -16,8 +15,8 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
     <section id="projects" style={{ padding: "clamp(24px,5vw,64px)", borderBottom: "4px solid #111", background: "#1410ff" }}>
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: "clamp(24px,4vw,40px)" }}>
         <div>
-          <div style={{ ...mono, fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#c8ff00", marginBottom: 12 }}>[ 04 ] Portfolio</div>
-          <h2 style={{ ...anton, fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#ebe7d9", margin: 0, letterSpacing: -0.5 }}>Featured Projects</h2>
+          <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#c8ff00", marginBottom: 12 }}>[ 04 ] Portfolio</div>
+          <h2 style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#ebe7d9", margin: 0, letterSpacing: -0.5 }}>Featured Projects</h2>
         </div>
       </div>
       {error ? (
@@ -34,7 +33,6 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  ...anton,
                   fontSize: "clamp(36px, 6vw, 60px)",
                   color: "#111",
                   letterSpacing: -2,
@@ -43,15 +41,14 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
                 {initials(project.title)}
               </div>
               <div style={{ padding: "clamp(16px,2vw,22px)", display: "flex", flexDirection: "column", flex: 1 }}>
-                <h3 style={{ ...archivo, fontSize: "clamp(16px,1.8vw,21px)", fontWeight: 900, textTransform: "uppercase", color: "#111", margin: "0 0 8px" }}>
+                <h3 style={{ fontSize: "clamp(16px,1.8vw,21px)", fontWeight: 900, textTransform: "uppercase", color: "#111", margin: "0 0 8px" }}>
                   <a href={`/projects/${project.slug}`} style={{ color: "inherit", textDecoration: "none", display: "block" }}>
                     {project.title}
                   </a>
                 </h3>
                 <p
                   style={{
-                    ...archivo,
-                    fontSize: "clamp(12px,1.2vw,14px)",
+                                        fontSize: "clamp(12px,1.2vw,14px)",
                     fontWeight: 500,
                     lineHeight: 1.6,
                     color: "#111",
@@ -67,7 +64,7 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
                 </p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
                   {project.techStack.map((tech) => (
-                    <span key={tech.id} style={{ ...mono, fontSize: "clamp(9px,1vw,11px)", fontWeight: 700, textTransform: "uppercase", color: "#111", border: "2px solid #111", padding: "3px 7px" }}>
+                    <span key={tech.id} style={{ fontSize: "clamp(9px,1vw,11px)", fontWeight: 700, textTransform: "uppercase", color: "#111", border: "2px solid #111", padding: "3px 7px" }}>
                       {tech.name}
                     </span>
                   ))}
@@ -103,8 +100,7 @@ function ProjectLinks({ project }: { project: Project }) {
           style={{
             flex: 1,
             textAlign: "center",
-            ...mono,
-            fontSize: "clamp(10px,1.1vw,12px)",
+                        fontSize: "clamp(10px,1.1vw,12px)",
             fontWeight: 700,
             textTransform: "uppercase",
             color: link.primary ? "#fff" : "#111",
