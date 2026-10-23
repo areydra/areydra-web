@@ -33,8 +33,9 @@ export function HeroSection({ profile }: HeroSectionProps) {
           {role}
         </div>
         <h1
+          className="font-anton"
           style={{
-                        fontSize: "clamp(52px, 11vw, 168px)",
+            fontSize: "clamp(52px, 11vw, 168px)",
             lineHeight: "0.82",
             letterSpacing: -1,
             color: "#111",
@@ -97,8 +98,9 @@ export function HeroSection({ profile }: HeroSectionProps) {
                 }}
               />
               <span
+                className="font-anton"
                 style={{
-                                    fontSize: "clamp(80px, 15vw, 220px)",
+                  fontSize: "clamp(80px, 15vw, 220px)",
                   color: "#c8ff00",
                   lineHeight: "1",
                   position: "relative",
@@ -123,7 +125,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
 function MiniStat({ value, label, last = false }: { value: string; label: string; last?: boolean }) {
   return (
     <div style={{ padding: "clamp(16px,2vw,22px)", borderRight: last ? undefined : "3px solid #111" }}>
-      <div style={{ fontSize: "clamp(36px,4.5vw,54px)", color: "#111", lineHeight: "0.9" }}>{value}</div>
+      <div className="font-anton" style={{ fontSize: "clamp(36px,4.5vw,54px)", color: "#111", lineHeight: "0.9" }}>{value}</div>
       <div style={{ fontSize: "clamp(10px,1vw,12px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#111", marginTop: 4 }}>{label}</div>
     </div>
   );

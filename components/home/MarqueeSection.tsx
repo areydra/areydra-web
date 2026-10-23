@@ -21,6 +21,7 @@ export function MarqueeSection({ skillGroups }: MarqueeSectionProps) {
           color: "#111",
           letterSpacing: 1,
         }}
+        className="font-anton"
       >
         <span style={{ padding: "0 20px" }}>{label}</span>
         <span style={{ padding: "0 20px" }} aria-hidden="true">

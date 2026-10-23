@@ -15,7 +15,7 @@ export function WorkHistorySection({ jobs, error }: WorkHistorySectionProps) {
     <section id="work" style={{ borderBottom: "4px solid #111" }}>
       <div style={{ padding: "clamp(24px,5vw,64px) clamp(24px,5vw,64px) 0" }}>
         <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#1410ff", marginBottom: 12 }}>[ 03 ] Work History</div>
-        <h2 style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#111", margin: "0 0 clamp(24px,4vw,40px)", letterSpacing: -0.5 }}>
+        <h2 className="font-anton" style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#111", margin: "0 0 clamp(24px,4vw,40px)", letterSpacing: -0.5 }}>
           Where I&apos;ve Worked
         </h2>
       </div>
@@ -36,8 +36,9 @@ export function WorkHistorySection({ jobs, error }: WorkHistorySectionProps) {
             }}
           >
             <div
+              className="font-anton"
               style={{
-                                fontSize: "clamp(32px, 5vw, 80px)",
+                fontSize: "clamp(32px, 5vw, 80px)",
                 color: "#1410ff",
                 lineHeight: "0.8",
                 WebkitTextStroke: "clamp(1px,0.3vw,2px) #111",

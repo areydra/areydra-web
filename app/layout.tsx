@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Anton, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+
+const anton = Anton({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-anton",
+});
 
 const spaceGrotesk = Space_Grotesk({
   weight: ["400", "500", "600", "700"],
@@ -20,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${spaceGrotesk.variable}`}>{children}</body>
+      <body className={`${spaceGrotesk.variable} ${anton.variable}`}>{children}</body>
     </html>
   );
 }

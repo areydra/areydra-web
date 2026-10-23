@@ -28,7 +28,7 @@ export function StatsSection({ profile, skillGroups, workHistory }: StatsSection
     >
       {stats.map((stat) => (
         <div key={stat.label} style={{ background: "#ebe7d9", padding: "clamp(20px,3vw,34px) clamp(14px,3vw,40px)" }}>
-          <div style={{ fontSize: "clamp(36px,5vw,72px)", color: "#1410ff", lineHeight: "0.9", WebkitTextStroke: "clamp(1px,0.2vw,2px) #111" }}>{stat.val}</div>
+          <div className="font-anton" style={{ fontSize: "clamp(36px,5vw,72px)", color: "#1410ff", lineHeight: "0.9", WebkitTextStroke: "clamp(1px,0.2vw,2px) #111" }}>{stat.val}</div>
           <div style={{ fontSize: "clamp(10px,1vw,12px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "#111", marginTop: 8 }}>{stat.label}</div>
         </div>
       ))}

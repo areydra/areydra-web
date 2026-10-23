@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --font-anton: var(--font-anton);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -25,11 +29,6 @@ body {
 @keyframes bblink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.15; }
-}
-
-.prose {
-  font-family: var(--font-space-grotesk), system-ui, sans-serif;
-  font-weight: 200;
 }
 
 .home-hero {

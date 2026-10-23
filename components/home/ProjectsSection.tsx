@@ -16,7 +16,7 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: "clamp(24px,4vw,40px)" }}>
         <div>
           <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#c8ff00", marginBottom: 12 }}>[ 04 ] Portfolio</div>
-          <h2 style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#ebe7d9", margin: 0, letterSpacing: -0.5 }}>Featured Projects</h2>
+          <h2 className="font-anton" style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#ebe7d9", margin: 0, letterSpacing: -0.5 }}>Featured Projects</h2>
         </div>
       </div>
       {error ? (
@@ -37,6 +37,7 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
                   color: "#111",
                   letterSpacing: -2,
                 }}
+                className="font-anton"
               >
                 {initials(project.title)}
               </div>

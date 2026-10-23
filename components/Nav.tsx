@@ -47,6 +47,7 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
       >
         <a href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none", borderRight: "4px solid #111", flexShrink: 0 }}>
           <span
+            className="font-anton"
             style={{
               background: "#1410ff",
               color: "#fff",
@@ -59,6 +60,7 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
             AR
           </span>
           <span
+            className="font-anton"
             style={{
               fontSize: "clamp(16px, 2.5vw, 24px)",
               color: "#111",
@@ -110,6 +112,7 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
       >
         <a href={logoHref} style={{ display: "flex", alignItems: "center", textDecoration: "none", borderRight: "4px solid #111", flexShrink: 0 }}>
           <span
+            className="font-anton"
             style={{
               background: "#1410ff",
               color: "#fff",
@@ -122,6 +125,7 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
             AR
           </span>
           <span
+            className="font-anton"
             style={{
               fontSize: "clamp(16px, 2.5vw, 24px)",
               color: "#111",
@@ -217,6 +221,7 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
               borderLeft: "4px solid #111",
               lineHeight: "1",
             }}
+            className="font-anton"
           >
             {menuOpen ? "✕" : "☰"}
           </button>
@@ -253,6 +258,7 @@ export function Nav({ variant, isMobile = false, showInvertToggle = false, inver
                 textDecoration: "none",
                 borderBottom: i < arr.length - 1 ? "3px solid #111" : undefined,
               }}
+              className="font-anton"
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "#c8ff00")}
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "transparent")}
             >

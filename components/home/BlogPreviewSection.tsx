@@ -15,7 +15,7 @@ export function BlogPreviewSection({ posts, error }: BlogPreviewSectionProps) {
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, marginBottom: "clamp(24px,4vw,40px)" }}>
         <div>
           <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#1410ff", marginBottom: 12 }}>[ 05 ] Writing</div>
-          <h2 style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#111", margin: 0, letterSpacing: -0.5 }}>From The Blog</h2>
+          <h2 className="font-anton" style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#111", margin: 0, letterSpacing: -0.5 }}>From The Blog</h2>
         </div>
         <a className="home-outline-link" href="/blog">
           All Posts -&gt;
@@ -34,7 +34,7 @@ export function BlogPreviewSection({ posts, error }: BlogPreviewSectionProps) {
                 borderBottom: index < items.length - 1 ? "3px solid #111" : undefined,
               }}
             >
-              <div style={{ fontSize: "clamp(24px,3vw,32px)", color: "#1410ff", lineHeight: "0.9", WebkitTextStroke: "1.5px #111", minWidth: 50, flexShrink: 0 }}>{String(index + 1).padStart(2, "0")}</div>
+              <div className="font-anton" style={{ fontSize: "clamp(24px,3vw,32px)", color: "#1410ff", lineHeight: "0.9", WebkitTextStroke: "1.5px #111", minWidth: 50, flexShrink: 0 }}>{String(index + 1).padStart(2, "0")}</div>
               <div style={{ flex: 1, minWidth: 200 }}>
                 <h3 style={{ fontSize: "clamp(15px,1.8vw,22px)", fontWeight: 800, color: "#111", margin: "0 0 8px", lineHeight: 1.2 }}>{post.title}</h3>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>

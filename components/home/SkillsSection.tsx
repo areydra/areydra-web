@@ -12,7 +12,7 @@ export function SkillsSection({ skillGroups, error }: SkillsSectionProps) {
   return (
     <section id="skills" style={{ padding: "clamp(24px, 5vw, 64px)", borderBottom: "4px solid #111" }}>
       <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#1410ff", marginBottom: 12 }}>[ 02 ] Technical Skills</div>
-      <h2 style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#111", margin: "0 0 clamp(24px,4vw,40px)", letterSpacing: -0.5 }}>The Stack</h2>
+      <h2 className="font-anton" style={{ fontSize: "clamp(28px,4.5vw,68px)", lineHeight: "0.92", textTransform: "uppercase", color: "#111", margin: "0 0 clamp(24px,4vw,40px)", letterSpacing: -0.5 }}>The Stack</h2>
       {error ? (
         <SectionState title="Skills unavailable" message={error} />
       ) : groups.length > 0 ? (

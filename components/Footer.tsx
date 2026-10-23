@@ -19,7 +19,10 @@ export function Footer({ subpage = false }: { subpage?: boolean }) {
         borderTop: subpage ? "4px solid #111" : undefined,
       }}
     >
-      <span style={{ fontSize: "clamp(24px,4vw,38px)", textTransform: "uppercase", color: "#ebe7d9", letterSpacing: 1 }}>
+      <span
+        style={{ fontSize: "clamp(24px,4vw,38px)", textTransform: "uppercase", color: "#ebe7d9", letterSpacing: 1 }}
+        className="font-anton"
+      >
         AREYDRA<span style={{ color: "#c8ff00" }}>.</span>
       </span>
       {!subpage && (

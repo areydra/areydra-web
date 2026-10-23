@@ -14,6 +14,7 @@ export function AboutSection({ profile, error }: AboutSectionProps) {
       <div className="home-about__copy">
         <div style={{ fontSize: "clamp(10px,1.2vw,13px)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 2, color: "#1410ff", marginBottom: 14 }}>[ 01 ] About Me</div>
         <h2
+          className="font-anton"
           style={{
             fontSize: "clamp(28px, 4.5vw, 68px)",
             lineHeight: "0.92",
@@ -49,6 +50,7 @@ export function AboutSection({ profile, error }: AboutSectionProps) {
                   lineHeight: "1",
                   WebkitTextStroke: index === 2 ? undefined : "1.5px #111",
                 }}
+                className="font-anton"
               >
                 {String(index + 1).padStart(2, "0")}
               </div>
