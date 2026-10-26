@@ -1,4 +1,14 @@
 // next.config.mjs
+
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+const connectSrc = [
+  "'self'",
+  'https://*.r2.cloudflarestorage.com',
+  'https://*.cloudflarestorage.com',
+  ...(apiBaseUrl ? [apiBaseUrl.replace(/\/$/, '')] : []),
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async headers() {
@@ -15,7 +25,7 @@ const nextConfig = {
               "img-src 'self' data: blob: https://assets.areydra.com https://*.r2.cloudflarestorage.com https://*.cloudflarestorage.com",
               "font-src 'self' https://fonts.gstatic.com",
               "media-src 'self' https://assets.areydra.com https://*.r2.cloudflarestorage.com",
-              "connect-src 'self' https://api.areydra.com https://*.r2.cloudflarestorage.com https://*.cloudflarestorage.com",
+              `connect-src ${connectSrc.join(' ')}`,
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",
