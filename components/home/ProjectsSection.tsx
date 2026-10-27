@@ -26,38 +26,54 @@ export function ProjectsSection({ projects, error }: ProjectsSectionProps) {
       ) : items.length > 0 ? (
         <div className="home-project-grid">
           {items.map((project) => (
-            <div key={project.id} className="bg-[#ebe7d9] border-[3px] border-[#111] shadow-[6px_6px_0_#0a0a0a] flex flex-col">
-              <div className="font-anton h-[clamp(100px,12vw,150px)] bg-[#c8ff00] border-b-[3px] border-[#111] flex items-center justify-center text-[clamp(36px,6vw,60px)] text-[#111] tracking-[-2px]">
-                {initials(project.title)}
+            <a href={`/projects/${project.slug}`} key={project.id} className="bg-[#ebe7d9] border-[3px] border-[#111] shadow-[6px_6px_0_#0a0a0a] flex flex-col hover:cursor-pointer">
+              <div className="font-anton h-[clamp(100px,12vw,150px)] bg-[#c8ff00] border-b-[3px] border-[#111] flex items-center justify-center text-[clamp(36px,6vw,60px)] text-[#111] tracking-[-2px] py-1">
+                <img src={project.thumbnailUrl as string} alt="" className="h-full w-full object-contain" />
               </div>
               <div className="p-[clamp(16px,2vw,22px)] flex flex-col flex-1">
                 <h3 className="text-[clamp(16px,1.8vw,21px)] font-black uppercase text-[#111] mb-2">
-                  <a href={`/projects/${project.slug}`} className="text-inherit no-underline block">
+                  <p className="text-inherit no-underline block">
                     {project.title}
-                  </a>
+                  </p>
                 </h3>
                 <p className="text-[clamp(12px,1.2vw,14px)] font-medium leading-[1.6] text-[#111] mb-3.5 flex-1 line-clamp-3">
                   {stripHtmlToText(project.description)}
                 </p>
-                <div className="flex flex-wrap gap-2 mb-3.5">
-                  {project.techStack.map((tech) => (
-                    <span
-                      key={tech.id}
-                      className="text-[clamp(9px,1vw,11px)] font-bold uppercase tracking-[1px] text-[#111] border-2 border-[#111] px-1.5 py-0.5"
-                    >
-                      {tech.name}
-                    </span>
-                  ))}
-                </div>
-                <ProjectLinks project={project} />
+                <ProjectTechStack techStack={project.techStack} />
               </div>
-            </div>
+            </a>
           ))}
         </div>
       ) : (
         <SectionState tone="dark" title="No projects" message="No featured projects have been published yet." />
       )}
     </section>
+  );
+}
+
+function ProjectTechStack({ techStack }: { techStack: Project["techStack"] }) {
+  // Keep the chips to 2 rows (3 per row inside the 3-column card grid).
+  const maxTech = 6;
+  const hasMore = techStack.length > maxTech;
+  const visible = techStack.slice(0, hasMore ? maxTech - 1 : maxTech);
+  const hiddenCount = techStack.length - visible.length;
+
+  return (
+    <div className="flex flex-wrap gap-2 mb-3.5">
+      {visible.map((tech) => (
+        <span
+          key={tech.id}
+          className="text-[clamp(9px,1vw,11px)] font-bold uppercase tracking-[1px] text-[#111] border-2 border-[#111] px-1.5 py-0.5 whitespace-nowrap"
+        >
+          {tech.name}
+        </span>
+      ))}
+      {hiddenCount > 0 && (
+        <span className="text-[clamp(9px,1vw,11px)] font-bold uppercase tracking-[1px] text-[#ebe7d9] bg-[#111] border-2 border-[#111] px-1.5 py-0.5 whitespace-nowrap">
+          +{hiddenCount} more
+        </span>
+      )}
+    </div>
   );
 }
 
