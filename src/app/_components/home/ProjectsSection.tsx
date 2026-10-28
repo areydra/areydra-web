@@ -57,7 +57,7 @@ const ProjectsSection = ({ projects, error }: ProjectsSectionProps) => {
                 <h3 className="mb-2 text-[clamp(16px,1.8vw,21px)] font-black text-ink uppercase">
                   {project.title}
                 </h3>
-                <p className="mb-3.5 line-clamp-3 flex-1 text-[clamp(12px,1.2vw,14px)] leading-[1.6] font-medium text-ink">
+                <p className="mb-3.5 line-clamp-3 text-[clamp(12px,1.2vw,14px)] leading-[1.6] font-medium text-ink">
                   {stripHtmlToText(project.description)}
                 </p>
                 <ProjectTechStack techStack={project.techStack} />
@@ -83,7 +83,7 @@ const ProjectTechStack = ({ techStack }: ProjectTechStackProps) => {
   const hiddenCount = techStack.length - visible.length;
 
   return (
-    <div className="mb-3.5 flex flex-wrap gap-2">
+    <div className="mb-3.5 mt-auto flex flex-wrap gap-2">
       {visible.map((tech) => (
         <span
           key={tech.id}

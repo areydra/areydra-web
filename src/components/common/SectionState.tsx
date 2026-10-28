@@ -22,7 +22,7 @@ const SectionState = ({ tone = "light", title, message }: SectionStateProps) => 
       )}
     >
       <div className="mb-2 text-xs font-bold uppercase tracking-[1px]">{title}</div>
-      <p className="m-0 text-sm leading-[1.6] font-semibold">{message}</p>
+      <p className="m-0 text-sm leading-[1.6] font-semibold line-clamp-3">{message}</p>
     </div>
   );
 };
