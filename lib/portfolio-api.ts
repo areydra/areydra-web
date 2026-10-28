@@ -31,10 +31,10 @@ export type {
 } from "./api-types";
 
 async function fetchJson<T>(path: string): Promise<ApiResult<T>> {
-  // NEXT_PUBLIC_ because the same value is also read client-side by the
-  // majourney admin panel (lib/majourney/api-client.ts) — no secret lives
-  // here, just the backend's base URL, so one var covers both runtimes.
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  // Server-side requests run inside the web container, where the backend is
+  // reachable by its compose service name (API_BASE_URL). Browser-side code
+  // (majourney admin panel) uses the host-reachable NEXT_PUBLIC_ URL instead.
+  const baseUrl = process.env.API_BASE_URL ?? process.env.NEXT_PUBLIC_API_BASE_URL;
 
   if (!baseUrl) {
     return {
