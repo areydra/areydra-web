@@ -3,17 +3,9 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+import { ADMIN_TABS as TABS } from "@/constants/nav";
 import { cn } from "@/lib/cn";
 import { useAdminAuth } from "@/providers/majourney/AdminAuthProvider";
-
-const TABS = [
-  { href: "/majourney/profile", label: "Profile" },
-  { href: "/majourney/skills", label: "Skills" },
-  { href: "/majourney/work-history", label: "Work History" },
-  { href: "/majourney/projects", label: "Projects" },
-  { href: "/majourney/blog", label: "Blog" },
-  { href: "/majourney/home-config", label: "Home Config" },
-];
 
 const AdminHeader = () => {
   const pathname = usePathname();

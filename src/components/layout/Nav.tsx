@@ -3,9 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { NAV_ITEMS } from "@/constants/nav";
 import { cn } from "@/lib/cn";
-
-const NAV_ITEMS = ["About", "Skills", "Work", "Projects", "Blog", "Contact"];
 
 type NavVariant = "home" | "subpage" | "detail";
 

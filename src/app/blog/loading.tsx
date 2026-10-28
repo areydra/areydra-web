@@ -1,5 +1,5 @@
-import RouteLoading from "@/components/common/RouteLoading";
+import BlogListSkeleton from "./_components/BlogListSkeleton";
 
 export default function BlogLoading() {
-  return <RouteLoading label="Loading the blog" />;
+  return <BlogListSkeleton />;
 }

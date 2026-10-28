@@ -7,6 +7,7 @@ import { useAdminAuth } from "@/providers/majourney/AdminAuthProvider";
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 
 import AdminHeader from "./AdminHeader";
+import AdminLoadingSkeleton from "./AdminSkeletons";
 
 const LOGIN_PATH = "/majourney/login";
 const DEFAULT_PATH = "/majourney/profile";
@@ -34,25 +35,21 @@ const AdminGate = ({ children }: { children: ReactNode }) => {
     <div className="min-h-screen bg-paper">
       <AdminHeader />
       <main id="main-content" className="mx-auto box-border max-w-270 p-8">
-        <AdminContent>{children}</AdminContent>
+        <AdminContent pathname={pathname}>{children}</AdminContent>
       </main>
     </div>
   );
 };
 
-const AdminContent = ({ children }: { children: ReactNode }) => {
+const AdminContent = ({ pathname, children }: { pathname: string; children: ReactNode }) => {
   const { loading } = useAdminData();
 
   // A load failure on one section (e.g. the profile singleton not existing yet
   // on a fresh database) must not block the rest of the panel — each page
   // surfaces its own section's error. Only an in-flight initial fetch gates
-  // rendering here.
+  // rendering here, and it shows the shape of the page it is about to render.
   if (loading) {
-    return (
-      <p role="status" className="text-sm font-semibold text-ink">
-        Loading…
-      </p>
-    );
+    return <AdminLoadingSkeleton pathname={pathname} />;
   }
 
   return <>{children}</>;

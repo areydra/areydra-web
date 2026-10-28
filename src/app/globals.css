@@ -16,6 +16,11 @@
   --color-danger: #ff3b30;
   --color-danger-text: #dc2626;
   --color-overlay: rgb(15 23 42 / 0.5);
+
+  /* Skeleton surface: one placeholder tone for every loading block, derived
+     from the paper palette so a skeleton never reads as real content. Defined
+     once here — components use `bg-skeleton`, never a raw colour. */
+  --color-skeleton: #d9d2be;
 }
 
 *,
