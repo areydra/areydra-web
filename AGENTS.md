@@ -6,14 +6,17 @@ fork the convention into a local copy.
 
 Gates that must pass before any change is done:
 
+**Package manager: Yarn classic (1.22), pinned in `package.json` → `packageManager`.** `yarn.lock` is
+the only lockfile — there is no `pnpm-lock.yaml`, no `package-lock.json`, no npm/pnpm scripts.
+
 ```bash
-npm run verify            # typecheck → lint → format:check → test → build
-npm run verify:security   # secrets → npm audit → security headers (headers need SECURITY_BASE_URL)
+yarn verify            # typecheck → lint → format:check → test → build
+yarn verify:security   # secrets → yarn audit (prod deps) → security headers
 ```
 
-`SECURITY_BASE_URL=http://127.0.0.1:3000` against a running `npm run start` adds the header and
-nonce-coverage check. CI (`.github/workflows/verify.yml`) runs both, the header check against the
-real production build.
+`SECURITY_BASE_URL=http://127.0.0.1:3000` against a running `yarn start` adds the header and
+nonce-coverage check. CI (`.github/workflows/verify.yml`) runs `yarn install --frozen-lockfile` and
+both gates, the header check against the real production build.
 
 ## Project overrides
 
@@ -53,8 +56,9 @@ These deviate from the generic pattern on purpose. Do not "fix" them back withou
   own `src/app/_components`, which is legal. `*/**` blocks cross-route imports at every depth and
   leaves the own-folder case clean.
 - **`eslint-plugin-import` (+ the TypeScript resolver) instead of `eslint-plugin-import-x`.** Same
-  `order` rule; swapping it would mean hand-editing `pnpm-lock.yaml` while pnpm is not installed on
-  this box. `settings["import/resolver"]` is what makes `@/…` resolve, so the ordering rule is real.
+  `order` rule; the swap is a dependency change and belongs in its own commit, not inside a
+  convention refactor. `settings["import/resolver"]` is what makes `@/…` resolve, so the ordering
+  rule is real either way.
 - **Image hosts are a pair.** `img-src` in `src/proxy.ts`'s CSP and `images.remotePatterns` in
   `next.config.mjs` must list the same hosts. Adding an upload host means editing both, or
   `next/image` rejects a URL the CSP already allows. The CSP itself lives in `src/proxy.ts` (it needs

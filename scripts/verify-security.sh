@@ -17,10 +17,12 @@ bash "$here/check-secrets.sh" || fail=1
 
 step "dependencies"
 level="${AUDIT_LEVEL:-high}"
-if [ -f pnpm-lock.yaml ] || [ -f package-lock.json ]; then
-  npm audit --omit=dev --audit-level="$level" || fail=1
+if [ -f yarn.lock ]; then
+  # Yarn 1 audits the tree from yarn.lock; `--groups dependencies` is the
+  # equivalent of npm's `--omit=dev`, so a dev-only advisory cannot fail the gate.
+  yarn audit --groups dependencies --level="$level" || fail=1
 else
-  echo "SKIP no lockfile — a gate needs a lockfile to audit"
+  echo "SKIP no yarn.lock — a gate needs a lockfile to audit"
   fail=1
 fi
 

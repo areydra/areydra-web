@@ -5,7 +5,6 @@ import nextTs from "eslint-config-next/typescript";
 import prettier from "eslint-config-prettier";
 import importPlugin from "eslint-plugin-import";
 import jsxA11y from "eslint-plugin-jsx-a11y";
-import tseslint from "typescript-eslint";
 
 /**
  * Flat config per the house convention (`conventions/frontend-web-code-convention`,
@@ -16,14 +15,18 @@ import tseslint from "typescript-eslint";
  * Deliberate deviations from the page's reference config — do not "fix" them back
  * without reading AGENTS.md first:
  *  - `eslint-plugin-import` (+ the TypeScript resolver) instead of
- *    `eslint-plugin-import-x`: same `order` rule, no lockfile churn while pnpm is
- *    not installed on the box, and alias resolution is declared rather than hoped
- *    for (`import/resolver` below).
+ *    `eslint-plugin-import-x`: same `order` rule, and alias resolution is declared
+ *    rather than hoped for (`import/resolver` below). Swapping the plugin is a
+ *    dependency change; it belongs in its own commit, not in a convention refactor.
  *  - the skeleton primitive is `src/components/ui/Skeleton.tsx`
  *    (SkeletonRegion / SkeletonBlock / SkeletonText), not `Sk.tsx`: that is the
  *    file allowed to paint `bg-skeleton`.
  *  - react-hooks rules come from `eslint-config-next` (16 rules, including
  *    rules-of-hooks and exhaustive-deps), so the plugin is not registered twice.
+ *  - `@typescript-eslint` likewise comes from `eslint-config-next/typescript` only.
+ *    Yarn classic has no autoInstallPeers, so a second copy of the plugin (from a
+ *    root `typescript-eslint` dependency) is a hard config error, not a warning:
+ *    "Cannot redefine plugin @typescript-eslint".
  */
 const CLIENT_LAYERS = [
   "src/components/**/*.{ts,tsx}",
@@ -99,7 +102,6 @@ const skeletonSelectors = [
 const eslintConfig = defineConfig([
   globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts", "node_modules/**"]),
   js.configs.recommended,
-  ...tseslint.configs.recommended,
   ...nextVitals,
   ...nextTs,
   {

@@ -16,32 +16,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 12
-
+      # Yarn classic is preinstalled on the runner; setup-node caches ~/.cache/yarn
+      # keyed on yarn.lock. The version is pinned in package.json (packageManager).
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
+          cache: yarn
 
       - name: Install
-        run: pnpm install --frozen-lockfile
+        run: yarn install --frozen-lockfile
 
       - name: Typecheck
-        run: pnpm run typecheck
+        run: yarn run typecheck
 
       - name: Lint
-        run: pnpm run lint
+        run: yarn run lint
 
       - name: Format check
-        run: pnpm run format:check
+        run: yarn run format:check
 
       - name: Unit tests
-        run: pnpm run test
+        run: yarn run test
 
       - name: Build
-        run: pnpm run build
+        run: yarn run build
         env:
           # Build-time placeholders: the API is not reachable from CI, and every
           # data route is dynamic, so nothing is prerendered against it.
@@ -49,7 +47,7 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://areydra.com
 
       - name: Security gates (secrets · audit)
-        run: pnpm run verify:security
+        run: yarn run verify:security
         env:
           NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:3001
           NEXT_PUBLIC_SITE_URL: https://areydra.com
@@ -59,7 +57,7 @@ jobs:
       # against the real production build, not a mock.
       - name: Start server
         run: |
-          pnpm run start > /tmp/next-start.log 2>&1 &
+          yarn run start > /tmp/next-start.log 2>&1 &
           for i in $(seq 1 30); do
             if curl -sf -o /dev/null http://127.0.0.1:3000/robots.txt; then
               echo "server up after ${i}s"
