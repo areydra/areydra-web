@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+
 import type { ReactNode } from "react";
 
-type AdminFormPageProps = {
+interface AdminFormPageProps {
   title: string;
   backHref: string;
   backLabel: string;
@@ -12,7 +13,7 @@ type AdminFormPageProps = {
   saving?: boolean;
   error?: string | null;
   children: ReactNode;
-};
+}
 
 const AdminFormPage = ({
   title,
@@ -26,15 +27,21 @@ const AdminFormPage = ({
 }: AdminFormPageProps) => {
   return (
     <div>
-      <Link href={backHref} className="mb-4 inline-block text-[13px] font-bold text-ink underline">
+      <Link
+        href={backHref}
+        className="text-ink mb-4 inline-block text-[13px] font-bold underline"
+      >
         ← Back to {backLabel}
       </Link>
-      <h1 className="m-0 mb-5 text-[19px] font-extrabold text-ink">{title}</h1>
+      <h1 className="text-ink m-0 mb-5 text-[19px] font-extrabold">{title}</h1>
 
       {children}
 
       {error ? (
-        <p role="alert" className="m-0 mt-1 mb-3 text-[13px] font-bold text-danger-text">
+        <p
+          role="alert"
+          className="text-danger-text m-0 mt-1 mb-3 text-[13px] font-bold"
+        >
           {error}
         </p>
       ) : null}
@@ -42,7 +49,7 @@ const AdminFormPage = ({
       <div className="mt-4 flex justify-end gap-2.5">
         <Link
           href={backHref}
-          className="cursor-pointer border-[3px] border-ink bg-white px-4.5 py-2.5 text-center text-sm font-bold text-ink"
+          className="border-ink text-ink cursor-pointer border-[3px] bg-white px-4.5 py-2.5 text-center text-sm font-bold"
         >
           Cancel
         </Link>
@@ -50,7 +57,7 @@ const AdminFormPage = ({
           type="button"
           onClick={onSave}
           disabled={saving}
-          className="cursor-pointer border-[3px] border-ink bg-lime px-4.5 py-2.5 text-sm font-extrabold text-ink shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
+          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4.5 py-2.5 text-sm font-extrabold shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {saving ? "Saving…" : saveLabel}
         </button>

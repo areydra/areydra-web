@@ -1,9 +1,9 @@
 import { NAV_ITEMS } from "@/constants/nav";
 import { SkeletonBlock, SkeletonText } from "@/components/ui/Skeleton";
 
-type NavSkeletonProps = {
+interface NavSkeletonProps {
   variant?: "home" | "subpage" | "detail";
-};
+}
 
 /**
  * Static stand-in for the site nav inside route fallbacks. `Nav` is a client

@@ -2,12 +2,12 @@
 
 import { createContext, useContext, useId, type ReactNode } from "react";
 
-type FieldContextValue = {
+interface FieldContextValue {
   /** Id the wrapping `<label htmlFor>` points at. */
   id: string;
   /** Id of the hint text, so the control can reference it. */
   describedBy?: string;
-};
+}
 
 const FieldContext = createContext<FieldContextValue | undefined>(undefined);
 
@@ -19,14 +19,14 @@ export function useField() {
   return useContext(FieldContext);
 }
 
-type FieldProps = {
+interface FieldProps {
   label: string;
   /** Set when the children are a group of controls rather than a single one. */
   group?: boolean;
   hint?: string;
   className?: string;
   children: ReactNode;
-};
+}
 
 const Field = ({ label, group = false, hint, className, children }: FieldProps) => {
   const id = useId();
@@ -37,14 +37,24 @@ const Field = ({ label, group = false, hint, className, children }: FieldProps) 
   if (group) {
     return (
       <div className={wrapperClass}>
-        <div id={labelId} className="mb-1.5 block text-[13px] font-semibold text-ink">
+        <div
+          id={labelId}
+          className="text-ink mb-1.5 block text-[13px] font-semibold"
+        >
           {label}
         </div>
-        <div role="group" aria-labelledby={labelId} aria-describedby={hint ? hintId : undefined}>
+        <div
+          role="group"
+          aria-labelledby={labelId}
+          aria-describedby={hint ? hintId : undefined}
+        >
           {children}
         </div>
         {hint ? (
-          <p id={hintId} className="mt-1 text-xs text-ink-muted">
+          <p
+            id={hintId}
+            className="text-ink-muted mt-1 text-xs"
+          >
             {hint}
           </p>
         ) : null}
@@ -55,12 +65,18 @@ const Field = ({ label, group = false, hint, className, children }: FieldProps) 
   return (
     <div className={wrapperClass}>
       <FieldContext.Provider value={{ id, describedBy: hint ? hintId : undefined }}>
-        <label htmlFor={id} className="mb-1.5 block text-[13px] font-semibold text-ink">
+        <label
+          htmlFor={id}
+          className="text-ink mb-1.5 block text-[13px] font-semibold"
+        >
           {label}
         </label>
         {children}
         {hint ? (
-          <p id={hintId} className="mt-1 text-xs text-ink-muted">
+          <p
+            id={hintId}
+            className="text-ink-muted mt-1 text-xs"
+          >
             {hint}
           </p>
         ) : null}

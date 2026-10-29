@@ -1,10 +1,10 @@
 import { cn } from "@/lib/cn";
 
-type SectionStateProps = {
+interface SectionStateProps {
   tone?: "light" | "dark";
   title: string;
   message: string;
-};
+}
 
 /**
  * Empty/error state for a homepage section. It is a status region so a failed
@@ -21,8 +21,8 @@ const SectionState = ({ tone = "light", title, message }: SectionStateProps) => 
         isDark ? "border-paper bg-ink text-paper" : "border-ink bg-paper-soft text-ink",
       )}
     >
-      <div className="mb-2 text-xs font-bold uppercase tracking-[1px]">{title}</div>
-      <p className="m-0 text-sm leading-[1.6] font-semibold line-clamp-3">{message}</p>
+      <div className="mb-2 text-xs font-bold tracking-[1px] uppercase">{title}</div>
+      <p className="m-0 line-clamp-3 text-sm leading-[1.6] font-semibold">{message}</p>
     </div>
   );
 };

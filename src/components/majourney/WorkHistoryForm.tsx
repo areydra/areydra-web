@@ -9,24 +9,36 @@ import { MONTH_NAMES, STATUS_OPTIONS } from "@/lib/work-history-form";
 import type { WorkHistoryInput } from "@/types/admin.types";
 import type { WorkStatus } from "@/types/api.types";
 
-type WorkHistoryFormProps = {
+interface WorkHistoryFormProps {
   form: WorkHistoryInput;
   setField: <K extends keyof WorkHistoryInput>(key: K, value: WorkHistoryInput[K]) => void;
-};
+}
 
 export default function WorkHistoryForm({ form, setField }: WorkHistoryFormProps) {
   return (
     <>
       <Field label="Company">
-        <TextInput value={form.company} onChange={(e) => setField("company", e.target.value)} />
+        <TextInput
+          value={form.company}
+          onChange={(e) => setField("company", e.target.value)}
+        />
       </Field>
       <Field label="Role">
-        <TextInput value={form.role} onChange={(e) => setField("role", e.target.value)} />
+        <TextInput
+          value={form.role}
+          onChange={(e) => setField("role", e.target.value)}
+        />
       </Field>
       <Field label="Status">
-        <Select value={form.status} onChange={(e) => setField("status", e.target.value as WorkStatus)}>
+        <Select
+          value={form.status}
+          onChange={(e) => setField("status", e.target.value as WorkStatus)}
+        >
           {STATUS_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
+            <option
+              key={opt.value}
+              value={opt.value}
+            >
               {opt.label}
             </option>
           ))}
@@ -34,9 +46,15 @@ export default function WorkHistoryForm({ form, setField }: WorkHistoryFormProps
       </Field>
       <div className="mb-3.5 grid grid-cols-2 gap-2">
         <Field label="Start Month">
-          <Select value={form.startMonth} onChange={(e) => setField("startMonth", Number(e.target.value))}>
+          <Select
+            value={form.startMonth}
+            onChange={(e) => setField("startMonth", Number(e.target.value))}
+          >
             {MONTH_NAMES.map((name, idx) => (
-              <option key={name} value={idx + 1}>
+              <option
+                key={name}
+                value={idx + 1}
+              >
                 {name}
               </option>
             ))}
@@ -58,7 +76,10 @@ export default function WorkHistoryForm({ form, setField }: WorkHistoryFormProps
           >
             <option value="">Present</option>
             {MONTH_NAMES.map((name, idx) => (
-              <option key={name} value={idx + 1}>
+              <option
+                key={name}
+                value={idx + 1}
+              >
                 {name}
               </option>
             ))}
@@ -82,7 +103,11 @@ export default function WorkHistoryForm({ form, setField }: WorkHistoryFormProps
         />
       </div>
       <Field label="Description">
-        <RichTextEditor value={form.description} onChange={(html) => setField("description", html)} folder="work-history" />
+        <RichTextEditor
+          value={form.description}
+          onChange={(html) => setField("description", html)}
+          folder="work-history"
+        />
       </Field>
     </>
   );

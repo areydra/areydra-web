@@ -1,6 +1,6 @@
 export type ApiResult<T> = { data: T; error: null } | { data: null; error: string };
 
-export type Profile = {
+export interface Profile {
   id: number;
   name: string;
   role: string;
@@ -18,25 +18,25 @@ export type Profile = {
   totalCompanies: number;
   createdAt: string;
   updatedAt: string;
-};
+}
 
-export type AboutPoint = {
+export interface AboutPoint {
   id: string;
   title: string;
   description: string;
   sortOrder: number;
-};
+}
 
-export type SkillGroup = {
+export interface SkillGroup {
   id: string;
   name: string;
   skills: Skill[];
-};
+}
 
-export type Skill = {
+export interface Skill {
   id: string;
   name: string;
-};
+}
 
 export type ListResponse<T> = {
   items: T[];
@@ -45,7 +45,7 @@ export type ListResponse<T> = {
 
 export type WorkStatus = "full_time" | "freelance" | "contract" | "part_time" | "internship";
 
-export type WorkHistory = {
+export interface WorkHistory {
   id: string;
   company: string;
   companyLogoUrl: string | null;
@@ -58,9 +58,9 @@ export type WorkHistory = {
   endYear: number | null;
   createdAt: string;
   updatedAt: string;
-};
+}
 
-export type Project = {
+export interface Project {
   id: string;
   slug: string;
   title: string;
@@ -76,24 +76,24 @@ export type Project = {
   images: ProjectImage[];
   createdAt: string;
   updatedAt: string;
-};
+}
 
-export type ProjectTech = {
+export interface ProjectTech {
   id: string;
   name: string;
   categoryId: string;
   categoryName: string;
-};
+}
 
-export type ProjectImage = {
+export interface ProjectImage {
   id: string;
   imageUrl: string;
   sortOrder: number;
-};
+}
 
 export type BlogStatus = "draft" | "published";
 
-export type BlogPost = {
+export interface BlogPost {
   id: string;
   slug: string;
   title: string;
@@ -108,31 +108,31 @@ export type BlogPost = {
   publishedAt: string | null;
   createdAt: string;
   updatedAt: string;
-};
+}
 
-export type BlogTag = {
+export interface BlogTag {
   id: string;
   name: string;
-};
+}
 
-export type HomeConfig = {
+export interface HomeConfig {
   totalShowProjects: number;
   totalShowBlogs: number;
   projects: Project[];
   posts: BlogPost[];
-};
+}
 
-export type HomeData = {
+export interface HomeData {
   profile: ApiResult<Profile>;
   skills: ApiResult<ListResponse<SkillGroup>>;
   workHistory: ApiResult<ListResponse<WorkHistory>>;
   homeConfig: ApiResult<HomeConfig>;
-};
+}
 
 /** Envelope every non-2xx response from the backend follows. */
-export type ApiErrorEnvelope = {
+export interface ApiErrorEnvelope {
   error: {
     code: string;
     message: string;
   };
-};
+}
