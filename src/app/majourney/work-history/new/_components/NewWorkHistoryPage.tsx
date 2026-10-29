@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import AdminFormPage from "@/components/majourney/AdminFormPage";
 import WorkHistoryForm from "@/components/majourney/WorkHistoryForm";
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 import { EMPTY_FORM } from "@/lib/work-history-form";
 import type { WorkHistoryInput } from "@/types/admin.types";
 

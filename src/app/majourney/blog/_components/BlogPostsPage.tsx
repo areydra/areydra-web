@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import { stripHtmlToText } from "@/lib/strip-html";
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 
 const BlogPostsPage = () => {
   const { blogPosts, deleteBlogPost, errors } = useAdminData();

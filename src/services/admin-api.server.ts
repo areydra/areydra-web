@@ -1,7 +1,7 @@
 import "server-only";
 
 import { readSessionCookie } from "@/lib/session.server";
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 
 /**
  * Server-side admin client used by Server Actions.

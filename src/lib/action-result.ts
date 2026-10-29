@@ -1,4 +1,4 @@
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 
 /**
  * Every Server Action returns this instead of throwing. A thrown error crosses

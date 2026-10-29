@@ -6,7 +6,7 @@ import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import AdminModal from "@/components/majourney/AdminModal";
 import Field from "@/components/ui/Field";
 import TextInput from "@/components/ui/TextInput";
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 
 const SkillsPage = () => {
   const { skillGroups, createCategory, deleteCategory, createSkill, deleteSkill, errors } =

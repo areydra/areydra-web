@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Field from "@/components/ui/Field";
 import TextInput from "@/components/ui/TextInput";
 import { useAdminAuth } from "@/providers/majourney/AdminAuthProvider";
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 
 const LoginPage = () => {
   const { login } = useAdminAuth();

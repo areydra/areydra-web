@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 import { safeExternalUrl } from "@/lib/safe-url";
-import { uploadImage } from "@/services/admin-uploads";
+import { uploadImage } from "@/lib/admin-uploads";
 
 const EMPTY_HTML = "<p></p>";
 

@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 
-import { ApiError, getApiBaseUrl } from "@/services/admin-api-client";
+import { ApiError, getApiBaseUrl } from "@/lib/admin-api-client";
 import type { AdminUser } from "@/types/admin.types";
 
 interface AdminAuthContextValue {

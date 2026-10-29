@@ -7,7 +7,7 @@ import Field from "@/components/ui/Field";
 import TextArea from "@/components/ui/TextArea";
 import TextInput from "@/components/ui/TextInput";
 import ImageUploadField from "@/components/majourney/ImageUploadField";
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 import type { ProfileInput } from "@/types/admin.types";
 import type { Profile } from "@/types/api.types";
 

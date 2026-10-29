@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import AdminFormPage from "@/components/majourney/AdminFormPage";
 import ProjectForm from "@/components/majourney/ProjectForm";
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 import { EMPTY_FORM } from "@/lib/project-form";
 import type { ProjectInput } from "@/types/admin.types";
 

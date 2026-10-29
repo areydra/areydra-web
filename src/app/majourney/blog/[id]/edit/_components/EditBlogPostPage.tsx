@@ -7,7 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import AdminFormPage from "@/components/majourney/AdminFormPage";
 import BlogPostForm from "@/components/majourney/BlogPostForm";
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 import { toForm, splitList } from "@/lib/blog-form";
 import type { BlogPostInput } from "@/types/admin.types";
 

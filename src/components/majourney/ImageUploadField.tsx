@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useId, useRef, useState } from "react";
 
-import { uploadImage } from "@/services/admin-uploads";
+import { uploadImage } from "@/lib/admin-uploads";
 
 interface ImageUploadFieldProps {
   label: string;

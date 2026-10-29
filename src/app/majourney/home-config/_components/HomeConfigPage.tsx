@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import Field from "@/components/ui/Field";
 import TextInput from "@/components/ui/TextInput";
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 
 const HomeConfigPage = () => {
   const { homeConfig, updateHomeConfig, errors } = useAdminData();

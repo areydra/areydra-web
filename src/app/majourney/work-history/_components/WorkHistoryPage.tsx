@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
-import { ApiError } from "@/services/admin-api-client";
+import { ApiError } from "@/lib/admin-api-client";
 import { stripHtmlToText } from "@/lib/strip-html";
 import { monthYearLabel, statusLabel } from "@/lib/work-history-form";
 

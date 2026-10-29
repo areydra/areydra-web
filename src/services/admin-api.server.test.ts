@@ -6,8 +6,9 @@ vi.mock("server-only", () => ({}));
 const { readCookie } = vi.hoisted(() => ({ readCookie: vi.fn() }));
 vi.mock("@/lib/session.server", () => ({ readSessionCookie: readCookie }));
 
+import { ApiError } from "@/lib/admin-api-client";
+
 import { adminApi } from "./admin-api.server";
-import { ApiError } from "./admin-api-client";
 
 const jsonResponse = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });

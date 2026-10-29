@@ -22,7 +22,7 @@ import { deleteSkillAction } from "@/actions/skills/delete-skill";
 import { deleteSkillCategoryAction } from "@/actions/skills/delete-skill-category";
 import { deleteWorkHistoryAction } from "@/actions/work-history/delete-work-history";
 import { saveWorkHistoryAction } from "@/actions/work-history/save-work-history";
-import { ApiError, adminRequest, publicRequest } from "@/services/admin-api-client";
+import { ApiError, adminRequest, publicRequest } from "@/lib/admin-api-client";
 import type { ActionResult } from "@/lib/action-result";
 import type {
   BlogPost,
