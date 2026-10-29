@@ -57,7 +57,7 @@ const AdminFormPage = ({
           type="button"
           onClick={onSave}
           disabled={saving}
-          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4.5 py-2.5 text-sm font-extrabold shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
+          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4.5 py-2.5 text-sm font-extrabold shadow-[4px_4px_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {saving ? "Saving…" : saveLabel}
         </button>

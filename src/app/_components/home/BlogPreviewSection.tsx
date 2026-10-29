@@ -46,7 +46,7 @@ const BlogPreviewSection = ({ posts, error }: BlogPreviewSectionProps) => {
               key={post.id}
               href={`/blog/${post.slug}`}
             >
-              <div className="font-anton text-azure min-w-[40px] shrink-0 text-[clamp(24px,3vw,32px)] leading-[0.9] [webkit-text-stroke:1.5px_#111]">
+              <div className="font-anton text-azure min-w-[40px] shrink-0 text-[clamp(24px,3vw,32px)] leading-[0.9] [webkit-text-stroke:1.5px_var(--color-ink)]">
                 {String(index + 1).padStart(2, "0")}
               </div>
               <div className="min-w-0 flex-1">

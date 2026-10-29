@@ -309,7 +309,7 @@ const ProjectsSkeleton = () => (
       {Array.from({ length: PROJECT_SLOTS }).map((_, index) => (
         <div
           key={index}
-          className="border-ink bg-paper flex flex-col border-[3px] shadow-[6px_6px_0_#0a0a0a]"
+          className="border-ink bg-paper flex flex-col border-[3px] shadow-[6px_6px_0_var(--color-ink-deep)]"
         >
           <SkeletonBlock className="border-ink h-[clamp(100px,12vw,150px)] border-b-[3px]" />
           <div className="flex flex-1 flex-col p-[clamp(16px,2vw,22px)]">

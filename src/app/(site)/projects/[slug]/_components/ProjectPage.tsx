@@ -84,7 +84,7 @@ const ProjectPage = ({ project }: ProjectPageProps) => {
             {images.map((image) => (
               <div
                 key={image.id}
-                className="border-ink aspect-[4/3] overflow-hidden border-[3px] shadow-[5px_5px_0_#0a0a0a]"
+                className="border-ink aspect-[4/3] overflow-hidden border-[3px] shadow-[5px_5px_0_var(--color-ink-deep)]"
               >
                 <Image
                   src={image.imageUrl}

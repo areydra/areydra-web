@@ -41,7 +41,7 @@ const ProjectsPage = () => {
       <div className="mb-4 flex justify-end">
         <Link
           href="/majourney/projects/new"
-          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4 py-2.5 text-[13px] font-bold shadow-[4px_4px_0_#111]"
+          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4 py-2.5 text-[13px] font-bold shadow-[4px_4px_0_var(--color-ink)]"
         >
           + Add project
         </Link>
@@ -51,7 +51,7 @@ const ProjectsPage = () => {
         {projects.map((p) => (
           <div
             key={p.id}
-            className="border-ink box-border overflow-hidden border-[3px] bg-white shadow-[6px_6px_0_#111]"
+            className="border-ink box-border overflow-hidden border-[3px] bg-white shadow-[6px_6px_0_var(--color-ink)]"
           >
             <div className="bg-ink flex h-27.5 items-center justify-center overflow-hidden px-3 text-center text-xs font-bold text-white">
               {p.thumbnailUrl ? (

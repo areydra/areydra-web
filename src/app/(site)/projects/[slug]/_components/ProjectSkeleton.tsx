@@ -47,7 +47,7 @@ const ProjectSkeleton = () => {
             {Array.from({ length: GALLERY_SLOTS }).map((_, index) => (
               <SkeletonBlock
                 key={index}
-                className="border-ink aspect-[4/3] border-[3px] shadow-[5px_5px_0_#0a0a0a]"
+                className="border-ink aspect-[4/3] border-[3px] shadow-[5px_5px_0_var(--color-ink-deep)]"
               />
             ))}
           </div>

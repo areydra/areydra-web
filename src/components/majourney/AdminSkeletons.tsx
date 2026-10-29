@@ -19,7 +19,7 @@ const AdminLoadingSkeleton = ({ pathname }: { pathname: string }) => {
 const AdminListSkeleton = () => (
   <SkeletonRegion label={LABEL}>
     <div className="mb-4 flex justify-end">
-      <div className="border-ink bg-lime border-[3px] px-4 py-2.5 text-[13px] font-bold shadow-[4px_4px_0_#111]">
+      <div className="border-ink bg-lime border-[3px] px-4 py-2.5 text-[13px] font-bold shadow-[4px_4px_0_var(--color-ink)]">
         <SkeletonText as="span">+ Add item</SkeletonText>
       </div>
     </div>
@@ -28,7 +28,7 @@ const AdminListSkeleton = () => (
       {[0, 1, 2].map((slot) => (
         <div
           key={slot}
-          className="border-ink box-border overflow-hidden border-[3px] bg-white shadow-[6px_6px_0_#111]"
+          className="border-ink box-border overflow-hidden border-[3px] bg-white shadow-[6px_6px_0_var(--color-ink)]"
         >
           <SkeletonBlock className="h-20" />
           <div className="p-4">
@@ -71,7 +71,7 @@ const AdminListSkeleton = () => (
 const AdminSettingsSkeleton = () => (
   <SkeletonRegion label={LABEL}>
     <div className="grid max-w-160 gap-5">
-      <div className="border-ink box-border border-[3px] bg-white p-7 shadow-[6px_6px_0_#111]">
+      <div className="border-ink box-border border-[3px] bg-white p-7 shadow-[6px_6px_0_var(--color-ink)]">
         <h2 className="m-0 mb-5 text-lg font-extrabold">
           <SkeletonText as="span">Profile</SkeletonText>
         </h2>
@@ -79,7 +79,7 @@ const AdminSettingsSkeleton = () => (
       </div>
 
       <div className="flex items-center gap-3">
-        <SkeletonBlock className="border-ink h-11.5 w-36 border-[3px] shadow-[4px_4px_0_#111]" />
+        <SkeletonBlock className="border-ink h-11.5 w-36 border-[3px] shadow-[4px_4px_0_var(--color-ink)]" />
       </div>
     </div>
   </SkeletonRegion>
@@ -95,13 +95,13 @@ const AdminFormSkeleton = () => (
         <SkeletonText as="span">Editing</SkeletonText>
       </h1>
 
-      <div className="border-ink box-border border-[3px] bg-white p-7 shadow-[6px_6px_0_#111]">
+      <div className="border-ink box-border border-[3px] bg-white p-7 shadow-[6px_6px_0_var(--color-ink)]">
         <FieldSkeleton count={5} />
       </div>
 
       <div className="mt-4 flex justify-end gap-2.5">
         <SkeletonBlock className="border-ink h-11 w-24 border-[3px]" />
-        <SkeletonBlock className="border-ink h-11 w-24 border-[3px] shadow-[4px_4px_0_#111]" />
+        <SkeletonBlock className="border-ink h-11 w-24 border-[3px] shadow-[4px_4px_0_var(--color-ink)]" />
       </div>
     </div>
   </SkeletonRegion>

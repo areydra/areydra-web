@@ -259,7 +259,7 @@ const RichTextEditor = ({ value, onChange, folder }: RichTextEditorProps) => {
               {uploading ? "Uploading…" : "Image"}
             </ToolbarButton>
             {imageMenuOpen && (
-              <div className="border-ink absolute top-full left-0 z-10 mt-1 flex flex-col border-[3px] bg-white shadow-[4px_4px_0_#111]">
+              <div className="border-ink absolute top-full left-0 z-10 mt-1 flex flex-col border-[3px] bg-white shadow-[4px_4px_0_var(--color-ink)]">
                 <button
                   type="button"
                   onMouseDown={(event) => event.preventDefault()}

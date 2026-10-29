@@ -42,7 +42,7 @@ const ProjectsSection = ({ projects, error }: ProjectsSectionProps) => {
             <Link
               key={project.id}
               href={`/projects/${project.slug}`}
-              className="border-ink bg-paper flex flex-col border-[3px] shadow-[6px_6px_0_#0a0a0a]"
+              className="border-ink bg-paper flex flex-col border-[3px] shadow-[6px_6px_0_var(--color-ink-deep)]"
             >
               <div className="font-anton border-ink bg-lime text-ink flex h-[clamp(100px,12vw,150px)] items-center justify-center border-b-[3px] py-1 text-[clamp(36px,6vw,60px)] tracking-[-2px]">
                 {project.thumbnailUrl ? (

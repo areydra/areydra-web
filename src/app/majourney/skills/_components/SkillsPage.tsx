@@ -89,7 +89,7 @@ const SkillsPage = () => {
         <button
           type="button"
           onClick={openAddModal}
-          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4 py-2.5 text-[13px] font-bold shadow-[4px_4px_0_#111]"
+          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4 py-2.5 text-[13px] font-bold shadow-[4px_4px_0_var(--color-ink)]"
         >
           + Add category
         </button>
@@ -99,7 +99,7 @@ const SkillsPage = () => {
         {skillGroups.map((cat) => (
           <div
             key={cat.id}
-            className="border-ink box-border border-[3px] bg-white p-5 shadow-[6px_6px_0_#111]"
+            className="border-ink box-border border-[3px] bg-white p-5 shadow-[6px_6px_0_var(--color-ink)]"
           >
             <div className="mb-3 flex items-center justify-between">
               <h3 className="text-ink m-0 text-[15px] font-extrabold">{cat.name}</h3>

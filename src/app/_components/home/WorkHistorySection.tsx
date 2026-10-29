@@ -37,7 +37,7 @@ const WorkHistorySection = ({ jobs, error }: WorkHistorySectionProps) => {
             key={job.id}
             className="border-ink flex items-start gap-[clamp(14px,3vw,40px)] border-t-[3px] px-[clamp(24px,5vw,64px)] py-[clamp(20px,3vw,40px)]"
           >
-            <div className="font-anton text-azure min-w-[clamp(60px,8vw,110px)] shrink-0 text-[clamp(32px,5vw,80px)] leading-[0.8] [webkit-text-stroke:clamp(1px,0.3vw,2px)_#111]">
+            <div className="font-anton text-azure min-w-[clamp(60px,8vw,110px)] shrink-0 text-[clamp(32px,5vw,80px)] leading-[0.8] [webkit-text-stroke:clamp(1px,0.3vw,2px)_var(--color-ink)]">
               {String(index + 1).padStart(2, "0")}
             </div>
             <div className="min-w-0 flex-1">

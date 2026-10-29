@@ -41,7 +41,7 @@ const BlogPostsPage = () => {
       <div className="mb-4 flex justify-end">
         <Link
           href="/majourney/blog/new"
-          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4 py-2.5 text-[13px] font-bold shadow-[4px_4px_0_#111]"
+          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4 py-2.5 text-[13px] font-bold shadow-[4px_4px_0_var(--color-ink)]"
         >
           + Add blog post
         </Link>
@@ -53,7 +53,7 @@ const BlogPostsPage = () => {
           return (
             <div
               key={b.id}
-              className="border-ink box-border flex h-full flex-col overflow-hidden border-[3px] bg-white shadow-[6px_6px_0_#111]"
+              className="border-ink box-border flex h-full flex-col overflow-hidden border-[3px] bg-white shadow-[6px_6px_0_var(--color-ink)]"
             >
               {b.thumbnailUrl && (
                 <div className="bg-ink flex h-20 shrink-0 items-center justify-center overflow-hidden px-3 text-center text-xs font-bold text-white">

@@ -26,7 +26,7 @@ const HeroSection = ({ profile }: HeroSectionProps) => {
           <br />
           I&apos;m
           <br />
-          <span className="text-azure [webkit-text-stroke:clamp(1.5px,0.3vw,3px)_#111]">
+          <span className="text-azure [webkit-text-stroke:clamp(1.5px,0.3vw,3px)_var(--color-ink)]">
             {firstName}
           </span>
         </h1>
@@ -74,7 +74,7 @@ const HeroSection = ({ profile }: HeroSectionProps) => {
             // or removed. The mark's height is flex-grow + min-height only.
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_14px,rgba(255,255,255,0.08)_14px,rgba(255,255,255,0.08)_28px)]" />
-              <span className="font-anton text-lime relative text-[clamp(80px,15vw,220px)] leading-none select-none [webkit-text-stroke:clamp(2px,0.4vw,4px)_#111]">
+              <span className="font-anton text-lime relative text-[clamp(80px,15vw,220px)] leading-none select-none [webkit-text-stroke:clamp(2px,0.4vw,4px)_var(--color-ink)]">
                 {firstName.charAt(0).toUpperCase() || "A"}
               </span>
             </div>

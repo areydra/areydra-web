@@ -57,7 +57,7 @@ const AdminModal = ({
       onClick={(event) => {
         if (event.target === event.currentTarget) onCancel();
       }}
-      className="border-ink backdrop:bg-overlay m-auto max-h-[85vh] w-full max-w-120 overflow-auto border-4 bg-white p-7 shadow-[10px_10px_0_#111]"
+      className="border-ink backdrop:bg-overlay m-auto max-h-[85vh] w-full max-w-120 overflow-auto border-4 bg-white p-7 shadow-[10px_10px_0_var(--color-ink)]"
     >
       <h2
         id={titleId}
@@ -90,7 +90,7 @@ const AdminModal = ({
           type="button"
           onClick={onSave}
           disabled={saving}
-          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4.5 py-2.5 text-sm font-extrabold shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
+          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4.5 py-2.5 text-sm font-extrabold shadow-[4px_4px_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {saving ? "Saving…" : saveLabel}
         </button>

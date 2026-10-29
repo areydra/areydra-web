@@ -44,7 +44,9 @@ const AboutSection = ({ profile, error }: AboutSectionProps) => {
               <div
                 className={cn(
                   "font-anton text-[clamp(22px,3vw,30px)] leading-none",
-                  index === 2 ? "text-ink" : "text-azure [webkit-text-stroke:1.5px_#111]",
+                  index === 2
+                    ? "text-ink"
+                    : "text-azure [webkit-text-stroke:1.5px_var(--color-ink)]",
                 )}
               >
                 {String(index + 1).padStart(2, "0")}

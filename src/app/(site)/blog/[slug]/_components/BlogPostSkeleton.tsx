@@ -32,7 +32,7 @@ const BlogPostSkeleton = () => {
           </header>
 
           <div className="mx-auto max-w-4xl px-[clamp(28px,5vw,64px)] py-[clamp(28px,5vw,64px)]">
-            <SkeletonBlock className="border-ink mb-8 aspect-[1200/630] w-full border-[3px] shadow-[7px_7px_0_#0a0a0a]" />
+            <SkeletonBlock className="border-ink mb-8 aspect-[1200/630] w-full border-[3px] shadow-[7px_7px_0_var(--color-ink-deep)]" />
 
             <div className="flex flex-col gap-3 text-[clamp(15px,1.6vw,17px)] leading-[1.8] font-medium">
               <SkeletonText as="div">
@@ -64,7 +64,7 @@ const BlogPostSkeleton = () => {
               </SkeletonText>
             </div>
 
-            <aside className="border-ink bg-lime mt-10 border-[3px] p-[clamp(20px,3vw,32px)] shadow-[8px_8px_0_#111]">
+            <aside className="border-ink bg-lime mt-10 border-[3px] p-[clamp(20px,3vw,32px)] shadow-[8px_8px_0_var(--color-ink)]">
               <h2 className="mb-2.5 text-2xl font-black tracking-[-0.5px] uppercase">
                 <SkeletonText as="span">Enjoyed this?</SkeletonText>
               </h2>

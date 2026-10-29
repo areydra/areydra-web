@@ -81,7 +81,7 @@ const BlogListPage = ({ posts, error }: BlogListPageProps) => {
               <Link
                 key={post.id}
                 href={`/blog/${post.slug}`}
-                className="border-ink flex flex-col border-[3px] bg-white no-underline shadow-[6px_6px_0_#0a0a0a]"
+                className="border-ink flex flex-col border-[3px] bg-white no-underline shadow-[6px_6px_0_var(--color-ink-deep)]"
               >
                 {post.thumbnailUrl && (
                   <div className="border-ink flex h-[clamp(90px,10vw,130px)] items-center justify-center overflow-hidden border-b-[3px]">

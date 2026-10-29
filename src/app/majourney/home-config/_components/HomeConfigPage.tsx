@@ -36,7 +36,7 @@ const HomeConfigPage = () => {
         </p>
       )}
 
-      <div className="border-ink box-border border-[3px] bg-white p-7 shadow-[6px_6px_0_#111]">
+      <div className="border-ink box-border border-[3px] bg-white p-7 shadow-[6px_6px_0_var(--color-ink)]">
         <h2 className="text-ink m-0 mb-5 text-lg font-extrabold">Homepage Settings</h2>
         {isNew && !errors.homeConfig && (
           <p className="text-ink-muted m-0 mb-5 text-sm">
@@ -73,7 +73,7 @@ const HomeConfigPage = () => {
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-5 py-2.5 text-sm font-extrabold shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
+          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-5 py-2.5 text-sm font-extrabold shadow-[4px_4px_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {saving ? "Saving…" : "Save Changes"}
         </button>

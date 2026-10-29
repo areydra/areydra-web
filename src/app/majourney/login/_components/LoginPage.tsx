@@ -40,7 +40,7 @@ const LoginPage = () => {
     >
       <form
         onSubmit={handleSubmit}
-        className="border-ink box-border w-full max-w-95 border-4 bg-white p-10 shadow-[10px_10px_0_#111]"
+        className="border-ink box-border w-full max-w-95 border-4 bg-white p-10 shadow-[10px_10px_0_var(--color-ink)]"
       >
         <div className="border-ink bg-azure mb-5 h-10 w-10 border-[3px]" />
         <h1 className="text-ink m-0 mb-1 text-[22px] font-extrabold">Portfolio Admin</h1>
@@ -73,7 +73,7 @@ const LoginPage = () => {
         <button
           type="submit"
           disabled={submitting}
-          className="border-ink bg-lime text-ink mt-3 w-full cursor-pointer border-[3px] py-2.75 text-sm font-extrabold shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
+          className="border-ink bg-lime text-ink mt-3 w-full cursor-pointer border-[3px] py-2.75 text-sm font-extrabold shadow-[4px_4px_0_var(--color-ink)] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {submitting ? "Signing in…" : "Sign in"}
         </button>

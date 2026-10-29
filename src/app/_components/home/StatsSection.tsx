@@ -23,7 +23,7 @@ const StatsSection = ({ profile, skillGroups, workHistory }: StatsSectionProps) 
           key={stat.label}
           className="bg-paper px-[clamp(14px,3vw,40px)] py-[clamp(20px,3vw,34px)]"
         >
-          <div className="font-anton text-azure text-[clamp(36px,5vw,72px)] leading-[0.9] [webkit-text-stroke:clamp(1px,0.2vw,2px)_#111]">
+          <div className="font-anton text-azure text-[clamp(36px,5vw,72px)] leading-[0.9] [webkit-text-stroke:clamp(1px,0.2vw,2px)_var(--color-ink)]">
             {stat.val}
           </div>
           <div className="text-ink mt-2 text-[clamp(10px,1vw,12px)] font-bold tracking-[1px] uppercase">

@@ -37,7 +37,7 @@ const BlogListSkeleton = () => {
             {Array.from({ length: CARD_COUNT }).map((_, index) => (
               <div
                 key={index}
-                className="border-ink flex flex-col border-[3px] bg-white shadow-[6px_6px_0_#0a0a0a]"
+                className="border-ink flex flex-col border-[3px] bg-white shadow-[6px_6px_0_var(--color-ink-deep)]"
               >
                 <SkeletonBlock className="border-ink h-[clamp(90px,10vw,130px)] border-b-[3px]" />
                 <div className="flex flex-1 flex-col p-[clamp(16px,2vw,22px)]">

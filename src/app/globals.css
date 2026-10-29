@@ -8,6 +8,9 @@
   --font-anton: var(--font-anton);
 
   --color-ink: #111111;
+  /* Near-black used by the offset ("brutal") shadows; kept as its own
+     palette step so the two inks are not silently unified. */
+  --color-ink-deep: #0a0a0a;
   --color-ink-muted: #555555;
   --color-paper: #ebe7d9;
   --color-paper-soft: #f5f2e8;

@@ -40,7 +40,7 @@ const BlogPostPage = ({ post }: BlogPostPageProps) => {
 
         <div className="mx-auto max-w-4xl px-[clamp(28px,5vw,64px)] py-[clamp(28px,5vw,64px)]">
           {post.thumbnailUrl && (
-            <div className="border-ink mb-8 overflow-hidden border-[3px] shadow-[7px_7px_0_#0a0a0a]">
+            <div className="border-ink mb-8 overflow-hidden border-[3px] shadow-[7px_7px_0_var(--color-ink-deep)]">
               {/* LCP on this route is the h1 above (text), so no preload hint: an
                   image preload would compete with the real candidate. */}
               <Image
@@ -61,7 +61,7 @@ const BlogPostPage = ({ post }: BlogPostPageProps) => {
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
           />
 
-          <aside className="border-ink bg-lime mt-10 border-[3px] p-[clamp(20px,3vw,32px)] shadow-[8px_8px_0_#111]">
+          <aside className="border-ink bg-lime mt-10 border-[3px] p-[clamp(20px,3vw,32px)] shadow-[8px_8px_0_var(--color-ink)]">
             <h2 className="text-ink mb-2.5 text-2xl font-black tracking-[-0.5px] uppercase">
               Enjoyed this?
             </h2>
