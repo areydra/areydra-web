@@ -47,3 +47,32 @@ jobs:
           # data route is dynamic, so nothing is prerendered against it.
           NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:3001
           NEXT_PUBLIC_SITE_URL: https://areydra.com
+
+      - name: Security gates (secrets · audit)
+        run: pnpm run verify:security
+        env:
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:3001
+          NEXT_PUBLIC_SITE_URL: https://areydra.com
+
+      # The header check needs a server: build-time HTML with no nonce is the
+      # failure it exists to catch ("paints and never hydrates"), so it runs
+      # against the real production build, not a mock.
+      - name: Start server
+        run: |
+          pnpm run start > /tmp/next-start.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:3000/robots.txt; then
+              echo "server up after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "server did not come up"; tail -40 /tmp/next-start.log; exit 1
+        env:
+          NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:3001
+          NEXT_PUBLIC_SITE_URL: https://areydra.com
+
+      - name: Security headers + nonce coverage
+        run: |
+          REQUIRE_HSTS=1 bash scripts/check-security-headers.sh http://127.0.0.1:3000/
+          REQUIRE_HSTS=1 bash scripts/check-security-headers.sh http://127.0.0.1:3000/majourney/login
