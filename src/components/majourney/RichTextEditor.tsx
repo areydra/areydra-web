@@ -7,30 +7,35 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 import { safeExternalUrl } from "@/lib/safe-url";
-import { useAdminAuth } from "@/providers/majourney/AdminAuthProvider";
 import { uploadImage } from "@/services/admin-uploads";
 
 const EMPTY_HTML = "<p></p>";
 
-type RichTextEditorProps = {
+interface RichTextEditorProps {
   value: string;
   onChange: (html: string) => void;
   /** R2 upload folder for images inserted via the toolbar (e.g. "work-history", "blog"). */
   folder: string;
-};
+}
 
 const toolbarButtonClass =
   "cursor-pointer border-[3px] border-ink bg-white px-2.5 py-1.5 text-[13px] font-bold text-ink disabled:cursor-not-allowed disabled:opacity-40";
 
-type ToolbarButtonProps = {
+interface ToolbarButtonProps {
   label: string;
   active?: boolean;
   disabled?: boolean;
   onClick: () => void;
   children: ReactNode;
-};
+}
 
-const ToolbarButton = ({ label, active = false, disabled = false, onClick, children }: ToolbarButtonProps) => (
+const ToolbarButton = ({
+  label,
+  active = false,
+  disabled = false,
+  onClick,
+  children,
+}: ToolbarButtonProps) => (
   <button
     type="button"
     aria-label={label}
@@ -46,7 +51,6 @@ const ToolbarButton = ({ label, active = false, disabled = false, onClick, child
 );
 
 const RichTextEditor = ({ value, onChange, folder }: RichTextEditorProps) => {
-  const { token } = useAdminAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageMenuRef = useRef<HTMLDivElement>(null);
   const [imageMenuOpen, setImageMenuOpen] = useState(false);
@@ -160,7 +164,7 @@ const RichTextEditor = ({ value, onChange, folder }: RichTextEditorProps) => {
     setUploadError("");
     setUploading(true);
     try {
-      const publicUrl = await uploadImage(file, folder, token);
+      const publicUrl = await uploadImage(file, folder);
       editor.chain().focus().setImage({ src: publicUrl }).run();
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : "Image upload failed.");
@@ -172,11 +176,11 @@ const RichTextEditor = ({ value, onChange, folder }: RichTextEditorProps) => {
 
   return (
     <div>
-      <div className="border-[3px] border-ink">
+      <div className="border-ink border-[3px]">
         <div
           role="toolbar"
           aria-label="Text formatting"
-          className="flex flex-wrap gap-1.5 border-b-[3px] border-ink bg-paper-soft p-1.5"
+          className="border-ink bg-paper-soft flex flex-wrap gap-1.5 border-b-[3px] p-1.5"
         >
           <ToolbarButton
             label="Bold"
@@ -234,11 +238,19 @@ const RichTextEditor = ({ value, onChange, folder }: RichTextEditorProps) => {
           >
             “ Quote
           </ToolbarButton>
-          <ToolbarButton label="Add link" active={editor?.isActive("link")} disabled={!editor} onClick={setLink}>
+          <ToolbarButton
+            label="Add link"
+            active={editor?.isActive("link")}
+            disabled={!editor}
+            onClick={setLink}
+          >
             Link
           </ToolbarButton>
 
-          <div ref={imageMenuRef} className="relative">
+          <div
+            ref={imageMenuRef}
+            className="relative"
+          >
             <ToolbarButton
               label="Insert image"
               disabled={!editor || uploading}
@@ -247,12 +259,12 @@ const RichTextEditor = ({ value, onChange, folder }: RichTextEditorProps) => {
               {uploading ? "Uploading…" : "Image"}
             </ToolbarButton>
             {imageMenuOpen && (
-              <div className="absolute top-full left-0 z-10 mt-1 flex flex-col border-[3px] border-ink bg-white shadow-[4px_4px_0_#111]">
+              <div className="border-ink absolute top-full left-0 z-10 mt-1 flex flex-col border-[3px] bg-white shadow-[4px_4px_0_#111]">
                 <button
                   type="button"
                   onMouseDown={(event) => event.preventDefault()}
                   onClick={openFilePicker}
-                  className="cursor-pointer border-b-[2px] border-ink px-3 py-2 text-left text-[13px] font-bold whitespace-nowrap text-ink hover:bg-paper-soft"
+                  className="border-ink text-ink hover:bg-paper-soft cursor-pointer border-b-[2px] px-3 py-2 text-left text-[13px] font-bold whitespace-nowrap"
                 >
                   Upload file
                 </button>
@@ -260,7 +272,7 @@ const RichTextEditor = ({ value, onChange, folder }: RichTextEditorProps) => {
                   type="button"
                   onMouseDown={(event) => event.preventDefault()}
                   onClick={insertImageFromUrl}
-                  className="cursor-pointer px-3 py-2 text-left text-[13px] font-bold whitespace-nowrap text-ink hover:bg-paper-soft"
+                  className="text-ink hover:bg-paper-soft cursor-pointer px-3 py-2 text-left text-[13px] font-bold whitespace-nowrap"
                 >
                   Attach URL
                 </button>
@@ -279,7 +291,10 @@ const RichTextEditor = ({ value, onChange, folder }: RichTextEditorProps) => {
         <EditorContent editor={editor} />
       </div>
       {uploadError ? (
-        <p role="alert" className="mt-1.5 text-[13px] font-bold text-danger-text">
+        <p
+          role="alert"
+          className="text-danger-text mt-1.5 text-[13px] font-bold"
+        >
           {uploadError}
         </p>
       ) : null}

@@ -1,19 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import { useId, useRef, useState } from "react";
 
-import { useAdminAuth } from "@/providers/majourney/AdminAuthProvider";
 import { uploadImage } from "@/services/admin-uploads";
 
-type ImageUploadFieldProps = {
+interface ImageUploadFieldProps {
   label: string;
   value: string | null;
   onChange: (url: string | null) => void;
   folder: string;
-};
+}
 
 const ImageUploadField = ({ label, value, onChange, folder }: ImageUploadFieldProps) => {
-  const { token } = useAdminAuth();
   const inputRef = useRef<HTMLInputElement>(null);
   const labelId = useId();
   const [uploading, setUploading] = useState(false);
@@ -24,7 +23,7 @@ const ImageUploadField = ({ label, value, onChange, folder }: ImageUploadFieldPr
     setError("");
     setUploading(true);
     try {
-      const publicUrl = await uploadImage(file, folder, token);
+      const publicUrl = await uploadImage(file, folder);
       onChange(publicUrl);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed.");
@@ -35,8 +34,14 @@ const ImageUploadField = ({ label, value, onChange, folder }: ImageUploadFieldPr
   };
 
   return (
-    <div role="group" aria-labelledby={labelId}>
-      <span id={labelId} className="mb-1.5 block text-[13px] font-semibold text-ink">
+    <div
+      role="group"
+      aria-labelledby={labelId}
+    >
+      <span
+        id={labelId}
+        className="text-ink mb-1.5 block text-[13px] font-semibold"
+      >
         {label}
       </span>
       <input
@@ -49,14 +54,13 @@ const ImageUploadField = ({ label, value, onChange, folder }: ImageUploadFieldPr
       />
       <div className="flex flex-wrap items-center gap-3">
         {value ? (
-          // Arbitrary upload URL: the host is not known at build time.
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={value}
             alt={`${label} preview`}
             width={64}
             height={64}
-            className="h-16 w-16 shrink-0 border-[3px] border-ink object-cover"
+            sizes="64px"
+            className="border-ink h-16 w-16 shrink-0 border-[3px] object-cover"
           />
         ) : null}
         <div className="flex gap-2">
@@ -64,7 +68,7 @@ const ImageUploadField = ({ label, value, onChange, folder }: ImageUploadFieldPr
             type="button"
             disabled={uploading}
             onClick={() => inputRef.current?.click()}
-            className="cursor-pointer border-[3px] border-ink bg-white px-3 py-2 text-[13px] font-bold text-ink disabled:cursor-not-allowed disabled:opacity-60"
+            className="border-ink text-ink cursor-pointer border-[3px] bg-white px-3 py-2 text-[13px] font-bold disabled:cursor-not-allowed disabled:opacity-60"
           >
             {uploading ? "Uploading…" : value ? "Replace image" : "Upload image"}
           </button>
@@ -72,7 +76,7 @@ const ImageUploadField = ({ label, value, onChange, folder }: ImageUploadFieldPr
             <button
               type="button"
               onClick={() => onChange(null)}
-              className="cursor-pointer border-[3px] border-ink bg-danger px-3 py-2 text-[13px] font-bold text-white"
+              className="border-ink bg-danger cursor-pointer border-[3px] px-3 py-2 text-[13px] font-bold text-white"
             >
               Remove
             </button>
@@ -80,7 +84,10 @@ const ImageUploadField = ({ label, value, onChange, folder }: ImageUploadFieldPr
         </div>
       </div>
       {error ? (
-        <p role="alert" className="m-0 mt-1.5 text-xs font-bold text-danger-text">
+        <p
+          role="alert"
+          className="text-danger-text m-0 mt-1.5 text-xs font-bold"
+        >
           {error}
         </p>
       ) : null}

@@ -1,19 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import { useId, useRef, useState } from "react";
 
-import { useAdminAuth } from "@/providers/majourney/AdminAuthProvider";
 import { uploadImage } from "@/services/admin-uploads";
 
-type MultiImageUploadFieldProps = {
+interface MultiImageUploadFieldProps {
   label: string;
   values: string[];
   onChange: (urls: string[]) => void;
   folder: string;
-};
+}
 
 const MultiImageUploadField = ({ label, values, onChange, folder }: MultiImageUploadFieldProps) => {
-  const { token } = useAdminAuth();
   const inputRef = useRef<HTMLInputElement>(null);
   const labelId = useId();
   const [uploading, setUploading] = useState(false);
@@ -24,7 +23,9 @@ const MultiImageUploadField = ({ label, values, onChange, folder }: MultiImageUp
     setError("");
     setUploading(true);
     try {
-      const uploaded = await Promise.all(Array.from(files).map((file) => uploadImage(file, folder, token)));
+      const uploaded = await Promise.all(
+        Array.from(files).map((file) => uploadImage(file, folder)),
+      );
       onChange([...values, ...uploaded]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Upload failed.");
@@ -37,8 +38,14 @@ const MultiImageUploadField = ({ label, values, onChange, folder }: MultiImageUp
   const removeAt = (index: number) => onChange(values.filter((_, current) => current !== index));
 
   return (
-    <div role="group" aria-labelledby={labelId}>
-      <span id={labelId} className="mb-1.5 block text-[13px] font-semibold text-ink">
+    <div
+      role="group"
+      aria-labelledby={labelId}
+    >
+      <span
+        id={labelId}
+        className="text-ink mb-1.5 block text-[13px] font-semibold"
+      >
         {label}
       </span>
       <input
@@ -53,21 +60,23 @@ const MultiImageUploadField = ({ label, values, onChange, folder }: MultiImageUp
       {values.length > 0 && (
         <div className="mb-2 flex flex-wrap gap-2">
           {values.map((url, index) => (
-            <div key={`${url}-${index}`} className="relative">
-              {/* Arbitrary upload URL: the host is not known at build time. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div
+              key={`${url}-${index}`}
+              className="relative"
+            >
+              <Image
                 src={url}
                 alt={`${label} ${index + 1}`}
                 width={64}
                 height={64}
-                className="h-16 w-16 border-[3px] border-ink object-cover"
+                sizes="64px"
+                className="border-ink h-16 w-16 border-[3px] object-cover"
               />
               <button
                 type="button"
                 onClick={() => removeAt(index)}
                 aria-label={`Remove ${label.toLowerCase()} ${index + 1}`}
-                className="absolute -top-2 -right-2 h-5 w-5 cursor-pointer border-2 border-ink bg-danger text-xs leading-none text-white"
+                className="border-ink bg-danger absolute -top-2 -right-2 h-5 w-5 cursor-pointer border-2 text-xs leading-none text-white"
               >
                 <span aria-hidden="true">×</span>
               </button>
@@ -79,12 +88,15 @@ const MultiImageUploadField = ({ label, values, onChange, folder }: MultiImageUp
         type="button"
         disabled={uploading}
         onClick={() => inputRef.current?.click()}
-        className="cursor-pointer border-[3px] border-ink bg-white px-3 py-2 text-[13px] font-bold text-ink disabled:cursor-not-allowed disabled:opacity-60"
+        className="border-ink text-ink cursor-pointer border-[3px] bg-white px-3 py-2 text-[13px] font-bold disabled:cursor-not-allowed disabled:opacity-60"
       >
         {uploading ? "Uploading…" : "+ Add images"}
       </button>
       {error ? (
-        <p role="alert" className="m-0 mt-1.5 text-xs font-bold text-danger-text">
+        <p
+          role="alert"
+          className="text-danger-text m-0 mt-1.5 text-xs font-bold"
+        >
           {error}
         </p>
       ) : null}
