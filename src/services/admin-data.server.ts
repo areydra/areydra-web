@@ -1,5 +1,6 @@
 import "server-only";
 
+import { htmlToMarkdown } from "@/lib/html-to-markdown";
 import { readSessionCookie } from "@/lib/session.server";
 import { adminApi } from "@/services/admin-api.server";
 import { getHomeData, getProjects } from "@/services/portfolio-service.server";
@@ -51,7 +52,14 @@ export async function getAdminInitialData(): Promise<AdminInitialData> {
     profile: home.profile.data,
     skillGroups: home.skills.data?.items ?? [],
     workHistory: home.workHistory.data?.items ?? [],
-    projects: projects.data?.items ?? [],
+    // Descriptions written before the markdown editor are HTML in the same column.
+    // Handing them to MDXEditor would show the tags as literal text and save them
+    // that way, so they are converted once, here, on the server. Idempotent for
+    // rows that are already markdown.
+    projects: (projects.data?.items ?? []).map((project) => ({
+      ...project,
+      description: htmlToMarkdown(project.description),
+    })),
     blogPosts: blog?.items ?? [],
     homeConfig: home.homeConfig.data,
     errors,

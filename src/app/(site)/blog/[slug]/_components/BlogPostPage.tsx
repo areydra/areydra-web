@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import MarkdownPreview from "@/components/markdown/MarkdownPreview";
 import { formatPostDate } from "@/lib/format";
-import { sanitizeHtml } from "@/lib/sanitize-html";
 import { toMailtoHref } from "@/lib/safe-url";
 import type { BlogPost } from "@/types/api.types";
 
@@ -53,12 +53,11 @@ const BlogPostPage = ({ post }: BlogPostPageProps) => {
               />
             </div>
           )}
-          <div
-            className="rich-text-content text-ink text-[clamp(15px,1.6vw,17px)] leading-[1.8] font-medium"
-            // Editor output, sanitized server-side against an allowlist. Rendering it
-            // on the server keeps the article out of the client bundle and stops the
-            // client-only preview from expanding the page after hydration (0.25 CLS).
-            dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
+          {/* Body rendered by the same MDXEditor the admin writes in, so the
+              published page cannot look different from the editor. */}
+          <MarkdownPreview
+            markdown={post.content}
+            className="text-ink text-[clamp(15px,1.6vw,17px)] leading-[1.8] font-medium"
           />
 
           <aside className="border-ink bg-lime mt-10 border-[3px] p-[clamp(20px,3vw,32px)] shadow-[8px_8px_0_var(--color-ink)]">

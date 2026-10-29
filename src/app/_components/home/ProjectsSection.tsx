@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import SectionState from "@/components/common/SectionState";
-import { stripHtmlToText } from "@/lib/strip-html";
+import MarkdownPreview from "@/components/markdown/MarkdownPreview";
 import type { Project } from "@/types/api.types";
 
 interface ProjectsSectionProps {
@@ -11,6 +11,13 @@ interface ProjectsSectionProps {
 }
 
 const MAX_TECH_CHIPS = 6;
+
+/** First block of the body: a card mounts an editor, so it must not mount it over a whole article. */
+const cardExcerpt = (markdown: string) =>
+  markdown
+    .split(/\n{2,}/)
+    .slice(0, 2)
+    .join("\n\n");
 
 const ProjectsSection = ({ projects, error }: ProjectsSectionProps) => {
   const items = projects ?? [];
@@ -39,35 +46,43 @@ const ProjectsSection = ({ projects, error }: ProjectsSectionProps) => {
       ) : items.length > 0 ? (
         <div className="home-project-grid">
           {items.map((project) => (
-            <Link
+            <article
               key={project.id}
-              href={`/projects/${project.slug}`}
               className="border-ink bg-paper flex flex-col border-[3px] shadow-[6px_6px_0_var(--color-ink-deep)]"
             >
-              <div className="font-anton border-ink bg-lime text-ink flex h-[clamp(100px,12vw,150px)] items-center justify-center border-b-[3px] py-1 text-[clamp(36px,6vw,60px)] tracking-[-2px]">
-                {project.thumbnailUrl ? (
-                  <Image
-                    src={project.thumbnailUrl}
-                    alt=""
-                    width={480}
-                    height={300}
-                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
-                    className="h-full w-full object-contain"
-                  />
-                ) : (
-                  <span>{project.title.charAt(0).toUpperCase()}</span>
-                )}
-              </div>
-              <div className="flex flex-1 flex-col p-[clamp(16px,2vw,22px)]">
-                <h3 className="text-ink mb-2 text-[clamp(16px,1.8vw,21px)] font-black uppercase">
+              {/* The body below is an MDXEditor subtree, which contains focusable
+                  nodes — interactive content inside <a> is invalid, so the link
+                  covers the thumbnail and the title only. */}
+              <Link
+                href={`/projects/${project.slug}`}
+                className="flex flex-col no-underline"
+              >
+                <div className="font-anton border-ink bg-lime text-ink flex h-[clamp(100px,12vw,150px)] items-center justify-center border-b-[3px] py-1 text-[clamp(36px,6vw,60px)] tracking-[-2px]">
+                  {project.thumbnailUrl ? (
+                    <Image
+                      src={project.thumbnailUrl}
+                      alt=""
+                      width={480}
+                      height={300}
+                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
+                      className="h-full w-full object-contain"
+                    />
+                  ) : (
+                    <span>{project.title.charAt(0).toUpperCase()}</span>
+                  )}
+                </div>
+                <h3 className="text-ink px-[clamp(16px,2vw,22px)] pt-[clamp(16px,2vw,22px)] pb-2 text-[clamp(16px,1.8vw,21px)] font-black uppercase">
                   {project.title}
                 </h3>
-                <p className="text-ink mb-3.5 line-clamp-3 text-[clamp(12px,1.2vw,14px)] leading-[1.6] font-medium">
-                  {stripHtmlToText(project.description)}
-                </p>
+              </Link>
+              <div className="flex flex-1 flex-col px-[clamp(16px,2vw,22px)] pb-[clamp(16px,2vw,22px)]">
+                <MarkdownPreview
+                  markdown={cardExcerpt(project.description)}
+                  className="text-ink mb-3.5 line-clamp-3 text-[clamp(12px,1.2vw,14px)] leading-[1.6] font-medium"
+                />
                 <ProjectTechStack techStack={project.techStack} />
               </div>
-            </Link>
+            </article>
           ))}
         </div>
       ) : (

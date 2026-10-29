@@ -6,8 +6,8 @@ import { useState } from "react";
 
 import SectionState from "@/components/common/SectionState";
 import { cn } from "@/lib/cn";
+import MarkdownPreview from "@/components/markdown/MarkdownPreview";
 import { formatPostDate } from "@/lib/format";
-import { stripHtmlToText } from "@/lib/strip-html";
 import type { BlogPost } from "@/types/api.types";
 
 interface BlogListPageProps {
@@ -16,6 +16,13 @@ interface BlogListPageProps {
 }
 
 const ALL_TAGS = "all";
+
+/** First blocks only: a card mounts an editor, so it must not mount one over a whole article. */
+const cardExcerpt = (markdown: string) =>
+  markdown
+    .split(/\n{2,}/)
+    .slice(0, 2)
+    .join("\n\n");
 
 const BlogListPage = ({ posts, error }: BlogListPageProps) => {
   const [activeTag, setActiveTag] = useState(ALL_TAGS);
@@ -78,45 +85,55 @@ const BlogListPage = ({ posts, error }: BlogListPageProps) => {
         ) : filtered.length > 0 ? (
           <div className="grid grid-cols-1 gap-[clamp(14px,2vw,22px)] sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((post) => (
-              <Link
+              <article
                 key={post.id}
-                href={`/blog/${post.slug}`}
-                className="border-ink flex flex-col border-[3px] bg-white no-underline shadow-[6px_6px_0_var(--color-ink-deep)]"
+                className="border-ink flex flex-col border-[3px] bg-white shadow-[6px_6px_0_var(--color-ink-deep)]"
               >
-                {post.thumbnailUrl && (
-                  <div className="border-ink flex h-[clamp(90px,10vw,130px)] items-center justify-center overflow-hidden border-b-[3px]">
-                    <Image
-                      src={post.thumbnailUrl}
-                      alt=""
-                      width={640}
-                      height={360}
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      className="h-full w-full object-cover"
-                    />
+                {/* The body below is an MDXEditor subtree, which contains focusable
+                    nodes — interactive content inside <a> is invalid, so the link
+                    covers the thumbnail, tags and title only. */}
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="flex flex-col no-underline"
+                >
+                  {post.thumbnailUrl && (
+                    <div className="border-ink flex h-[clamp(90px,10vw,130px)] items-center justify-center overflow-hidden border-b-[3px]">
+                      <Image
+                        src={post.thumbnailUrl}
+                        alt=""
+                        width={640}
+                        height={360}
+                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  )}
+                  <div className="px-[clamp(16px,2vw,22px)] pt-[clamp(16px,2vw,22px)]">
+                    <div className="mb-3.5 flex flex-wrap gap-1">
+                      {post.tags.map((tag) => (
+                        <span
+                          key={tag.id}
+                          className="border-ink bg-lime text-ink border-2 px-1.5 py-0.5 text-[clamp(9px,1vw,11px)] font-bold tracking-[1px] uppercase"
+                        >
+                          {tag.name}
+                        </span>
+                      ))}
+                    </div>
+                    <h2 className="text-ink mb-2.5 text-[clamp(16px,1.8vw,20px)] leading-[1.25] font-extrabold">
+                      {post.title}
+                    </h2>
                   </div>
-                )}
-                <div className="flex flex-1 flex-col p-[clamp(16px,2vw,22px)]">
-                  <div className="mb-3.5 flex flex-wrap gap-1">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag.id}
-                        className="border-ink bg-lime text-ink border-2 px-1.5 py-0.5 text-[clamp(9px,1vw,11px)] font-bold tracking-[1px] uppercase"
-                      >
-                        {tag.name}
-                      </span>
-                    ))}
-                  </div>
-                  <h2 className="text-ink mb-2.5 text-[clamp(16px,1.8vw,20px)] leading-[1.25] font-extrabold">
-                    {post.title}
-                  </h2>
-                  <p className="text-ink line-clamp-3 text-sm leading-[1.6]">
-                    {stripHtmlToText(post.excerpt)}
-                  </p>
+                </Link>
+                <div className="flex flex-1 flex-col px-[clamp(16px,2vw,22px)] pb-[clamp(16px,2vw,22px)]">
+                  <MarkdownPreview
+                    markdown={cardExcerpt(post.content)}
+                    className="text-ink line-clamp-3 text-sm leading-[1.6]"
+                  />
                   <div className="border-ink text-ink mt-4 border-t-2 pt-2.5 text-[clamp(10px,1.1vw,12px)] font-bold tracking-[1px] uppercase">
                     {formatPostDate(post.publishedAt)} · {post.timeToReadMinutes} min
                   </div>
                 </div>
-              </Link>
+              </article>
             ))}
           </div>
         ) : (

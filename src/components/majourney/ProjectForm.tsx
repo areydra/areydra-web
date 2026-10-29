@@ -4,7 +4,7 @@ import Field from "@/components/ui/Field";
 import TextInput from "@/components/ui/TextInput";
 import ImageUploadField from "@/components/majourney/ImageUploadField";
 import MultiImageUploadField from "@/components/majourney/MultiImageUploadField";
-import RichTextEditor from "@/components/majourney/RichTextEditor";
+import MarkdownEditor from "@/components/markdown/MarkdownEditor";
 import type { ProjectInput } from "@/types/admin.types";
 
 type SkillOption = { id: string; name: string; categoryName: string };
@@ -116,10 +116,10 @@ export default function ProjectForm({
       </Field>
 
       <Field label="Description">
-        <RichTextEditor
-          value={form.description}
-          onChange={(html) => setField("description", html)}
-          folder="projects"
+        <MarkdownEditor
+          markdown={form.description}
+          className="border-ink border-[3px]"
+          onChange={(markdown) => setField("description", markdown)}
         />
       </Field>
     </>

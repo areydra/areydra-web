@@ -60,6 +60,15 @@ These deviate from the generic pattern on purpose. Do not "fix" them back withou
   `order` rule; the swap is a dependency change and belongs in its own commit, not inside a
   convention refactor. `settings["import/resolver"]` is what makes `@/…` resolve, so the ordering
   rule is real either way.
+- **Bodies render with MDXEditor on the public site too.** Blog `content` and project
+  `description` are markdown; the admin editor and every public surface (detail page, cards) use
+  `MDXEditor` — `components/markdown/MdxPreview.tsx` read-only, via `MarkdownPreview` — so the
+  published page cannot drift from the editor. That is a deliberate trade: the body is
+  client-rendered, so it is absent from the first HTML byte and the article route ships the editor
+  bundle. Measured on the production build: CLS 0.07 on `/blog/[slug]`, ~643KB JS transferred
+  there, cards ~0 CLS. Rows written by the pre-markdown rich-text editor are still HTML; they are
+  converted once when the panel loads (`lib/html-to-markdown.ts`, turndown) so a markdown editor
+  never round-trips HTML into escaped text.
 - **Image hosts are a pair.** `img-src` in `src/proxy.ts`'s CSP and `images.remotePatterns` in
   `next.config.mjs` must list the same hosts. Adding an upload host means editing both, or
   `next/image` rejects a URL the CSP already allows. The CSP itself lives in `src/proxy.ts` (it needs

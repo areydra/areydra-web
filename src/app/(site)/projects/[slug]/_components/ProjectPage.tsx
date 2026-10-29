@@ -1,9 +1,9 @@
 import Image from "next/image";
 
+import MarkdownPreview from "@/components/markdown/MarkdownPreview";
 import { cn } from "@/lib/cn";
 import { formatProjectDate } from "@/lib/format";
 import { safeExternalUrl } from "@/lib/safe-url";
-import { sanitizeHtml } from "@/lib/sanitize-html";
 import type { Project } from "@/types/api.types";
 
 interface ProjectPageProps {
@@ -99,10 +99,10 @@ const ProjectPage = ({ project }: ProjectPageProps) => {
           </div>
         )}
 
-        <div
-          className="rich-text-content text-ink text-[clamp(14px,1.5vw,17px)] leading-[1.8] font-medium"
-          // Editor output, sanitized server-side against an allowlist.
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(project.description) }}
+        {/* Same renderer as the panel's editor. */}
+        <MarkdownPreview
+          markdown={project.description}
+          className="text-ink text-[clamp(14px,1.5vw,17px)] leading-[1.8] font-medium"
         />
       </section>
     </>
