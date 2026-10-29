@@ -1,10 +1,10 @@
 import { safeExternalUrl, toMailtoHref } from "@/lib/safe-url";
 
-type SocialLink = {
+interface SocialLink {
   label: string;
   href: string;
   external?: boolean;
-};
+}
 
 const GITHUB = safeExternalUrl("https://github.com/areydra");
 const LINKEDIN = safeExternalUrl("https://linkedin.com/in/areydra");
@@ -19,3 +19,9 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const SITE_NAME = "Areydra";
 export const SITE_DESCRIPTION = "Software Engineer portfolio for Areydra.";
+
+/** Absolute origin for canonical URLs, the sitemap and OG metadata. */
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://areydra.com").replace(
+  /\/$/,
+  "",
+);
