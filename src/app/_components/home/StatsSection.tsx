@@ -17,7 +17,7 @@ const StatsSection = ({ profile, skillGroups, workHistory }: StatsSectionProps) 
   ];
 
   return (
-    <div className="border-ink bg-ink grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] gap-[1px] border-b-4">
+    <div className="border-ink bg-ink grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] gap-0.75 border-b-4">
       {stats.map((stat) => (
         <div
           key={stat.label}
