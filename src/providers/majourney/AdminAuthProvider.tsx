@@ -1,79 +1,112 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
-import { publicRequest } from "@/services/admin-api-client";
 
-const TOKEN_KEY = "portfolio-admin-token";
-const EXPIRES_KEY = "portfolio-admin-token-expires-at";
+import { ApiError, getApiBaseUrl } from "@/services/admin-api-client";
+import type { AdminUser } from "@/types/admin.types";
 
-type LoginResponse = { token: string; expiresAt: string };
-
-type AdminAuthContextValue = {
+interface AdminAuthContextValue {
   loggedIn: boolean;
+  /** False until the session lookup resolves, so the gate never flashes. */
   hydrated: boolean;
-  token: string | null;
+  user: AdminUser | null;
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
-};
+  logout: () => Promise<void>;
+}
 
 const AdminAuthContext = createContext<AdminAuthContextValue | null>(null);
 
-function readStoredToken(): string | null {
-  try {
-    const token = window.localStorage.getItem(TOKEN_KEY);
-    const expiresAt = window.localStorage.getItem(EXPIRES_KEY);
-    if (!token || !expiresAt) return null;
-    if (new Date(expiresAt).getTime() <= Date.now()) return null;
-    return token;
-  } catch {
-    return null;
-  }
-}
-
+/**
+ * Session state for the admin panel.
+ *
+ * There is no token here. The API sets an httpOnly cookie on `api.areydra.com`;
+ * the browser sends it on every admin call because the frontend is same-site and
+ * requests opt in with `credentials: "include"`. JavaScript can only ever
+ * observe "who is signed in", never the credential.
+ */
 export function AdminAuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<AdminUser | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
-  // Reading localStorage is an external-system read that cannot happen during
-  // render (the server has no window), so it belongs in a mount effect.
-  /* eslint-disable react-hooks/set-state-in-effect -- hydration from localStorage */
-  useEffect(
-    function hydrateStoredSession() {
-      setToken(readStoredToken());
+  // The session read is an external-system read, so it belongs in a mount
+  // effect, and it must not set state after unmount.
+  /* eslint-disable react-hooks/set-state-in-effect -- session read on mount */
+  useEffect(function hydrateSessionFromCookie() {
+    let cancelled = false;
+
+    let base: string;
+    try {
+      base = getApiBaseUrl();
+    } catch {
       setHydrated(true);
-    },
-    [],
-  );
+      return;
+    }
+
+    fetch(new URL("/auth/session", base), { credentials: "include", cache: "no-store" })
+      .then(async (response) => {
+        if (cancelled) return;
+        if (!response.ok) {
+          setUser(null);
+          return;
+        }
+        const body = (await response.json()) as { user?: AdminUser };
+        setUser(body.user ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setUser(null);
+      })
+      .finally(() => {
+        if (!cancelled) setHydrated(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   const login = useCallback(async (email: string, password: string) => {
-    // The backend issues a stateless ~7-day JWT — no refresh flow, no
-    // /logout endpoint (see the backend's technical design doc, §4).
-    const response = await publicRequest<LoginResponse>("/admin/login", {
+    const response = await fetch(new URL("/admin/login", getApiBaseUrl()).toString(), {
       method: "POST",
-      body: { email, password },
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+      credentials: "include",
+      cache: "no-store",
     });
-    setToken(response.token);
-    try {
-      window.localStorage.setItem(TOKEN_KEY, response.token);
-      window.localStorage.setItem(EXPIRES_KEY, response.expiresAt);
-    } catch {
-      // Ignore write failures (e.g. private browsing) — session just won't persist.
+
+    const body = (await response.json().catch(() => null)) as {
+      user?: AdminUser;
+      error?: { code?: string; message?: string };
+    } | null;
+
+    if (!response.ok) {
+      throw new ApiError(
+        response.status,
+        body?.error?.code ?? "LOGIN_FAILED",
+        body?.error?.message ?? "Could not sign in. Try again.",
+      );
     }
+
+    setUser(body?.user ?? null);
   }, []);
 
-  const logout = useCallback(() => {
-    setToken(null);
+  const logout = useCallback(async () => {
+    // Clear the UI first: the cookie is server-side state, and a signed-out
+    // panel should never keep rendering data while a request is in flight.
+    setUser(null);
     try {
-      window.localStorage.removeItem(TOKEN_KEY);
-      window.localStorage.removeItem(EXPIRES_KEY);
+      await fetch(new URL("/auth/logout", getApiBaseUrl()).toString(), {
+        method: "POST",
+        credentials: "include",
+        cache: "no-store",
+      });
     } catch {
-      // Ignore write failures.
+      // The next session read settles it.
     }
   }, []);
 
   return (
-    <AdminAuthContext.Provider value={{ loggedIn: !!token, hydrated, token, login, logout }}>
+    <AdminAuthContext.Provider value={{ loggedIn: !!user, hydrated, user, login, logout }}>
       {children}
     </AdminAuthContext.Provider>
   );

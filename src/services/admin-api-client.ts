@@ -1,10 +1,11 @@
 /**
- * Browser-side client for the areydra-be backend.
+ * Browser client for `areydra-be`.
  *
- * Per the backend's technical design doc, the frontend and backend are
- * deployed on unrelated domains and auth is a Bearer JWT attached manually
- * per request (not a cookie) — so this client calls the backend's absolute
- * URL directly from the browser rather than proxying through Next.js.
+ * The admin session is an httpOnly cookie set by the API on `api.areydra.com`.
+ * The frontend lives on `areydra.com` — cross-origin but **same-site** — so
+ * `credentials: "include"` is the whole transport story: the browser attaches
+ * the cookie, the API validates it per request, and JavaScript never sees a
+ * token. (Cross-*site* would change this; that is what the BFF was for.)
  */
 
 export class ApiError extends Error {
@@ -27,32 +28,31 @@ export class ApiError extends Error {
 function getApiBaseUrl(): string {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   if (!baseUrl) {
-    throw new ApiError(
-      0,
-      "CONFIG_ERROR",
-      "Missing NEXT_PUBLIC_API_BASE_URL environment variable."
-    );
+    throw new ApiError(0, "CONFIG_ERROR", "Missing NEXT_PUBLIC_API_BASE_URL environment variable.");
   }
   return baseUrl;
 }
 
-async function request<T>(
+async function send<T>(
   path: string,
-  options: { method?: string; body?: unknown; token?: string | null } = {}
+  options: { method?: string; body?: unknown; credentials?: RequestCredentials } = {},
 ): Promise<T> {
-  const { method = "GET", body, token } = options;
-  const baseUrl = getApiBaseUrl();
+  const { method = "GET", body, credentials } = options;
 
   const headers: Record<string, string> = { Accept: "application/json" };
   if (body !== undefined) headers["Content-Type"] = "application/json";
-  if (token) headers.Authorization = `Bearer ${token}`;
+
+  // Resolved before the try: a missing base URL is a config error, not a
+  // transport failure, and must not be reported as NETWORK_ERROR.
+  const target = new URL(path, getApiBaseUrl()).toString();
 
   let response: Response;
   try {
-    response = await fetch(new URL(path, baseUrl), {
+    response = await fetch(target, {
       method,
       headers,
       body: body !== undefined ? JSON.stringify(body) : undefined,
+      ...(credentials ? { credentials } : {}),
     });
   } catch {
     throw new ApiError(0, "NETWORK_ERROR", "Could not reach the API. Check your connection.");
@@ -75,17 +75,19 @@ async function request<T>(
 }
 
 /** Unauthenticated request to a public endpoint. */
-export function publicRequest<T>(path: string, options?: { method?: string; body?: unknown }) {
-  return request<T>(path, options);
+export async function publicRequest<T>(
+  path: string,
+  options?: { method?: string; body?: unknown },
+) {
+  return send<T>(path, options);
 }
 
-/** Bearer-authenticated request to an admin endpoint. */
-export function adminRequest<T>(
-  path: string,
-  token: string | null,
-  options?: { method?: string; body?: unknown }
-) {
-  return request<T>(path, { ...options, token });
+/**
+ * Authenticated request. No token argument: the API is same-site, the cookie is
+ * httpOnly, and `credentials: "include"` is what makes the browser attach it.
+ */
+export async function adminRequest<T>(path: string, options?: { method?: string; body?: unknown }) {
+  return send<T>(path, { ...options, credentials: "include" });
 }
 
 export { getApiBaseUrl };

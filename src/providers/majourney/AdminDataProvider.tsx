@@ -1,8 +1,29 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { useAdminAuth } from "./AdminAuthProvider";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
+
+import { deleteBlogPostAction } from "@/actions/blog/delete-blog-post";
+import { saveBlogPostAction } from "@/actions/blog/save-blog-post";
+import { updateHomeConfigAction } from "@/actions/home-config/update-home-config";
+import { updateProfileAction } from "@/actions/profile/update-profile";
+import { deleteProjectAction } from "@/actions/projects/delete-project";
+import { saveProjectAction } from "@/actions/projects/save-project";
+import { createSkillAction } from "@/actions/skills/create-skill";
+import { createSkillCategoryAction } from "@/actions/skills/create-skill-category";
+import { deleteSkillAction } from "@/actions/skills/delete-skill";
+import { deleteSkillCategoryAction } from "@/actions/skills/delete-skill-category";
+import { deleteWorkHistoryAction } from "@/actions/work-history/delete-work-history";
+import { saveWorkHistoryAction } from "@/actions/work-history/save-work-history";
 import { ApiError, adminRequest, publicRequest } from "@/services/admin-api-client";
+import type { ActionResult } from "@/lib/action-result";
 import type {
   BlogPost,
   HomeConfig,
@@ -14,6 +35,8 @@ import type {
   WorkHistory,
 } from "@/types/api.types";
 import type {
+  AdminInitialData,
+  AdminSectionErrors,
   BlogPostInput,
   HomeConfigInput,
   ProfileInput,
@@ -21,25 +44,13 @@ import type {
   WorkHistoryInput,
 } from "@/types/admin.types";
 
+import { useAdminAuth } from "./AdminAuthProvider";
+
 type HomeConfigSettings = { totalShowProjects: number; totalShowBlogs: number };
 
-/**
- * Per-section load errors. A resource missing here just means it loaded fine
- * (or, for the `profile`/`homeConfig` singletons, that the row simply hasn't
- * been created yet — a normal first-run state, not an error).
- */
-type SectionErrors = {
-  profile?: string;
-  skills?: string;
-  workHistory?: string;
-  projects?: string;
-  blog?: string;
-  homeConfig?: string;
-};
-
-type AdminDataContextValue = {
+interface AdminDataContextValue {
   loading: boolean;
-  errors: SectionErrors;
+  errors: AdminSectionErrors;
   refresh: () => void;
 
   profile: Profile | null;
@@ -69,39 +80,51 @@ type AdminDataContextValue = {
 
   homeConfig: HomeConfigSettings | null;
   updateHomeConfig: (payload: HomeConfigInput) => Promise<void>;
-};
+}
 
 const AdminDataContext = createContext<AdminDataContextValue | null>(null);
 
-export function AdminDataProvider({ children }: { children: ReactNode }) {
-  const { token, hydrated, logout } = useAdminAuth();
+interface AdminDataProviderProps {
+  /** Fetched in `app/majourney/layout.tsx`, so first paint has data. */
+  initialData: AdminInitialData;
+  children: ReactNode;
+}
 
-  const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState<SectionErrors>({});
+export function AdminDataProvider({ initialData, children }: AdminDataProviderProps) {
+  const { loggedIn, hydrated, logout } = useAdminAuth();
 
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [skillGroups, setSkillGroups] = useState<SkillGroup[]>([]);
-  const [workHistory, setWorkHistory] = useState<WorkHistory[]>([]);
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
-  const [homeConfig, setHomeConfig] = useState<HomeConfigSettings | null>(null);
+  const [loading, setLoading] = useState(!initialData.loaded);
+  const [errors, setErrors] = useState<AdminSectionErrors>(initialData.errors);
 
-  /** Runs a mutation, logging out automatically if the token was rejected/expired. */
-  const withAuthHandling = useCallback(
-    async <T,>(fn: () => Promise<T>): Promise<T> => {
-      try {
-        return await fn();
-      } catch (err) {
-        if (err instanceof ApiError && err.isAuthError) logout();
-        throw err;
+  const [profile, setProfile] = useState<Profile | null>(initialData.profile);
+  const [skillGroups, setSkillGroups] = useState<SkillGroup[]>(initialData.skillGroups);
+  const [workHistory, setWorkHistory] = useState<WorkHistory[]>(initialData.workHistory);
+  const [projects, setProjects] = useState<Project[]>(initialData.projects);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(initialData.blogPosts);
+  const [homeConfig, setHomeConfig] = useState<HomeConfigSettings | null>(
+    initialData.homeConfig
+      ? {
+          totalShowProjects: initialData.homeConfig.totalShowProjects,
+          totalShowBlogs: initialData.homeConfig.totalShowBlogs,
+        }
+      : null,
+  );
+
+  /** Turns a failed action into a thrown ApiError, logging out on a dead session. */
+  const unwrap = useCallback(
+    <T,>(result: ActionResult<T>): T => {
+      if (!result.ok) {
+        if (result.code === "UNAUTHENTICATED") logout();
+        throw new ApiError(400, result.code, result.error);
       }
+      return result.data;
     },
-    [logout]
+    [logout],
   );
 
   const loadAll = useCallback(async () => {
     if (!hydrated) return;
-    if (!token) {
+    if (!loggedIn) {
       setLoading(false);
       return;
     }
@@ -113,10 +136,10 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
         publicRequest<ListResponse<WorkHistory>>("/work-history"),
         publicRequest<ListResponse<Project>>("/projects?limit=100&offset=0"),
         publicRequest<HomeConfig>("/home-config"),
-        adminRequest<ListResponse<BlogPost>>("/admin/blog?limit=100&offset=0", token),
+        adminRequest<ListResponse<BlogPost>>("/admin/blog?limit=100&offset=0"),
       ]);
 
-    const nextErrors: SectionErrors = {};
+    const nextErrors: AdminSectionErrors = {};
     const messageFor = (reason: unknown, fallback: string) =>
       reason instanceof ApiError ? reason.message : fallback;
 
@@ -172,179 +195,154 @@ export function AdminDataProvider({ children }: { children: ReactNode }) {
 
     setErrors(nextErrors);
     setLoading(false);
-  }, [hydrated, token, logout]);
+  }, [hydrated, loggedIn, logout]);
 
-  /* eslint-disable react-hooks/set-state-in-effect -- fetch after the session token hydrates */
+  /* eslint-disable react-hooks/set-state-in-effect -- fetch after the session read resolves */
   useEffect(
     function loadAdminData() {
+      // Server-rendered data is already in state; only fetch when this provider
+      // mounted without a session (e.g. right after signing in on /login).
+      if (initialData.loaded) return;
       loadAll();
     },
-    [loadAll],
+    [initialData.loaded, loadAll],
   );
   /* eslint-enable react-hooks/set-state-in-effect */
 
   const updateProfile = useCallback(
     async (payload: ProfileInput) => {
-      const updated = await withAuthHandling(() =>
-        adminRequest<Profile>("/admin/profile", token, { method: "PUT", body: payload })
-      );
-      setProfile(updated);
+      setProfile(unwrap(await updateProfileAction(payload)));
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const createCategory = useCallback(
     async (name: string) => {
-      const category = await withAuthHandling(() =>
-        adminRequest<{ id: string; name: string }>("/admin/skill-categories", token, {
-          method: "POST",
-          body: { name },
-        })
-      );
+      const category = unwrap(await createSkillCategoryAction(name));
       setSkillGroups((prev) => [...prev, { id: category.id, name: category.name, skills: [] }]);
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const deleteCategory = useCallback(
     async (id: string) => {
-      await withAuthHandling(() =>
-        adminRequest<void>(`/admin/skill-categories/${id}`, token, { method: "DELETE" })
-      );
+      unwrap(await deleteSkillCategoryAction(id));
       setSkillGroups((prev) => prev.filter((c) => c.id !== id));
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const createSkill = useCallback(
     async (categoryId: string, name: string) => {
-      const skill = await withAuthHandling(() =>
-        adminRequest<{ id: string; name: string; categoryId: string }>("/admin/skills", token, {
-          method: "POST",
-          body: { categoryId, name },
-        })
-      );
+      const skill = unwrap(await createSkillAction(categoryId, name));
       setSkillGroups((prev) =>
-        prev.map((c) => (c.id === categoryId ? { ...c, skills: [...c.skills, { id: skill.id, name: skill.name }] } : c))
+        prev.map((c) =>
+          c.id === categoryId
+            ? { ...c, skills: [...c.skills, { id: skill.id, name: skill.name }] }
+            : c,
+        ),
       );
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const deleteSkill = useCallback(
     async (categoryId: string, skillId: string) => {
-      await withAuthHandling(() =>
-        adminRequest<void>(`/admin/skills/${skillId}`, token, { method: "DELETE" })
-      );
+      unwrap(await deleteSkillAction(skillId));
       setSkillGroups((prev) =>
-        prev.map((c) => (c.id === categoryId ? { ...c, skills: c.skills.filter((s) => s.id !== skillId) } : c))
+        prev.map((c) =>
+          c.id === categoryId ? { ...c, skills: c.skills.filter((s) => s.id !== skillId) } : c,
+        ),
       );
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const createWork = useCallback(
     async (payload: WorkHistoryInput) => {
-      const created = await withAuthHandling(() =>
-        adminRequest<WorkHistory>("/admin/work-history", token, { method: "POST", body: payload })
-      );
+      const created = unwrap(await saveWorkHistoryAction({ values: payload }));
       setWorkHistory((prev) => [...prev, created]);
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const updateWork = useCallback(
     async (id: string, payload: WorkHistoryInput) => {
-      const updated = await withAuthHandling(() =>
-        adminRequest<WorkHistory>(`/admin/work-history/${id}`, token, { method: "PUT", body: payload })
-      );
+      const updated = unwrap(await saveWorkHistoryAction({ id, values: payload }));
       setWorkHistory((prev) => prev.map((w) => (w.id === id ? updated : w)));
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const deleteWork = useCallback(
     async (id: string) => {
-      await withAuthHandling(() =>
-        adminRequest<void>(`/admin/work-history/${id}`, token, { method: "DELETE" })
-      );
+      unwrap(await deleteWorkHistoryAction(id));
       setWorkHistory((prev) => prev.filter((w) => w.id !== id));
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const createProject = useCallback(
     async (payload: ProjectInput) => {
-      const created = await withAuthHandling(() =>
-        adminRequest<Project>("/admin/projects", token, { method: "POST", body: payload })
-      );
+      const created = unwrap(await saveProjectAction({ values: payload }));
       setProjects((prev) => [...prev, created]);
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const updateProject = useCallback(
     async (id: string, payload: ProjectInput) => {
-      const updated = await withAuthHandling(() =>
-        adminRequest<Project>(`/admin/projects/${id}`, token, { method: "PUT", body: payload })
-      );
+      const updated = unwrap(await saveProjectAction({ id, values: payload }));
       setProjects((prev) => prev.map((p) => (p.id === id ? updated : p)));
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const deleteProject = useCallback(
     async (id: string) => {
-      await withAuthHandling(() => adminRequest<void>(`/admin/projects/${id}`, token, { method: "DELETE" }));
+      unwrap(await deleteProjectAction({ id }));
       setProjects((prev) => prev.filter((p) => p.id !== id));
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const createBlogPost = useCallback(
     async (payload: BlogPostInput) => {
-      // Create defaults to draft server-side — status isn't accepted until update.
-      const { status: _status, ...createPayload } = payload;
-      const created = await withAuthHandling(() =>
-        adminRequest<BlogPost>("/admin/blog", token, { method: "POST", body: createPayload })
-      );
+      const created = unwrap(await saveBlogPostAction({ values: payload }));
       setBlogPosts((prev) => [...prev, created]);
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const updateBlogPost = useCallback(
     async (id: string, payload: BlogPostInput) => {
-      const updated = await withAuthHandling(() =>
-        adminRequest<BlogPost>(`/admin/blog/${id}`, token, { method: "PUT", body: payload })
-      );
+      const updated = unwrap(await saveBlogPostAction({ id, values: payload }));
       setBlogPosts((prev) => prev.map((b) => (b.id === id ? updated : b)));
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const deleteBlogPost = useCallback(
     async (id: string) => {
-      await withAuthHandling(() => adminRequest<void>(`/admin/blog/${id}`, token, { method: "DELETE" }));
+      unwrap(await deleteBlogPostAction({ id }));
       setBlogPosts((prev) => prev.filter((b) => b.id !== id));
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const updateHomeConfig = useCallback(
     async (payload: HomeConfigInput) => {
-      const updated = await withAuthHandling(() =>
-        adminRequest<HomeConfigSettings>("/admin/home-config", token, { method: "PUT", body: payload })
-      );
-      setHomeConfig(updated);
+      setHomeConfig(unwrap(await updateHomeConfigAction(payload)));
     },
-    [token, withAuthHandling]
+    [unwrap],
   );
 
   const allSkills = useMemo(
     () =>
-      skillGroups.flatMap((group) => group.skills.map((skill) => ({ ...skill, categoryName: group.name }))),
-    [skillGroups]
+      skillGroups.flatMap((group) =>
+        group.skills.map((skill) => ({ ...skill, categoryName: group.name })),
+      ),
+    [skillGroups],
   );
 
   return (

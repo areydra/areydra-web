@@ -1,10 +1,10 @@
 import { adminRequest } from "./admin-api-client";
 
-type PresignResponse = {
+interface PresignResponse {
   uploadUrl: string;
   publicUrl: string;
   expiresAt: string;
-};
+}
 
 /**
  * Uploads a file to Cloudflare R2 via the backend's presigned-URL flow:
@@ -12,12 +12,8 @@ type PresignResponse = {
  * 2. PUT the file straight to R2 (bytes never touch our backend).
  * 3. Return the public URL to save on the owning resource.
  */
-export async function uploadImage(
-  file: File,
-  folder: string,
-  token: string | null
-): Promise<string> {
-  const presign = await adminRequest<PresignResponse>("/admin/uploads/presign", token, {
+export async function uploadImage(file: File, folder: string): Promise<string> {
+  const presign = await adminRequest<PresignResponse>("/admin/uploads/presign", {
     method: "POST",
     body: {
       folder,
