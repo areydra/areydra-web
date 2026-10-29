@@ -10,16 +10,19 @@ const Preview = dynamic(() => import("./MdxPreview"), { ssr: false });
 interface MarkdownPreviewProps {
   markdown: string;
   className?: string;
+  /** Card excerpt: let the wrapper's type scale and clamp own the box. */
+  teaser?: boolean;
 }
 
 /**
  * The body renderer for every public surface: the same MDXEditor the admin writes
  * in, in read-only mode, so the site and the panel cannot disagree.
  */
-const MarkdownPreview = ({ markdown, className }: MarkdownPreviewProps) => (
+const MarkdownPreview = ({ markdown, className, teaser }: MarkdownPreviewProps) => (
   <Preview
     markdown={markdown}
     className={className}
+    teaser={teaser}
   />
 );
 

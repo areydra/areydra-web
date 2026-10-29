@@ -127,6 +127,7 @@ const BlogListPage = ({ posts, error }: BlogListPageProps) => {
                 <div className="flex flex-1 flex-col px-[clamp(16px,2vw,22px)] pb-[clamp(16px,2vw,22px)]">
                   <MarkdownPreview
                     markdown={cardExcerpt(post.content)}
+                    teaser
                     className="text-ink line-clamp-3 text-sm leading-[1.6]"
                   />
                   <div className="border-ink text-ink mt-4 border-t-2 pt-2.5 text-[clamp(10px,1.1vw,12px)] font-bold tracking-[1px] uppercase">

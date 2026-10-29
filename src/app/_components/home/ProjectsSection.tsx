@@ -75,9 +75,10 @@ const ProjectsSection = ({ projects, error }: ProjectsSectionProps) => {
                   {project.title}
                 </h3>
               </Link>
-              <div className="flex flex-1 flex-col px-[clamp(16px,2vw,22px)] pb-[clamp(16px,2vw,22px)]">
+              <div className="flex flex-col px-[clamp(16px,2vw,22px)] pb-[clamp(16px,2vw,22px)]">
                 <MarkdownPreview
                   markdown={cardExcerpt(project.description)}
+                  teaser
                   className="text-ink mb-3.5 line-clamp-3 text-[clamp(12px,1.2vw,14px)] leading-[1.6] font-medium"
                 />
                 <ProjectTechStack techStack={project.techStack} />

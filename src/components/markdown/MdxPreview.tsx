@@ -20,10 +20,22 @@ import {
 } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
 
+import { cn } from "@/lib/cn";
+
 type MdxPreviewProps = {
   markdown: string;
   /** Extra classes for the wrapper — the cards clamp the height here. */
   className?: string;
+  /**
+   * Teaser mode (a card excerpt): the wrapper's own type scale drives the text
+   * and the editor's editing-surface chrome — 12px padding, `1rem/1.75` base,
+   * `--baseTextContrast` ink — is dropped.
+   *
+   * Without it a `line-clamp-{n}` wrapper measures line boxes in the wrapper's
+   * scale while the paragraphs render in the editor's, and the padding lets the
+   * top of the next line through; see `.mdx-preview-teaser` in `globals.css`.
+   */
+  teaser?: boolean;
 };
 
 /**
@@ -38,9 +50,9 @@ type MdxPreviewProps = {
  * Cost, accepted on purpose: the body is client-rendered, so it is not in the
  * first HTML byte (SEO/LCP) and it can shift after hydration (CLS).
  */
-const MdxPreview = ({ markdown, className }: MdxPreviewProps) => {
+const MdxPreview = ({ markdown, className, teaser = false }: MdxPreviewProps) => {
   return (
-    <div className={className ? `mdx-preview-clean-view ${className}` : "mdx-preview-clean-view"}>
+    <div className={cn("mdx-preview-clean-view", teaser && "mdx-preview-teaser", className)}>
       <MDXEditor
         markdown={markdown}
         readOnly
