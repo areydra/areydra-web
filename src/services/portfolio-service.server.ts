@@ -49,7 +49,7 @@ async function fetchJson<T>(path: string): Promise<ApiResult<T>> {
   try {
     const response = await fetch(new URL(path, baseUrl), {
       headers: { Accept: "application/json" },
-      cache: 'no-store'
+      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -85,6 +85,11 @@ export async function getBlogPosts(): Promise<ApiResult<ListResponse<BlogPost>>>
   // backend's max allowed `limit` — no pagination UI exists yet, so this
   // fetches every published post in one call.
   return fetchJson<ListResponse<BlogPost>>("/blog?limit=100&offset=0");
+}
+
+/** Every published project — used by the generated sitemap. */
+export async function getProjects(): Promise<ApiResult<ListResponse<Project>>> {
+  return fetchJson<ListResponse<Project>>("/projects?limit=100&offset=0");
 }
 
 /** `cache` dedupes the read between `generateMetadata` and the page render. */

@@ -1,13 +1,14 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getBlogPostBySlug } from "@/services/portfolio-service";
+import { getBlogPostBySlug } from "@/services/portfolio-service.server";
 
 import BlogPostPage from "./_components/BlogPostPage";
 
-type RouteProps = {
+import type { Metadata } from "next";
+
+interface RouteProps {
   params: Promise<{ slug: string }>;
-};
+}
 
 export async function generateMetadata({ params }: RouteProps): Promise<Metadata> {
   const { slug } = await params;

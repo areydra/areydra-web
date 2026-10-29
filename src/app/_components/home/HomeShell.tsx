@@ -7,11 +7,11 @@ import Nav from "@/components/layout/Nav";
 import StatusStrip from "@/components/layout/StatusStrip";
 import { useClock } from "@/hooks/use-clock";
 
-type HomeShellProps = {
+interface HomeShellProps {
   children: ReactNode;
   hasProjects?: boolean;
   hasBlog?: boolean;
-};
+}
 
 const HomeShell = ({ children, hasProjects = true, hasBlog = true }: HomeShellProps) => {
   const [invert, setInvert] = useState(false);
@@ -21,13 +21,12 @@ const HomeShell = ({ children, hasProjects = true, hasBlog = true }: HomeShellPr
     <div
       className={
         invert
-          ? "min-h-screen bg-paper transition-[filter] duration-150 [filter:invert(1)_hue-rotate(180deg)]"
-          : "min-h-screen bg-paper transition-[filter] duration-150 [filter:none]"
+          ? "bg-paper min-h-screen [filter:invert(1)_hue-rotate(180deg)] transition-[filter] duration-150"
+          : "bg-paper min-h-screen [filter:none] transition-[filter] duration-150"
       }
     >
       <StatusStrip right={clock} />
       <Nav
-        variant="home"
         showInvertToggle
         invert={invert}
         onToggleInvert={() => setInvert((value) => !value)}

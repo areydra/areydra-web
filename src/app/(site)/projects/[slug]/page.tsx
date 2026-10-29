@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { stripHtmlToText } from "@/lib/strip-html";
-import { getProjectBySlug } from "@/services/portfolio-service";
+import { getProjectBySlug } from "@/services/portfolio-service.server";
 
 import ProjectPage from "./_components/ProjectPage";
 
-type RouteProps = {
+import type { Metadata } from "next";
+
+interface RouteProps {
   params: Promise<{ slug: string }>;
-};
+}
 
 export async function generateMetadata({ params }: RouteProps): Promise<Metadata> {
   const { slug } = await params;
@@ -19,6 +20,11 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
   return {
     title: project.title,
     description: stripHtmlToText(project.description).slice(0, 160),
+    openGraph: {
+      title: project.title,
+      description: stripHtmlToText(project.description).slice(0, 160),
+      type: "article",
+    },
   };
 }
 

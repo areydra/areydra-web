@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
-
-import { getBlogPosts } from "@/services/portfolio-service";
+import { getBlogPosts } from "@/services/portfolio-service.server";
 
 import BlogListPage from "./_components/BlogListPage";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -12,5 +12,10 @@ export const metadata: Metadata = {
 export default async function BlogRoute() {
   const { data, error } = await getBlogPosts();
 
-  return <BlogListPage posts={data?.items ?? []} error={error} />;
+  return (
+    <BlogListPage
+      posts={data?.items ?? []}
+      error={error}
+    />
+  );
 }
