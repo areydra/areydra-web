@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, type ReactNode } from "react";
 
-type AdminModalProps = {
+interface AdminModalProps {
   open: boolean;
   title: string;
   onCancel: () => void;
@@ -11,7 +11,7 @@ type AdminModalProps = {
   saving?: boolean;
   error?: string | null;
   children: ReactNode;
-};
+}
 
 /**
  * Native `<dialog>`: focus trapping, Escape handling and focus restoration come
@@ -42,6 +42,9 @@ const AdminModal = ({
   );
 
   return (
+    // Backdrop click is a mouse convenience; the keyboard path for dismissing
+    // is Escape (onCancel above) plus the visible Cancel button.
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <dialog
       ref={dialogRef}
       aria-labelledby={titleId}
@@ -54,16 +57,22 @@ const AdminModal = ({
       onClick={(event) => {
         if (event.target === event.currentTarget) onCancel();
       }}
-      className="m-auto max-h-[85vh] w-full max-w-120 overflow-auto border-4 border-ink bg-white p-7 shadow-[10px_10px_0_#111] backdrop:bg-overlay"
+      className="border-ink backdrop:bg-overlay m-auto max-h-[85vh] w-full max-w-120 overflow-auto border-4 bg-white p-7 shadow-[10px_10px_0_#111]"
     >
-      <h2 id={titleId} className="m-0 mb-5 text-[17px] font-extrabold text-ink">
+      <h2
+        id={titleId}
+        className="text-ink m-0 mb-5 text-[17px] font-extrabold"
+      >
         {title}
       </h2>
 
       {children}
 
       {error ? (
-        <p role="alert" className="m-0 mt-1 mb-2 text-[13px] font-bold text-danger-text">
+        <p
+          role="alert"
+          className="text-danger-text m-0 mt-1 mb-2 text-[13px] font-bold"
+        >
           {error}
         </p>
       ) : null}
@@ -73,7 +82,7 @@ const AdminModal = ({
           type="button"
           onClick={onCancel}
           disabled={saving}
-          className="cursor-pointer border-[3px] border-ink bg-white px-4.5 py-2.5 text-sm font-bold text-ink disabled:cursor-not-allowed disabled:opacity-60"
+          className="border-ink text-ink cursor-pointer border-[3px] bg-white px-4.5 py-2.5 text-sm font-bold disabled:cursor-not-allowed disabled:opacity-60"
         >
           Cancel
         </button>
@@ -81,7 +90,7 @@ const AdminModal = ({
           type="button"
           onClick={onSave}
           disabled={saving}
-          className="cursor-pointer border-[3px] border-ink bg-lime px-4.5 py-2.5 text-sm font-extrabold text-ink shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
+          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-4.5 py-2.5 text-sm font-extrabold shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {saving ? "Saving…" : saveLabel}
         </button>

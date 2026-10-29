@@ -2,6 +2,9 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+
+import Field from "@/components/ui/Field";
+import TextInput from "@/components/ui/TextInput";
 import { useAdminAuth } from "@/providers/majourney/AdminAuthProvider";
 import { ApiError } from "@/services/admin-api-client";
 
@@ -31,41 +34,46 @@ const LoginPage = () => {
   };
 
   return (
-    <main id="main-content" className="flex min-h-screen items-center justify-center bg-paper p-6">
+    <main
+      id="main-content"
+      className="bg-paper flex min-h-screen items-center justify-center p-6"
+    >
       <form
         onSubmit={handleSubmit}
-        className="box-border w-full max-w-95 border-4 border-ink bg-white p-10 shadow-[10px_10px_0_#111]"
+        className="border-ink box-border w-full max-w-95 border-4 bg-white p-10 shadow-[10px_10px_0_#111]"
       >
-        <div className="mb-5 h-10 w-10 border-[3px] border-ink bg-azure" />
-        <h1 className="m-0 mb-1 text-[22px] font-extrabold text-ink">Portfolio Admin</h1>
-        <p className="m-0 mb-6 text-sm text-ink-muted">Sign in to manage your site content.</p>
+        <div className="border-ink bg-azure mb-5 h-10 w-10 border-[3px]" />
+        <h1 className="text-ink m-0 mb-1 text-[22px] font-extrabold">Portfolio Admin</h1>
+        <p className="text-ink-muted m-0 mb-6 text-sm">Sign in to manage your site content.</p>
 
-        <label className="mb-1.5 block text-[13px] font-semibold text-ink">Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
-          disabled={submitting}
-          className="mb-4 box-border w-full border-[3px] border-ink px-3 py-2.5 text-sm font-[inherit] disabled:opacity-60"
-        />
+        <Field label="Email">
+          <TextInput
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            autoComplete="username"
+            disabled={submitting}
+          />
+        </Field>
 
-        <label className="mb-1.5 block text-[13px] font-semibold text-ink">Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
-          disabled={submitting}
-          className="mb-2 box-border w-full border-[3px] border-ink px-3 py-2.5 text-sm font-[inherit] disabled:opacity-60"
-        />
+        <Field label="Password">
+          <TextInput
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            autoComplete="current-password"
+            disabled={submitting}
+          />
+        </Field>
 
-        {error && <p className="m-0 mb-3 text-[13px] font-bold text-danger-text">{error}</p>}
+        {error && <p className="text-danger-text m-0 mb-3 text-[13px] font-bold">{error}</p>}
 
         <button
           type="submit"
           disabled={submitting}
-          className="mt-3 w-full cursor-pointer border-[3px] border-ink bg-lime py-2.75 text-sm font-extrabold text-ink shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
+          className="border-ink bg-lime text-ink mt-3 w-full cursor-pointer border-[3px] py-2.75 text-sm font-extrabold shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {submitting ? "Signing in…" : "Sign in"}
         </button>
