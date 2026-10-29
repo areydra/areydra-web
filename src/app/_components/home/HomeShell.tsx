@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-
 import Footer from "@/components/layout/Footer";
 import Nav from "@/components/layout/Nav";
 import StatusStrip from "@/components/layout/StatusStrip";
 import { useClock } from "@/hooks/use-clock";
+
+import type { ReactNode } from "react";
 
 interface HomeShellProps {
   children: ReactNode;
@@ -13,23 +13,18 @@ interface HomeShellProps {
   hasBlog?: boolean;
 }
 
+/**
+ * Chrome for the home route, which sits outside the `(site)` group because it
+ * differs: this nav carries the collection toggles and this status strip carries
+ * the live clock, while `(site)/layout.tsx` renders the subpage variants.
+ */
 const HomeShell = ({ children, hasProjects = true, hasBlog = true }: HomeShellProps) => {
-  const [invert, setInvert] = useState(false);
   const clock = useClock();
 
   return (
-    <div
-      className={
-        invert
-          ? "bg-paper min-h-screen [filter:invert(1)_hue-rotate(180deg)] transition-[filter] duration-150"
-          : "bg-paper min-h-screen [filter:none] transition-[filter] duration-150"
-      }
-    >
+    <div className="bg-paper min-h-screen">
       <StatusStrip right={clock} />
       <Nav
-        showInvertToggle
-        invert={invert}
-        onToggleInvert={() => setInvert((value) => !value)}
         hasProjects={hasProjects}
         hasBlog={hasBlog}
       />

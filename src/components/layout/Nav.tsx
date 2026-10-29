@@ -10,10 +10,7 @@ import { cn } from "@/lib/cn";
 type NavVariant = "home" | "subpage" | "detail";
 
 interface NavProps {
-  /** Home renders the invert toggle; every other route gets the site links. */
-  showInvertToggle?: boolean;
-  invert?: boolean;
-  onToggleInvert?: () => void;
+  /** A nav item disappears when its collection is empty. */
   hasProjects?: boolean;
   hasBlog?: boolean;
 }
@@ -37,13 +34,7 @@ const variantFor = (pathname: string): NavVariant => {
   return segments.length >= 2 ? "detail" : "subpage";
 };
 
-const Nav = ({
-  showInvertToggle = false,
-  invert = false,
-  onToggleInvert,
-  hasProjects = true,
-  hasBlog = true,
-}: NavProps) => {
+const Nav = ({ hasProjects = true, hasBlog = true }: NavProps) => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -109,16 +100,6 @@ const Nav = ({
       </div>
 
       <div className="flex items-stretch md:hidden">
-        {showInvertToggle && (
-          <button
-            type="button"
-            onClick={onToggleInvert}
-            aria-pressed={invert}
-            className="border-ink bg-ink text-paper cursor-pointer border-l-4 px-3.5 text-[11px] font-bold tracking-[1px] uppercase"
-          >
-            INV
-          </button>
-        )}
         <button
           type="button"
           onClick={() => setMenuOpen((open) => !open)}

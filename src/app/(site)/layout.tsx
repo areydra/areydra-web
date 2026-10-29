@@ -9,8 +9,8 @@ import type { ReactNode } from "react";
  * instead of remounting on every navigation — and so a `loading.tsx` only has
  * to replace page content, never the nav.
  *
- * The homepage is not in this group: it owns `HomeShell`, because the invert
- * filter wraps the nav and the content together.
+ * The homepage is not in this group: it owns `HomeShell`, whose nav carries the
+ * collection toggles and whose status strip carries the live clock.
  */
 export default function SiteLayout({ children }: { children: ReactNode }) {
   return (

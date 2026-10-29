@@ -22,9 +22,10 @@ both gates, the header check against the real production build.
 
 These deviate from the generic pattern on purpose. Do not "fix" them back without reading why:
 
-- **Homepage chrome lives in `HomeShell`, not `(site)/layout.tsx`.** The invert filter has to wrap
-  the nav and the content together, so `/` stays outside the `(site)` route group while blog and
-  project routes take their chrome from the layout.
+- **Homepage chrome lives in `HomeShell`, not `(site)/layout.tsx`.** `/` stays outside the `(site)`
+  route group because its chrome differs: `HomeShell` renders `Nav` with the collection toggles and
+  `StatusStrip` with the live clock, while the group's layout renders the subpage variants. There is
+  no invert/theme toggle — it was removed, so do not reintroduce a filter wrapper around the nav.
 - **No Zustand, no TanStack Query.** The admin session is an httpOnly `__Host-session` cookie set by
   `api.areydra.com`. Panel data is fetched on the server in `app/majourney/layout.tsx`
   (`services/admin-data.server.ts`) and handed to the client as initial state; writes run as Server

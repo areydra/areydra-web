@@ -7,7 +7,7 @@ interface NavSkeletonProps {
 
 /**
  * Static stand-in for the site nav inside route fallbacks. `Nav` is a client
- * component with a menu button and an invert toggle, and a skeleton must not
+ * component with a menu button and a mobile menu, and a skeleton must not
  * contain focusable elements — so the same box is reproduced here instead of
  * rendering the real nav. Brand glyphs and item labels are the real ones with
  * transparent ink, which is what keeps the nav height identical across the
@@ -50,11 +50,6 @@ const NavSkeleton = ({ variant = "subpage" }: NavSkeletonProps) => {
           </div>
 
           <div className="flex items-stretch md:hidden">
-            {variant === "home" && (
-              <div className="border-ink bg-ink flex items-center border-l-4 px-3.5 text-[11px] font-bold tracking-[1px] uppercase">
-                <SkeletonBlock className="h-2.5 w-7 rounded-sm" />
-              </div>
-            )}
             <div className="border-ink flex items-center border-l-4 px-[18px]">
               <SkeletonBlock className="h-4 w-5 rounded-sm" />
             </div>
