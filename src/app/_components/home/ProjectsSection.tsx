@@ -79,7 +79,7 @@ const ProjectsSection = ({ projects, error }: ProjectsSectionProps) => {
                 <MarkdownPreview
                   markdown={cardExcerpt(project.description)}
                   teaser
-                  className="text-ink mb-3.5 line-clamp-3 text-[clamp(12px,1.2vw,14px)] leading-[1.6] font-medium"
+                  className="text-ink mb-3.5 line-clamp-3 text-[clamp(12px,1.2vw,14px)] leading-[1.6]"
                 />
                 <ProjectTechStack techStack={project.techStack} />
               </div>

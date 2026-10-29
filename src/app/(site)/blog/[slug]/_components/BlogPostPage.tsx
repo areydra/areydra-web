@@ -57,7 +57,7 @@ const BlogPostPage = ({ post }: BlogPostPageProps) => {
               published page cannot look different from the editor. */}
           <MarkdownPreview
             markdown={post.content}
-            className="text-ink text-[clamp(15px,1.6vw,17px)] leading-[1.8] font-medium"
+            className="text-ink text-[clamp(15px,1.6vw,17px)] leading-[1.8]"
           />
 
           <aside className="border-ink bg-lime mt-10 border-[3px] p-[clamp(20px,3vw,32px)] shadow-[8px_8px_0_var(--color-ink)]">

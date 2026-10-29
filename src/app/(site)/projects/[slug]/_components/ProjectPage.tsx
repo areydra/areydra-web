@@ -102,7 +102,7 @@ const ProjectPage = ({ project }: ProjectPageProps) => {
         {/* Same renderer as the panel's editor. */}
         <MarkdownPreview
           markdown={project.description}
-          className="text-ink text-[clamp(14px,1.5vw,17px)] leading-[1.8] font-medium"
+          className="text-ink text-[clamp(14px,1.5vw,17px)] leading-[1.8]"
         />
       </section>
     </>
