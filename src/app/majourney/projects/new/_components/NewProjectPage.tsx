@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import AdminFormPage from "@/components/majourney/AdminFormPage";
 import ProjectForm from "@/components/majourney/ProjectForm";
@@ -22,7 +23,9 @@ export default function NewProjectPage() {
   const toggleSkill = (skillId: string) =>
     setForm((prev) => {
       const has = prev.skillIds.includes(skillId);
-      const skillIds = has ? prev.skillIds.filter((id) => id !== skillId) : [...prev.skillIds, skillId];
+      const skillIds = has
+        ? prev.skillIds.filter((id) => id !== skillId)
+        : [...prev.skillIds, skillId];
       return { ...prev, skillIds };
     });
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import AdminFormPage from "@/components/majourney/AdminFormPage";
 import BlogPostForm from "@/components/majourney/BlogPostForm";
@@ -24,10 +25,10 @@ export default function EditBlogPostPage() {
   if (!item || !form) {
     return (
       <div>
-        <p className="mb-3 text-sm font-semibold text-ink">Blog post not found.</p>
+        <p className="text-ink mb-3 text-sm font-semibold">Blog post not found.</p>
         <Link
           href="/majourney/blog"
-          className="text-[13px] font-bold text-ink underline"
+          className="text-ink text-[13px] font-bold underline"
         >
           ← Back to Blog
         </Link>

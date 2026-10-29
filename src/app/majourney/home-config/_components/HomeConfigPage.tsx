@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import Field from "@/components/ui/Field";
 import TextInput from "@/components/ui/TextInput";
@@ -30,15 +31,17 @@ const HomeConfigPage = () => {
   return (
     <div className="grid max-w-160 gap-5">
       {errors.homeConfig && (
-        <p className="m-0 border-[3px] border-ink bg-white p-3 text-[13px] font-bold text-danger-text">
+        <p className="border-ink text-danger-text m-0 border-[3px] bg-white p-3 text-[13px] font-bold">
           {errors.homeConfig}
         </p>
       )}
 
-      <div className="box-border border-[3px] border-ink bg-white p-7 shadow-[6px_6px_0_#111]">
-        <h2 className="m-0 mb-5 text-lg font-extrabold text-ink">Homepage Settings</h2>
+      <div className="border-ink box-border border-[3px] bg-white p-7 shadow-[6px_6px_0_#111]">
+        <h2 className="text-ink m-0 mb-5 text-lg font-extrabold">Homepage Settings</h2>
         {isNew && !errors.homeConfig && (
-          <p className="m-0 mb-5 text-sm text-ink-muted">Not set up yet — choose values and save to create it.</p>
+          <p className="text-ink-muted m-0 mb-5 text-sm">
+            Not set up yet — choose values and save to create it.
+          </p>
         )}
 
         <Field label="Projects to show on homepage">
@@ -70,12 +73,12 @@ const HomeConfigPage = () => {
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="cursor-pointer border-[3px] border-ink bg-lime px-5 py-2.5 text-sm font-extrabold text-ink shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
+          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-5 py-2.5 text-sm font-extrabold shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {saving ? "Saving…" : "Save Changes"}
         </button>
-        {saved && !error && <span className="text-sm font-bold text-ink">Saved.</span>}
-        {error && <span className="text-sm font-bold text-danger-text">{error}</span>}
+        {saved && !error && <span className="text-ink text-sm font-bold">Saved.</span>}
+        {error && <span className="text-danger-text text-sm font-bold">{error}</span>}
       </div>
     </div>
   );

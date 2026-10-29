@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
 import { Anton, Space_Grotesk } from "next/font/google";
 
 import { SITE_DESCRIPTION, SITE_NAME } from "@/constants/site";
+
+import type { Metadata } from "next";
 
 import "./globals.css";
 
@@ -34,7 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${spaceGrotesk.variable} ${anton.variable}`}>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-1000 focus:border-[3px] focus:border-ink focus:bg-lime focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-ink"
+          className="focus:border-ink focus:bg-lime focus:text-ink sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-1000 focus:border-[3px] focus:px-4 focus:py-2 focus:text-sm focus:font-bold"
         >
           Skip to content
         </a>

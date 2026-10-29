@@ -29,12 +29,21 @@ describe("Skeleton", () => {
     const { container } = render(<SkeletonBlock className="h-4 w-10" />);
     const block = asElement(container.firstElementChild);
 
-    expect(block).toHaveClass("bg-skeleton", "animate-pulse", "motion-reduce:animate-none", "h-4", "w-10");
+    expect(block).toHaveClass(
+      "bg-skeleton",
+      "animate-pulse",
+      "motion-reduce:animate-none",
+      "h-4",
+      "w-10",
+    );
   });
 
   it("keeps the caller's typography so text boxes match the real component", () => {
     const { container } = render(
-      <SkeletonText as="h2" className="text-lg font-extrabold">
+      <SkeletonText
+        as="h2"
+        className="text-lg font-extrabold"
+      >
         Placeholder title
       </SkeletonText>,
     );
@@ -56,7 +65,10 @@ describe("Skeleton", () => {
 
   it("lets the caller widen a text line without losing the radius", () => {
     const { container } = render(
-      <SkeletonText as="div" className="w-2/3">
+      <SkeletonText
+        as="div"
+        className="w-2/3"
+      >
         Shorter line
       </SkeletonText>,
     );

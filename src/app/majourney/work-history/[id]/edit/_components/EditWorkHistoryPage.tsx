@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import AdminFormPage from "@/components/majourney/AdminFormPage";
 import WorkHistoryForm from "@/components/majourney/WorkHistoryForm";
@@ -23,8 +24,11 @@ export default function EditWorkHistoryPage() {
   if (!item || !form) {
     return (
       <div>
-        <p className="mb-3 text-sm font-semibold text-ink">Work history entry not found.</p>
-        <Link href="/majourney/work-history" className="text-[13px] font-bold text-ink underline">
+        <p className="text-ink mb-3 text-sm font-semibold">Work history entry not found.</p>
+        <Link
+          href="/majourney/work-history"
+          className="text-ink text-[13px] font-bold underline"
+        >
           ← Back to Work History
         </Link>
       </div>

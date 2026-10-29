@@ -33,7 +33,10 @@ export default function AdminLoading() {
         </div>
       </header>
 
-      <main id="main-content" className="mx-auto box-border max-w-270 p-8">
+      <main
+        id="main-content"
+        className="mx-auto box-border max-w-270 p-8"
+      >
         <SkeletonRegion label="Loading the admin panel" />
       </main>
     </div>

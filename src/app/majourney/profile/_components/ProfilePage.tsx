@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import Field from "@/components/ui/Field";
 import TextArea from "@/components/ui/TextArea";
@@ -47,7 +48,9 @@ function toInput(profile: Profile): ProfileInput {
 
 const ProfilePage = () => {
   const { profile, updateProfile, errors } = useAdminData();
-  const [draft, setDraft] = useState<ProfileInput>(() => (profile ? toInput(profile) : EMPTY_INPUT));
+  const [draft, setDraft] = useState<ProfileInput>(() =>
+    profile ? toInput(profile) : EMPTY_INPUT,
+  );
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
@@ -59,17 +62,20 @@ const ProfilePage = () => {
   };
 
   const addAboutPoint = () =>
-    set("aboutPoints", [...draft.aboutPoints, { title: "", description: "", sortOrder: draft.aboutPoints.length + 1 }]);
+    set("aboutPoints", [
+      ...draft.aboutPoints,
+      { title: "", description: "", sortOrder: draft.aboutPoints.length + 1 },
+    ]);
   const updateAboutPoint = (idx: number, key: "title" | "description", value: string) =>
     set(
       "aboutPoints",
-      draft.aboutPoints.map((pt, i) => (i === idx ? { ...pt, [key]: value } : pt))
+      draft.aboutPoints.map((pt, i) => (i === idx ? { ...pt, [key]: value } : pt)),
     );
   const removeAboutPoint = (idx: number) => {
     if (!window.confirm("Remove this about point?")) return;
     set(
       "aboutPoints",
-      draft.aboutPoints.filter((_, i) => i !== idx).map((pt, i) => ({ ...pt, sortOrder: i + 1 }))
+      draft.aboutPoints.filter((_, i) => i !== idx).map((pt, i) => ({ ...pt, sortOrder: i + 1 })),
     );
   };
 
@@ -88,46 +94,78 @@ const ProfilePage = () => {
   return (
     <div className="grid max-w-160 gap-5">
       {errors.profile && (
-        <p className="m-0 border-[3px] border-ink bg-white p-3 text-[13px] font-bold text-danger-text">
+        <p className="border-ink text-danger-text m-0 border-[3px] bg-white p-3 text-[13px] font-bold">
           {errors.profile}
         </p>
       )}
 
-      <div className="box-border border-[3px] border-ink bg-white p-7 shadow-[6px_6px_0_#111]">
-        <h2 className="m-0 mb-5 text-lg font-extrabold text-ink">Profile</h2>
+      <div className="border-ink box-border border-[3px] bg-white p-7 shadow-[6px_6px_0_#111]">
+        <h2 className="text-ink m-0 mb-5 text-lg font-extrabold">Profile</h2>
         {isNew && !errors.profile && (
-          <p className="m-0 mb-5 text-sm text-ink-muted">No profile yet — fill this in and save to create it.</p>
+          <p className="text-ink-muted m-0 mb-5 text-sm">
+            No profile yet — fill this in and save to create it.
+          </p>
         )}
 
         <Field label="Name">
-          <TextInput value={draft.name} onChange={(e) => set("name", e.target.value)} />
+          <TextInput
+            value={draft.name}
+            onChange={(e) => set("name", e.target.value)}
+          />
         </Field>
         <Field label="Role">
-          <TextInput value={draft.role} onChange={(e) => set("role", e.target.value)} />
+          <TextInput
+            value={draft.role}
+            onChange={(e) => set("role", e.target.value)}
+          />
         </Field>
         <Field label="Tagline">
-          <TextInput value={draft.tagline} onChange={(e) => set("tagline", e.target.value)} />
+          <TextInput
+            value={draft.tagline}
+            onChange={(e) => set("tagline", e.target.value)}
+          />
         </Field>
         <Field label="About Title">
-          <TextInput value={draft.aboutTitle} onChange={(e) => set("aboutTitle", e.target.value)} />
+          <TextInput
+            value={draft.aboutTitle}
+            onChange={(e) => set("aboutTitle", e.target.value)}
+          />
         </Field>
         <Field label="About Description">
-          <TextArea value={draft.aboutDescription} onChange={(e) => set("aboutDescription", e.target.value)} />
+          <TextArea
+            value={draft.aboutDescription}
+            onChange={(e) => set("aboutDescription", e.target.value)}
+          />
         </Field>
         <Field label="GitHub URL">
-          <TextInput value={draft.github ?? ""} onChange={(e) => set("github", e.target.value || null)} />
+          <TextInput
+            value={draft.github ?? ""}
+            onChange={(e) => set("github", e.target.value || null)}
+          />
         </Field>
         <Field label="LinkedIn URL">
-          <TextInput value={draft.linkedin ?? ""} onChange={(e) => set("linkedin", e.target.value || null)} />
+          <TextInput
+            value={draft.linkedin ?? ""}
+            onChange={(e) => set("linkedin", e.target.value || null)}
+          />
         </Field>
         <Field label="Email">
-          <TextInput value={draft.email ?? ""} onChange={(e) => set("email", e.target.value || null)} />
+          <TextInput
+            value={draft.email ?? ""}
+            onChange={(e) => set("email", e.target.value || null)}
+          />
         </Field>
         <Field label="Phone">
-          <TextInput value={draft.phone ?? ""} onChange={(e) => set("phone", e.target.value || null)} />
+          <TextInput
+            value={draft.phone ?? ""}
+            onChange={(e) => set("phone", e.target.value || null)}
+          />
         </Field>
         <Field label="Location">
-          <TextInput value={draft.location ?? ""} onChange={(e) => set("location", e.target.value || null)} />
+          <TextInput
+            value={draft.location ?? ""}
+            onChange={(e) => set("location", e.target.value || null)}
+          />
         </Field>
 
         <ImageUploadField
@@ -138,10 +176,13 @@ const ProfilePage = () => {
         />
       </div>
 
-      <div className="box-border border-[3px] border-ink bg-white p-7 shadow-[6px_6px_0_#111]">
-        <h2 className="m-0 mb-5 text-lg font-extrabold text-ink">About Points</h2>
+      <div className="border-ink box-border border-[3px] bg-white p-7 shadow-[6px_6px_0_#111]">
+        <h2 className="text-ink m-0 mb-5 text-lg font-extrabold">About Points</h2>
         {draft.aboutPoints.map((point, idx) => (
-          <div key={idx} className="mb-2.5 flex gap-2">
+          <div
+            key={idx}
+            className="mb-2.5 flex gap-2"
+          >
             <div className="min-w-0 flex-1 space-y-2">
               <TextInput
                 value={point.title}
@@ -158,7 +199,7 @@ const ProfilePage = () => {
               type="button"
               onClick={() => removeAboutPoint(idx)}
               aria-label={`Remove about point ${idx + 1}`}
-              className="h-fit w-9 shrink-0 cursor-pointer border-[3px] border-ink bg-danger text-base text-white"
+              className="border-ink bg-danger h-fit w-9 shrink-0 cursor-pointer border-[3px] text-base text-white"
             >
               <span aria-hidden="true">×</span>
             </button>
@@ -167,7 +208,7 @@ const ProfilePage = () => {
         <button
           type="button"
           onClick={addAboutPoint}
-          className="cursor-pointer border-[3px] border-dashed border-ink bg-white px-3.5 py-2 text-[13px] font-bold text-ink"
+          className="border-ink text-ink cursor-pointer border-[3px] border-dashed bg-white px-3.5 py-2 text-[13px] font-bold"
         >
           + Add point
         </button>
@@ -178,13 +219,16 @@ const ProfilePage = () => {
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="cursor-pointer border-[3px] border-ink bg-lime px-5 py-2.5 text-sm font-extrabold text-ink shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
+          className="border-ink bg-lime text-ink cursor-pointer border-[3px] px-5 py-2.5 text-sm font-extrabold shadow-[4px_4px_0_#111] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {saving ? "Saving…" : "Save Changes"}
         </button>
-        {saved && !error && <span className="text-sm font-bold text-ink">Saved.</span>}
+        {saved && !error && <span className="text-ink text-sm font-bold">Saved.</span>}
         {error && (
-          <span role="alert" className="text-sm font-bold text-danger-text">
+          <span
+            role="alert"
+            className="text-danger-text text-sm font-bold"
+          >
             {error}
           </span>
         )}

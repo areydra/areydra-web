@@ -9,21 +9,32 @@ import type { ProjectInput } from "@/types/admin.types";
 
 type SkillOption = { id: string; name: string; categoryName: string };
 
-type ProjectFormProps = {
+interface ProjectFormProps {
   form: ProjectInput;
   setField: <K extends keyof ProjectInput>(key: K, value: ProjectInput[K]) => void;
   allSkills: SkillOption[];
   onToggleSkill: (skillId: string) => void;
-};
+}
 
-export default function ProjectForm({ form, setField, allSkills, onToggleSkill }: ProjectFormProps) {
+export default function ProjectForm({
+  form,
+  setField,
+  allSkills,
+  onToggleSkill,
+}: ProjectFormProps) {
   return (
     <>
       <Field label="Title">
-        <TextInput value={form.title} onChange={(e) => setField("title", e.target.value)} />
+        <TextInput
+          value={form.title}
+          onChange={(e) => setField("title", e.target.value)}
+        />
       </Field>
       <Field label="Role">
-        <TextInput value={form.role} onChange={(e) => setField("role", e.target.value)} />
+        <TextInput
+          value={form.role}
+          onChange={(e) => setField("role", e.target.value)}
+        />
       </Field>
       <Field label="Project Date">
         <TextInput
@@ -33,10 +44,16 @@ export default function ProjectForm({ form, setField, allSkills, onToggleSkill }
         />
       </Field>
       <Field label="GitHub URL">
-        <TextInput value={form.githubUrl ?? ""} onChange={(e) => setField("githubUrl", e.target.value || null)} />
+        <TextInput
+          value={form.githubUrl ?? ""}
+          onChange={(e) => setField("githubUrl", e.target.value || null)}
+        />
       </Field>
       <Field label="Live URL">
-        <TextInput value={form.liveUrl ?? ""} onChange={(e) => setField("liveUrl", e.target.value || null)} />
+        <TextInput
+          value={form.liveUrl ?? ""}
+          onChange={(e) => setField("liveUrl", e.target.value || null)}
+        />
       </Field>
       <Field label="App Store URL">
         <TextInput
@@ -64,29 +81,46 @@ export default function ProjectForm({ form, setField, allSkills, onToggleSkill }
         <MultiImageUploadField
           label="Gallery Images"
           values={form.images.map((img) => img.imageUrl)}
-          onChange={(urls) => setField("images", urls.map((imageUrl, idx) => ({ imageUrl, sortOrder: idx + 1 })))}
+          onChange={(urls) =>
+            setField(
+              "images",
+              urls.map((imageUrl, idx) => ({ imageUrl, sortOrder: idx + 1 })),
+            )
+          }
           folder="projects"
         />
       </div>
 
-      <Field label="Tech Stack" group>
-        <div className="max-h-40 overflow-auto border-[3px] border-ink p-2">
-          {allSkills.length === 0 && <p className="m-0 text-xs text-ink-muted">No skills yet — add some in Skills first.</p>}
+      <Field
+        label="Tech Stack"
+        group
+      >
+        <div className="border-ink max-h-40 overflow-auto border-[3px] p-2">
+          {allSkills.length === 0 && (
+            <p className="text-ink-muted m-0 text-xs">No skills yet — add some in Skills first.</p>
+          )}
           {allSkills.map((skill) => (
-            <label key={skill.id} className="flex items-center gap-2 py-1 text-sm text-ink">
+            <label
+              key={skill.id}
+              className="text-ink flex items-center gap-2 py-1 text-sm"
+            >
               <input
                 type="checkbox"
                 checked={form.skillIds.includes(skill.id)}
                 onChange={() => onToggleSkill(skill.id)}
               />
-              {skill.name} <span className="text-xs text-ink-muted">({skill.categoryName})</span>
+              {skill.name} <span className="text-ink-muted text-xs">({skill.categoryName})</span>
             </label>
           ))}
         </div>
       </Field>
 
       <Field label="Description">
-        <RichTextEditor value={form.description} onChange={(html) => setField("description", html)} folder="projects" />
+        <RichTextEditor
+          value={form.description}
+          onChange={(html) => setField("description", html)}
+          folder="projects"
+        />
       </Field>
     </>
   );

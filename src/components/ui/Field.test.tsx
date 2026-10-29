@@ -17,18 +17,29 @@ describe("Field", () => {
 
   it("exposes the hint as the control's accessible description", () => {
     render(
-      <Field label="Slug" hint="Lowercase letters and dashes only.">
+      <Field
+        label="Slug"
+        hint="Lowercase letters and dashes only."
+      >
         <TextInput />
       </Field>,
     );
 
-    expect(screen.getByRole("textbox", { description: "Lowercase letters and dashes only." })).toBeInTheDocument();
+    expect(
+      screen.getByRole("textbox", { description: "Lowercase letters and dashes only." }),
+    ).toBeInTheDocument();
   });
 
   it("renders a named group when the children are several controls", () => {
     render(
-      <Field label="Tech stack" group>
-        <input type="checkbox" aria-label="React" />
+      <Field
+        label="Tech stack"
+        group
+      >
+        <input
+          type="checkbox"
+          aria-label="React"
+        />
       </Field>,
     );
 

@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 import BlogPostsPage from "./_components/BlogPostsPage";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Blog" };
 

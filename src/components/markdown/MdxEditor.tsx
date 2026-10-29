@@ -1,6 +1,5 @@
 "use client";
 
-import type { ForwardedRef } from "react";
 import {
   MDXEditor,
   type MDXEditorMethods,
@@ -40,6 +39,8 @@ import {
   ConditionalContents,
   Separator,
 } from "@mdxeditor/editor";
+
+import type { ForwardedRef } from "react";
 import "@mdxeditor/editor/style.css";
 
 type MdxEditorProps = {
@@ -62,7 +63,13 @@ const MdxEditor = ({ editorRef, ...props }: MdxEditorProps) => {
         codeBlockPlugin({ defaultCodeBlockLanguage: "js" }),
         codeMirrorPlugin({
           // needed by ChangeCodeMirrorLanguage
-          codeBlockLanguages: { js: "JavaScript", ts: "TypeScript", css: "CSS", html: "HTML", "": "Plain text" },
+          codeBlockLanguages: {
+            js: "JavaScript",
+            ts: "TypeScript",
+            css: "CSS",
+            html: "HTML",
+            "": "Plain text",
+          },
         }),
         directivesPlugin({
           // needed by InsertAdmonition / ChangeAdmonitionType

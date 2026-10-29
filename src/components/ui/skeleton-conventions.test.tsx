@@ -2,15 +2,16 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { render, screen } from "@testing-library/react";
-import type { ComponentType } from "react";
 import { describe, expect, it } from "vitest";
 
-import BlogLoading from "@/app/blog/loading";
-import BlogPostLoading from "@/app/blog/[slug]/loading";
+import BlogLoading from "@/app/(site)/blog/loading";
+import BlogPostLoading from "@/app/(site)/blog/[slug]/loading";
 import HomeLoading from "@/app/loading";
 import AdminLoading from "@/app/majourney/loading";
-import ProjectLoading from "@/app/projects/[slug]/loading";
+import ProjectLoading from "@/app/(site)/projects/[slug]/loading";
 import AdminLoadingSkeleton from "@/components/majourney/AdminSkeletons";
+
+import type { ComponentType } from "react";
 
 /**
  * The skeleton rules from the house convention that a reviewer would otherwise
@@ -45,7 +46,9 @@ describe("skeleton convention", () => {
 
       expect(source, `${path} must not opt into the client`).not.toMatch(/"use client"/);
       expect(source, `${path} must not render images or icons`).not.toMatch(/<img|<svg/);
-      expect(source, `${path} must not render focusable controls`).not.toMatch(/<button|<a[\s>]|href=/);
+      expect(source, `${path} must not render focusable controls`).not.toMatch(
+        /<button|<a[\s>]|href=/,
+      );
       expect(source, `${path} must be deterministic`).not.toMatch(/Math\.random|Date\.now/);
     }
   });
@@ -64,7 +67,9 @@ describe.each(loadingEntries)("%s loading fallback", (_route, Loading) => {
     const { container } = render(<Loading />);
 
     expect(container.querySelectorAll('[role="status"]')).toHaveLength(1);
-    expect(container.querySelectorAll("a, button, input, textarea, select, [tabindex]")).toHaveLength(0);
+    expect(
+      container.querySelectorAll("a, button, input, textarea, select, [tabindex]"),
+    ).toHaveLength(0);
   });
 
   it("pairs every pulse with the reduced-motion opt-out", () => {
@@ -112,7 +117,9 @@ describe("admin loading skeleton", () => {
   it("mounts no focusable content on the collection shape", () => {
     const { container } = render(<AdminLoadingSkeleton pathname="/majourney/blog" />);
 
-    expect(container.querySelectorAll("a, button, input, textarea, select, [tabindex]")).toHaveLength(0);
+    expect(
+      container.querySelectorAll("a, button, input, textarea, select, [tabindex]"),
+    ).toHaveLength(0);
     expect(container.querySelectorAll('[role="status"]')).toHaveLength(1);
   });
 });

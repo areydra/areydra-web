@@ -27,6 +27,9 @@ export function toForm(item: Project): ProjectInput {
     projectDate: item.projectDate,
     thumbnailUrl: item.thumbnailUrl,
     skillIds: item.techStack.map((t) => t.id),
-    images: item.images.slice().sort((a, b) => a.sortOrder - b.sortOrder).map((img) => ({ imageUrl: img.imageUrl, sortOrder: img.sortOrder })),
+    images: item.images
+      .slice()
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((img) => ({ imageUrl: img.imageUrl, sortOrder: img.sortOrder })),
   };
 }

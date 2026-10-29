@@ -1,8 +1,8 @@
 "use client";
 
-import type { SelectHTMLAttributes } from "react";
-
 import { useField } from "./Field";
+
+import type { SelectHTMLAttributes } from "react";
 
 const SELECT_CLASS =
   "box-border w-full border-[3px] border-ink px-3 py-2.5 text-sm font-[inherit] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-azure";

@@ -1,8 +1,8 @@
 "use client";
 
-import type { TextareaHTMLAttributes } from "react";
-
 import { useField } from "./Field";
+
+import type { TextareaHTMLAttributes } from "react";
 
 const TEXTAREA_CLASS =
   "box-border min-h-22.5 w-full resize-y border-[3px] border-ink px-3 py-2.5 text-sm font-[inherit] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-azure";

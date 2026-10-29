@@ -40,13 +40,19 @@ const AdminListSkeleton = () => (
             </div>
             <div className="mb-3 flex flex-col text-sm leading-[1.5]">
               <SkeletonText as="div">Lorem ipsum dolor sit amet</SkeletonText>
-              <SkeletonText as="div" className="w-11/12">
+              <SkeletonText
+                as="div"
+                className="w-11/12"
+              >
                 consectetur adipiscing elit
               </SkeletonText>
             </div>
             <div className="mb-3.5 flex flex-wrap gap-1.5">
               {["TypeScript", "React"].map((tech) => (
-                <div key={tech} className="border-ink border-2 px-2.25 py-1 text-[11px] font-bold">
+                <div
+                  key={tech}
+                  className="border-ink border-2 px-2.25 py-1 text-[11px] font-bold"
+                >
                   <SkeletonText as="span">{tech}</SkeletonText>
                 </div>
               ))}
@@ -104,7 +110,10 @@ const AdminFormSkeleton = () => (
 const FieldSkeleton = ({ count }: { count: number }) => (
   <>
     {Array.from({ length: count }).map((_, index) => (
-      <div key={index} className="mb-3.5">
+      <div
+        key={index}
+        className="mb-3.5"
+      >
         <div className="mb-1.5 block text-[13px] font-semibold">
           <SkeletonText as="span">Field label</SkeletonText>
         </div>

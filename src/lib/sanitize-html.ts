@@ -2,7 +2,20 @@ import "server-only";
 
 import sanitizeHtmlLib from "sanitize-html";
 
-const ALLOWED_TAGS = ["p", "br", "strong", "em", "s", "ul", "ol", "li", "h3", "blockquote", "a", "img"];
+const ALLOWED_TAGS = [
+  "p",
+  "br",
+  "strong",
+  "em",
+  "s",
+  "ul",
+  "ol",
+  "li",
+  "h3",
+  "blockquote",
+  "a",
+  "img",
+];
 
 /**
  * Sanitizes editor-produced HTML before it reaches `dangerouslySetInnerHTML`.

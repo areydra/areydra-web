@@ -49,13 +49,22 @@ const HeroSkeleton = () => (
         <SkeletonText as="span">Software Engineer</SkeletonText>
       </div>
       <h1 className="font-anton m-0 text-[clamp(52px,11vw,168px)] leading-[0.82] tracking-[-1px] uppercase">
-        <SkeletonText as="span" className="block">
+        <SkeletonText
+          as="span"
+          className="block"
+        >
           Hi,
         </SkeletonText>
-        <SkeletonText as="span" className="block">
+        <SkeletonText
+          as="span"
+          className="block"
+        >
           I&apos;m
         </SkeletonText>
-        <SkeletonText as="span" className="block">
+        <SkeletonText
+          as="span"
+          className="block"
+        >
           Areydra
         </SkeletonText>
       </h1>
@@ -64,10 +73,16 @@ const HeroSkeleton = () => (
           whole page 4px taller than the content it is reserving. */}
       <div className="mt-[clamp(18px,3vw,30px)] flex max-w-[56ch] flex-col text-[clamp(14px,1.6vw,20px)] leading-[1.55] font-medium">
         <SkeletonText as="div">Lorem ipsum dolor sit amet, consectetur adipiscing</SkeletonText>
-        <SkeletonText as="div" className="w-11/12">
+        <SkeletonText
+          as="div"
+          className="w-11/12"
+        >
           elit sed do eiusmod tempor incididunt
         </SkeletonText>
-        <SkeletonText as="div" className="w-11/12">
+        <SkeletonText
+          as="div"
+          className="w-11/12"
+        >
           elit sed do
         </SkeletonText>
       </div>
@@ -90,7 +105,9 @@ const HeroSkeleton = () => (
           <div
             key={label}
             className={
-              index === 0 ? "border-ink border-r-[3px] p-[clamp(16px,2vw,22px)]" : "p-[clamp(16px,2vw,22px)]"
+              index === 0
+                ? "border-ink border-r-[3px] p-[clamp(16px,2vw,22px)]"
+                : "p-[clamp(16px,2vw,22px)]"
             }
           >
             <div className="font-anton text-[clamp(36px,4.5vw,54px)] leading-[0.9]">
@@ -109,7 +126,9 @@ const HeroSkeleton = () => (
 const MarqueeSkeleton = () => (
   <div className="border-ink bg-lime overflow-hidden border-b-4 py-[clamp(10px,1.5vw,14px)]">
     <div className="font-anton inline-flex text-[clamp(18px,3vw,30px)] tracking-[1px] whitespace-nowrap uppercase">
-      <SkeletonText as="span">TypeScript * React * Next.js * Tailwind * Node.js * Postgres *</SkeletonText>
+      <SkeletonText as="span">
+        TypeScript * React * Next.js * Tailwind * Node.js * Postgres *
+      </SkeletonText>
     </div>
   </div>
 );
@@ -117,7 +136,10 @@ const MarqueeSkeleton = () => (
 const StatsSkeleton = () => (
   <div className="border-ink bg-ink grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))] gap-[1px] border-b-4">
     {STAT_SLOTS.map((label) => (
-      <div key={label} className="bg-paper px-[clamp(14px,3vw,40px)] py-[clamp(20px,3vw,34px)]">
+      <div
+        key={label}
+        className="bg-paper px-[clamp(14px,3vw,40px)] py-[clamp(20px,3vw,34px)]"
+      >
         <div className="font-anton text-[clamp(36px,5vw,72px)] leading-[0.9]">
           <SkeletonText as="div">12+</SkeletonText>
         </div>
@@ -140,11 +162,19 @@ const AboutSkeleton = () => (
       </h2>
       {/* One wrapped paragraph, so the lines are separated by the line box only. */}
       <div className="flex flex-col text-[clamp(14px,1.5vw,16px)] leading-[1.7] font-medium">
-        <SkeletonText as="div">Lorem ipsum dolor sit amet, consectetur adipiscing elit</SkeletonText>
-        <SkeletonText as="div" className="w-11/12">
+        <SkeletonText as="div">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        </SkeletonText>
+        <SkeletonText
+          as="div"
+          className="w-11/12"
+        >
           sed do eiusmod tempor incididunt ut labore et dolore
         </SkeletonText>
-        <SkeletonText as="div" className="w-9/12">
+        <SkeletonText
+          as="div"
+          className="w-9/12"
+        >
           magna aliqua ut enim ad minim veniam
         </SkeletonText>
       </div>
@@ -152,7 +182,10 @@ const AboutSkeleton = () => (
 
     <div className="home-about__cards">
       {[0, 1, 2, 3].map((slot) => (
-        <div key={slot} className="bg-paper p-[clamp(16px,2.5vw,28px)]">
+        <div
+          key={slot}
+          className="bg-paper p-[clamp(16px,2.5vw,28px)]"
+        >
           <div className="font-anton text-[clamp(22px,3vw,30px)] leading-none">
             <SkeletonText as="div">{String(slot + 1).padStart(2, "0")}</SkeletonText>
           </div>
@@ -161,7 +194,10 @@ const AboutSkeleton = () => (
           </div>
           <div className="text-[clamp(12px,1.2vw,14px)] leading-[1.55] font-medium">
             <SkeletonText as="div">Lorem ipsum dolor sit amet</SkeletonText>
-            <SkeletonText as="div" className="w-3/4">
+            <SkeletonText
+              as="div"
+              className="w-3/4"
+            >
               consectetur adipiscing
             </SkeletonText>
           </div>
@@ -181,7 +217,10 @@ const SkillsSkeleton = () => (
     </h2>
     <div className="home-skill-grid">
       {Array.from({ length: SKILL_SLOTS }).map((_, group) => (
-        <div key={group} className="bg-paper p-[clamp(16px,2.5vw,28px)]">
+        <div
+          key={group}
+          className="bg-paper p-[clamp(16px,2.5vw,28px)]"
+        >
           <div className="mb-3.5 text-[clamp(10px,1vw,12px)] font-bold tracking-[1.5px] uppercase">
             <SkeletonText as="span">Category</SkeletonText>
           </div>
@@ -232,11 +271,19 @@ const WorkHistorySkeleton = () => (
             <SkeletonText as="span">Placeholder company</SkeletonText>
           </div>
           <div className="mt-3 flex flex-col text-[clamp(13px,1.3vw,15px)] leading-[1.6] font-medium">
-            <SkeletonText as="div">Lorem ipsum dolor sit amet, consectetur adipiscing elit</SkeletonText>
-            <SkeletonText as="div" className="w-11/12">
+            <SkeletonText as="div">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit
+            </SkeletonText>
+            <SkeletonText
+              as="div"
+              className="w-11/12"
+            >
               sed do eiusmod tempor incididunt ut labore et dolore
             </SkeletonText>
-            <SkeletonText as="div" className="w-10/12">
+            <SkeletonText
+              as="div"
+              className="w-10/12"
+            >
               magna aliqua ut enim ad minim veniam
             </SkeletonText>
           </div>
@@ -271,10 +318,16 @@ const ProjectsSkeleton = () => (
             </h3>
             <div className="mb-3.5 flex flex-col gap-1 text-[clamp(12px,1.2vw,14px)] leading-[1.6] font-medium">
               <SkeletonText as="div">Lorem ipsum dolor sit amet</SkeletonText>
-              <SkeletonText as="div" className="w-11/12">
+              <SkeletonText
+                as="div"
+                className="w-11/12"
+              >
                 consectetur adipiscing elit sed
               </SkeletonText>
-              <SkeletonText as="div" className="w-3/4">
+              <SkeletonText
+                as="div"
+                className="w-3/4"
+              >
                 do eiusmod tempor
               </SkeletonText>
             </div>
@@ -312,7 +365,10 @@ const BlogPreviewSkeleton = () => (
     </div>
     <div className="border-ink border-[3px]">
       {Array.from({ length: BLOG_SLOTS }).map((_, index) => (
-        <div key={index} className="home-blog-row">
+        <div
+          key={index}
+          className="home-blog-row"
+        >
           <div className="font-anton min-w-[40px] shrink-0 text-[clamp(24px,3vw,32px)] leading-[0.9]">
             <SkeletonText as="div">{String(index + 1).padStart(2, "0")}</SkeletonText>
           </div>
@@ -347,10 +403,16 @@ const ContactSkeleton = () => (
       <SkeletonText as="span">[ 06 ] Get In Touch</SkeletonText>
     </div>
     <h2 className="font-anton mb-[clamp(24px,4vw,36px)] text-[clamp(44px,9vw,150px)] leading-[0.82] tracking-[-1px] uppercase">
-      <SkeletonText as="span" className="block">
+      <SkeletonText
+        as="span"
+        className="block"
+      >
         Let&apos;s Build
       </SkeletonText>
-      <SkeletonText as="span" className="block">
+      <SkeletonText
+        as="span"
+        className="block"
+      >
         Something.
       </SkeletonText>
     </h2>

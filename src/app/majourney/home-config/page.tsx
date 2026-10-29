@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 import HomeConfigPage from "./_components/HomeConfigPage";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Home config" };
 

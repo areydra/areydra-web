@@ -32,9 +32,12 @@ const AdminGate = ({ children }: { children: ReactNode }) => {
   if (!loggedIn) return null;
 
   return (
-    <div className="min-h-screen bg-paper">
+    <div className="bg-paper min-h-screen">
       <AdminHeader />
-      <main id="main-content" className="mx-auto box-border max-w-270 p-8">
+      <main
+        id="main-content"
+        className="mx-auto box-border max-w-270 p-8"
+      >
         <AdminContent pathname={pathname}>{children}</AdminContent>
       </main>
     </div>

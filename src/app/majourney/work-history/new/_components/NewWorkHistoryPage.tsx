@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import AdminFormPage from "@/components/majourney/AdminFormPage";
 import WorkHistoryForm from "@/components/majourney/WorkHistoryForm";
@@ -40,7 +41,7 @@ export default function NewWorkHistoryPage() {
       error={error}
       onSave={save}
     >
-       <WorkHistoryForm
+      <WorkHistoryForm
         form={form}
         setField={setField}
       />

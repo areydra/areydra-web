@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 import EditProjectPage from "./_components/EditProjectPage";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Edit project" };
 

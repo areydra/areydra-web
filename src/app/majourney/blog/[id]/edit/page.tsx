@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-
 import EditBlogPostPage from "./_components/EditBlogPostPage";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Edit post" };
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+
 import { useAdminData } from "@/providers/majourney/AdminDataProvider";
 import AdminFormPage from "@/components/majourney/AdminFormPage";
 import ProjectForm from "@/components/majourney/ProjectForm";
@@ -23,10 +24,10 @@ export default function EditProjectPage() {
   if (!item || !form) {
     return (
       <div>
-        <p className="mb-3 text-sm font-semibold text-ink">Project not found.</p>
+        <p className="text-ink mb-3 text-sm font-semibold">Project not found.</p>
         <Link
           href="/majourney/projects"
-          className="text-[13px] font-bold text-ink underline"
+          className="text-ink text-[13px] font-bold underline"
         >
           ← Back to Projects
         </Link>
@@ -41,7 +42,9 @@ export default function EditProjectPage() {
     setForm((prev) => {
       if (!prev) return prev;
       const has = prev.skillIds.includes(skillId);
-      const skillIds = has ? prev.skillIds.filter((id) => id !== skillId) : [...prev.skillIds, skillId];
+      const skillIds = has
+        ? prev.skillIds.filter((id) => id !== skillId)
+        : [...prev.skillIds, skillId];
       return { ...prev, skillIds };
     });
 

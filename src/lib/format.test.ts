@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { formatCount, formatPostDate, formatProjectDate, formatWorkPeriod, initials } from "./format";
+import {
+  formatCount,
+  formatPostDate,
+  formatProjectDate,
+  formatWorkPeriod,
+  initials,
+} from "./format";
 
 describe("formatCount", () => {
   it("treats null/undefined as zero", () => {
