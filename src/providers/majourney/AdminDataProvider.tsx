@@ -10,20 +10,8 @@ import {
   type ReactNode,
 } from "react";
 
-import { deleteBlogPostAction } from "@/actions/blog/delete-blog-post";
-import { saveBlogPostAction } from "@/actions/blog/save-blog-post";
-import { updateHomeConfigAction } from "@/actions/home-config/update-home-config";
-import { updateProfileAction } from "@/actions/profile/update-profile";
-import { deleteProjectAction } from "@/actions/projects/delete-project";
-import { saveProjectAction } from "@/actions/projects/save-project";
-import { createSkillAction } from "@/actions/skills/create-skill";
-import { createSkillCategoryAction } from "@/actions/skills/create-skill-category";
-import { deleteSkillAction } from "@/actions/skills/delete-skill";
-import { deleteSkillCategoryAction } from "@/actions/skills/delete-skill-category";
-import { deleteWorkHistoryAction } from "@/actions/work-history/delete-work-history";
-import { saveWorkHistoryAction } from "@/actions/work-history/save-work-history";
+import { revalidatePublicPathsAction } from "@/actions/cache/revalidate-public-paths";
 import { ApiError, adminRequest, publicRequest } from "@/lib/admin-api-client";
-import type { ActionResult } from "@/lib/action-result";
 import type {
   BlogPost,
   HomeConfig,
@@ -110,14 +98,20 @@ export function AdminDataProvider({ initialData, children }: AdminDataProviderPr
       : null,
   );
 
-  /** Turns a failed action into a thrown ApiError, logging out on a dead session. */
-  const unwrap = useCallback(
-    <T,>(result: ActionResult<T>): T => {
-      if (!result.ok) {
-        if (result.code === "UNAUTHENTICATED") logout();
-        throw new ApiError(400, result.code, result.error);
+  /**
+   * Mutations are browser fetch calls with `credentials: "include"` so the
+   * host-only session cookie reaches the API host that owns it. A 401 means
+   * the session is genuinely gone; clearing the UI here keeps the gate from
+   * rendering stale data.
+   */
+  const withAuthHandling = useCallback(
+    async <T,>(fn: () => Promise<T>): Promise<T> => {
+      try {
+        return await fn();
+      } catch (error) {
+        if (error instanceof ApiError && error.isAuthError) logout();
+        throw error;
       }
-      return result.data;
     },
     [logout],
   );
@@ -211,30 +205,50 @@ export function AdminDataProvider({ initialData, children }: AdminDataProviderPr
 
   const updateProfile = useCallback(
     async (payload: ProfileInput) => {
-      setProfile(unwrap(await updateProfileAction(payload)));
+      const updated = await withAuthHandling(() =>
+        adminRequest<Profile>("/admin/profile", { method: "PUT", body: payload }),
+      );
+      setProfile(updated);
+      await revalidatePublicPathsAction("profile");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const createCategory = useCallback(
     async (name: string) => {
-      const category = unwrap(await createSkillCategoryAction(name));
+      const category = await withAuthHandling(() =>
+        adminRequest<{ id: string; name: string }>("/admin/skill-categories", {
+          method: "POST",
+          body: { name },
+        }),
+      );
       setSkillGroups((prev) => [...prev, { id: category.id, name: category.name, skills: [] }]);
+      await revalidatePublicPathsAction("skills");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const deleteCategory = useCallback(
     async (id: string) => {
-      unwrap(await deleteSkillCategoryAction(id));
+      await withAuthHandling(() =>
+        adminRequest<void>(`/admin/skill-categories/${encodeURIComponent(id)}`, {
+          method: "DELETE",
+        }),
+      );
       setSkillGroups((prev) => prev.filter((c) => c.id !== id));
+      await revalidatePublicPathsAction("skills");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const createSkill = useCallback(
     async (categoryId: string, name: string) => {
-      const skill = unwrap(await createSkillAction(categoryId, name));
+      const skill = await withAuthHandling(() =>
+        adminRequest<{ id: string; name: string; categoryId: string }>("/admin/skills", {
+          method: "POST",
+          body: { categoryId, name },
+        }),
+      );
       setSkillGroups((prev) =>
         prev.map((c) =>
           c.id === categoryId
@@ -242,99 +256,145 @@ export function AdminDataProvider({ initialData, children }: AdminDataProviderPr
             : c,
         ),
       );
+      await revalidatePublicPathsAction("skills");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const deleteSkill = useCallback(
     async (categoryId: string, skillId: string) => {
-      unwrap(await deleteSkillAction(skillId));
+      await withAuthHandling(() =>
+        adminRequest<void>(`/admin/skills/${encodeURIComponent(skillId)}`, { method: "DELETE" }),
+      );
       setSkillGroups((prev) =>
         prev.map((c) =>
           c.id === categoryId ? { ...c, skills: c.skills.filter((s) => s.id !== skillId) } : c,
         ),
       );
+      await revalidatePublicPathsAction("skills");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const createWork = useCallback(
     async (payload: WorkHistoryInput) => {
-      const created = unwrap(await saveWorkHistoryAction({ values: payload }));
+      const created = await withAuthHandling(() =>
+        adminRequest<WorkHistory>("/admin/work-history", { method: "POST", body: payload }),
+      );
       setWorkHistory((prev) => [...prev, created]);
+      await revalidatePublicPathsAction("work-history");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const updateWork = useCallback(
     async (id: string, payload: WorkHistoryInput) => {
-      const updated = unwrap(await saveWorkHistoryAction({ id, values: payload }));
+      const updated = await withAuthHandling(() =>
+        adminRequest<WorkHistory>(`/admin/work-history/${encodeURIComponent(id)}`, {
+          method: "PUT",
+          body: payload,
+        }),
+      );
       setWorkHistory((prev) => prev.map((w) => (w.id === id ? updated : w)));
+      await revalidatePublicPathsAction("work-history");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const deleteWork = useCallback(
     async (id: string) => {
-      unwrap(await deleteWorkHistoryAction(id));
+      await withAuthHandling(() =>
+        adminRequest<void>(`/admin/work-history/${encodeURIComponent(id)}`, { method: "DELETE" }),
+      );
       setWorkHistory((prev) => prev.filter((w) => w.id !== id));
+      await revalidatePublicPathsAction("work-history");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const createProject = useCallback(
     async (payload: ProjectInput) => {
-      const created = unwrap(await saveProjectAction({ values: payload }));
+      const created = await withAuthHandling(() =>
+        adminRequest<Project>("/admin/projects", { method: "POST", body: payload }),
+      );
       setProjects((prev) => [...prev, created]);
+      await revalidatePublicPathsAction("project", created.slug);
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const updateProject = useCallback(
     async (id: string, payload: ProjectInput) => {
-      const updated = unwrap(await saveProjectAction({ id, values: payload }));
+      const updated = await withAuthHandling(() =>
+        adminRequest<Project>(`/admin/projects/${encodeURIComponent(id)}`, {
+          method: "PUT",
+          body: payload,
+        }),
+      );
       setProjects((prev) => prev.map((p) => (p.id === id ? updated : p)));
+      await revalidatePublicPathsAction("project", updated.slug);
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const deleteProject = useCallback(
     async (id: string) => {
-      unwrap(await deleteProjectAction({ id }));
+      await withAuthHandling(() =>
+        adminRequest<void>(`/admin/projects/${encodeURIComponent(id)}`, { method: "DELETE" }),
+      );
       setProjects((prev) => prev.filter((p) => p.id !== id));
+      await revalidatePublicPathsAction("project");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const createBlogPost = useCallback(
     async (payload: BlogPostInput) => {
-      const created = unwrap(await saveBlogPostAction({ values: payload }));
+      // Create defaults to draft server-side — status isn't accepted until update.
+      const { status: _status, ...createPayload } = payload;
+      const created = await withAuthHandling(() =>
+        adminRequest<BlogPost>("/admin/blog", { method: "POST", body: createPayload }),
+      );
       setBlogPosts((prev) => [...prev, created]);
+      await revalidatePublicPathsAction("blog", created.slug);
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const updateBlogPost = useCallback(
     async (id: string, payload: BlogPostInput) => {
-      const updated = unwrap(await saveBlogPostAction({ id, values: payload }));
+      const updated = await withAuthHandling(() =>
+        adminRequest<BlogPost>(`/admin/blog/${encodeURIComponent(id)}`, {
+          method: "PUT",
+          body: payload,
+        }),
+      );
       setBlogPosts((prev) => prev.map((b) => (b.id === id ? updated : b)));
+      await revalidatePublicPathsAction("blog", updated.slug);
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const deleteBlogPost = useCallback(
     async (id: string) => {
-      unwrap(await deleteBlogPostAction({ id }));
+      await withAuthHandling(() =>
+        adminRequest<void>(`/admin/blog/${encodeURIComponent(id)}`, { method: "DELETE" }),
+      );
       setBlogPosts((prev) => prev.filter((b) => b.id !== id));
+      await revalidatePublicPathsAction("blog");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const updateHomeConfig = useCallback(
     async (payload: HomeConfigInput) => {
-      setHomeConfig(unwrap(await updateHomeConfigAction(payload)));
+      const updated = await withAuthHandling(() =>
+        adminRequest<HomeConfigSettings>("/admin/home-config", { method: "PUT", body: payload }),
+      );
+      setHomeConfig(updated);
+      await revalidatePublicPathsAction("home-config");
     },
-    [unwrap],
+    [withAuthHandling],
   );
 
   const allSkills = useMemo(
